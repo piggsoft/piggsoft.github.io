@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - source  # default branch
-    workflow_dispatch:
 
 jobs:
   build:
@@ -34,9 +33,9 @@ jobs:
       id: deploy
       uses: sma11black/hexo-action@v1.0.3
       with:
-        deploy_key: ${{ secrets.DEPLOY_KEY }}
-        user_name: your github username  # (or delete this input setting to use bot account)
-        user_email: your github useremail  # (or delete this input setting to use bot account)
+        deploy_key: ${{ secrets.GENERATE }}
+        user_name: piggsoft  # (or delete this input setting to use bot account)
+        user_email: piggsoft@163.com  # (or delete this input setting to use bot account)
         commit_msg: ${{ github.event.head_commit.message }}  # (or delete this input setting to use hexo default settings)
         publish_dir: ./public
         publish_branch: master  # deploying branch
