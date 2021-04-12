@@ -18,7 +18,7 @@ jobs:
     - name: Checkout tools repo
       uses: actions/checkout@v2
       with:
-        repository: https://github.com/theme-next/hexo-theme-next
+        repository: theme-next/hexo-theme-next
         path: themes/next
     - name: Setup Node.js environment
       uses: actions/setup-node@v2.1.5
