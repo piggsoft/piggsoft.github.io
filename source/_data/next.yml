@@ -582,8 +582,8 @@ comments:
 
 # Disqus
 disqus:
-  enable: false
-  shortname:
+  enable: true
+  shortname: piggsoft
   count: true
   #post_meta_order: 0
 
@@ -592,14 +592,14 @@ disqus:
 # Demo: https://suka.js.org/DisqusJS/
 # For more information: https://github.com/SukkaW/DisqusJS
 disqusjs:
-  enable: false
+  enable: true
   # API Endpoint of Disqus API (https://disqus.com/api/).
   # Leave api empty if you are able to connect to Disqus API. Otherwise you need a reverse proxy for it.
   # For example:
   # api: https://disqus.skk.moe/disqus/
   api:
-  apikey: # Register new application from https://disqus.com/api/applications/
-  shortname: # See: https://disqus.com/admin/settings/general/
+  apikey: 7zBr99VhT5lAHs7c5sVCCHVvgUhN3iAaq429Ypa0pZts6TS8aKejfewVuCYrFESt # Register new application from https://disqus.com/api/applications/
+  shortname: piggsoft # See: https://disqus.com/admin/settings/general/
 
 # Changyan
 changyan:
