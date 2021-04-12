@@ -603,9 +603,9 @@ disqusjs:
 
 # Changyan
 changyan:
-  enable: true
-  appid: cytI8S25w
-  appkey: 9fe5c9374a5c667bfb905d7c14caf686
+  enable: false
+  appid: 
+  appkey: 
   #post_meta_order: 0
 
 # Valine
@@ -635,16 +635,16 @@ livere_uid: # <your_uid>
 # For more information: https://gitalk.github.io, https://github.com/gitalk/gitalk
 gitalk:
   enable: false
-  github_id: # GitHub repo owner
-  repo: # Repository name to store issues
-  client_id: # GitHub Application Client ID
-  client_secret: # GitHub Application Client Secret
-  admin_user: # GitHub repo owner and collaborators, only these guys can initialize gitHub issues
+  github_id: piggsoft # GitHub repo owner
+  repo: piggsoft.github.io # Repository name to store issues
+  client_id: 381526a9b7374673c524 # GitHub Application Client ID
+  client_secret: a0a6271ada963188c2dac604635bc0b850d8b13b # GitHub Application Client Secret
+  admin_user: piggsoft # GitHub repo owner and collaborators, only these guys can initialize gitHub issues
   distraction_free_mode: true # Facebook-like distraction free mode
   # Gitalk's display language depends on user's browser or system environment
   # If you want everyone visiting your site to see a uniform language, you can set a force language value
   # Available values: en | es-ES | fr | ru | zh-CN | zh-TW
-  language:
+  language: zh-CN
 
 
 # ---------------------------------------------------------------
