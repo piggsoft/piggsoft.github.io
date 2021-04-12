@@ -71,14 +71,14 @@ footer:
 
   # Beian ICP and gongan information for Chinese users. See: https://beian.miit.gov.cn, http://www.beian.gov.cn
   beian:
-    enable: false
-    icp:
+    enable: true
+    icp: 鄂ICP备17006919号
     # The digit in the num of gongan beian.
-    gongan_id:
+    gongan_id: 42011402000260
     # The full num of gongan beian.
-    gongan_num:
+    gongan_num: 鄂公网安备 42011402000260号
     # The icon for gongan beian. See: http://www.beian.gov.cn/portal/download
-    gongan_icon_url:
+    gongan_icon_url: /images/备案图片.png
 
 # Creative Commons 4.0 International License.
 # See: https://creativecommons.org/share-your-work/licensing-types-examples
