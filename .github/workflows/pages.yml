@@ -31,18 +31,25 @@ jobs:
     - name: Install Dependencies
       if: steps.cache.outputs.cache-hit != 'true'
       run: npm ci
-    
-    # Deploy hexo blog website.
+    - name: Build
+      run: npm run build
     - name: Deploy
-      id: deploy
-      uses: sma11black/hexo-action@v1.0.3
+      uses: peaceiris/actions-gh-pages@v3
       with:
-        deploy_key: ${{ secrets.GENERATE }}
-        user_name: piggsoft  # (or delete this input setting to use bot account)
-        user_email: piggsoft@163.com  # (or delete this input setting to use bot account)
-        commit_msg: ${{ github.event.head_commit.message }}  # (or delete this input setting to use hexo default settings)
+        github_token: ${{ secrets.GENERATE }}
         publish_dir: ./public
-        publish_branch: master  # deploying branch
+        publish_branch: master
+    # Deploy hexo blog website.
+    #- name: Deploy
+    #  id: deploy
+     # uses: sma11black/hexo-action@v1.0.3
+      #with:
+       # deploy_key: ${{ secrets.GENERATE }}
+        #user_name: piggsoft  # (or delete this input setting to use bot account)
+        #user_email: piggsoft@163.com  # (or delete this input setting to use bot account)
+        #commit_msg: ${{ github.event.head_commit.message }}  # (or delete this input setting to use hexo default settings)
+        #publish_dir: ./public
+        #publish_branch: master  # deploying branch
     # Use the output from the `deploy` step(use for test action)
     - name: Get the output
       run: |
