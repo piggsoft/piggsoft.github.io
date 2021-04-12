@@ -117,7 +117,7 @@ darkmode: false
 # External url should start with http:// or https://
 menu:
   home: / || fa fa-home
-  about: https://resume.piggsoft.com || fa fa-user
+  #about: https://resume.piggsoft.com || fa fa-user
   tags: /tags/ || fa fa-tags
   #categories: /categories/ || fa fa-th
   archives: /archives/ || fa fa-archive
@@ -180,7 +180,7 @@ social:
   GitHub: https://github.com/piggsoft || fab fa-github
   E-Mail: mailto:piggsoft@163.com || fa fa-envelope
   Weibo: http://weibo.com/piggsoft || fab fa-weibo
-  Resume: https://resume.piggsoft.com || fab fa-file
+  Resume: https://resume.piggsoft.com || fa fa-file
 #Google: https://plus.google.com/yourname || fab fa-google
 #Twitter: https://twitter.com/yourname || fab fa-twitter
 #FB Page: https://www.facebook.com/yourname || fab fa-facebook
