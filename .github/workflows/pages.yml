@@ -34,9 +34,10 @@ jobs:
     - name: Build
       run: npm run build
     - name: Deploy
-      uses: peaceiris/actions-gh-pages@v3
+      uses: peaceiris/actions-gh-pages@v3.7.3
       with:
-        github_token: ${{ secrets.GENERATE }}
+        deploy_key: ${{ secrets.GENERATE }}
+        #github_token: ${{ secrets.GENERATE }}
         publish_dir: ./public
         publish_branch: master
     # Deploy hexo blog website.
