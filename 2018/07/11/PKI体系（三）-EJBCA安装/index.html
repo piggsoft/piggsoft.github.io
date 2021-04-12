@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"piggsoft.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="EJBCA是一个全功能的CA系统软件，它基于J2EE技术，并提供了一个强大的、高性能并基于组件的CA。EJBCA兼具灵活性和平台独立性，能够独立使用，也能和任何J2EE应用程序集成。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PKI体系（三）-EJBCA安装">
+<meta property="og:url" content="https://piggsoft.github.io/2018/07/11/PKI%E4%BD%93%E7%B3%BB%EF%BC%88%E4%B8%89%EF%BC%89-EJBCA%E5%AE%89%E8%A3%85/index.html">
+<meta property="og:site_name" content="小毛驴技术空间">
+<meta property="og:description" content="EJBCA是一个全功能的CA系统软件，它基于J2EE技术，并提供了一个强大的、高性能并基于组件的CA。EJBCA兼具灵活性和平台独立性，能够独立使用，也能和任何J2EE应用程序集成。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-07-11T06:17:24.000Z">
+<meta property="article:modified_time" content="2021-04-12T09:30:50.296Z">
+<meta property="article:author" content="等待-希望">
+<meta property="article:tag" content="PKI">
+<meta property="article:tag" content="EJBCA">
+<meta property="article:tag" content="安全">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://piggsoft.github.io/2018/07/11/PKI%E4%BD%93%E7%B3%BB%EF%BC%88%E4%B8%89%EF%BC%89-EJBCA%E5%AE%89%E8%A3%85/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>PKI体系（三）-EJBCA安装 | 小毛驴技术空间</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">小毛驴技术空间</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">孤舟蓑笠翁，独钓寒江雪。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://piggsoft.github.io/2018/07/11/PKI%E4%BD%93%E7%B3%BB%EF%BC%88%E4%B8%89%EF%BC%89-EJBCA%E5%AE%89%E8%A3%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/headPhoto.jpg">
+      <meta itemprop="name" content="等待-希望">
+      <meta itemprop="description" content="千山鸟飞绝，万径人踪灭。孤舟蓑笠翁，独钓寒江雪。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小毛驴技术空间">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PKI体系（三）-EJBCA安装
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-07-11 14:17:24" itemprop="dateCreated datePublished" datetime="2018-07-11T14:17:24+08:00">2018-07-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-04-12 17:30:50" itemprop="dateModified" datetime="2021-04-12T17:30:50+08:00">2021-04-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">安全</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>EJBCA是一个全功能的CA系统软件，它基于J2EE技术，并提供了一个强大的、高性能并基于组件的CA。EJBCA兼具灵活性和平台独立性，能够独立使用，也能和任何J2EE应用程序集成。</p>
+<span id="more"></span>
+
+<h1 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h1><ul>
+<li><p>特性： LGPL开源许可;</p>
+</li>
+<li><p>建立在J2EE 1.3（EJB2.0）规范之上;</p>
+</li>
+<li><p>灵活的、基于组件的体系结构;</p>
+</li>
+<li><p>多级CA</p>
+</li>
+<li><p>多个CA和多级CA，在一个EJBCA实例中建立一个或者多个完整的基础设施单独运行，或者在任何J2EE应用中集成它;</p>
+</li>
+<li><p>简单的安装和配置</p>
+</li>
+<li><p>强大的基于Web的管理界面，并采用了高强度的鉴别算法</p>
+</li>
+<li><p>支持基于命令行的管理，并支持脚本等功能</p>
+</li>
+<li><p>支持个人证书申请或者证书的批量生产</p>
+</li>
+<li><p>服务器和客户端证书能够采用PKCS12, JKS或者PEM格 式导出</p>
+</li>
+<li><p>支持采用Netscape, Mozilla, IE等浏览器直接进行证书申请</p>
+</li>
+<li><p>支持采用开放API和工具通过其它应用程序申请证书</p>
+</li>
+<li><p>由RA添加的新用户可以通过email进行提醒</p>
+</li>
+<li><p>对于新用户验证可以采用随机或者手工的方式生成密码</p>
+</li>
+<li><p>支持硬件模块，来集成硬件签发系统（例如智能卡）</p>
+</li>
+<li><p>支持SCEP</p>
+</li>
+<li><p>支持用特定用户权限和用户组的方式来进行多极化管理</p>
+</li>
+<li><p>对不同类型和内容的证书可以进行证书配置</p>
+</li>
+<li><p>对不同类型的用户可以进行实体配置</p>
+</li>
+<li><p>遵循X509和PKIX(RFC3280)标准</p>
+</li>
+<li><p>支持CRL</p>
+</li>
+<li><p>完全支持OCSP，包括AIA扩展</p>
+</li>
+<li><p>CRL生成和基于URL的CRL分发点遵循RFC3280，可以在任何SQL数据库中存储证书和CRL（通过应用服务器来处 理）。</p>
+</li>
+<li><p>可选的多个发布器，以用来在LDAP中 发布证书和CRL</p>
+</li>
+<li><p>支持用来为指定用户和证书来恢复私钥的密钥恢复模块</p>
+</li>
+<li><p>基于组件的体系结构，用来发布证书和CRL到不 同的目的地</p>
+</li>
+<li><p>基于组件的体系结构，用来在发布证书时采用多种实体授权方法</p>
+</li>
+<li><p>容易集成到大型应用程序中，并为集成到业务流程进行了优化</p>
+</li>
+<li><p>EJBCA完 全采用Java编写，能够在任何采用J2EE服 务器的平台上运行。开发和测试是在Linux和Windows上 进行的。</p>
+</li>
+</ul>
+<h1 id="安装前的准备"><a href="#安装前的准备" class="headerlink" title="安装前的准备"></a>安装前的准备</h1><ol>
+<li>JDK1.8</li>
+<li>apache-ant-1.9.11-bin</li>
+<li>Wildfly-12.0.0.Final</li>
+<li>ejbca_ce_6_10_1_2</li>
+<li>mysql-connector-java-5.1.46.jar</li>
+<li>MySQL</li>
+<li>Centos 7 (也可是其他系统)</li>
+</ol>
+<blockquote>
+<p>将其中的Wildfly，ejbca_ce_6_10_1_2，mysql-connector-java-5.1.46.jar放到同一个目录下，比如<code>/opt/ca</code></p>
+</blockquote>
+<h1 id="Mysql建表"><a href="#Mysql建表" class="headerlink" title="Mysql建表"></a>Mysql建表</h1><p>在mysql中新建一个表对应EJBCA的数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE ejbcatest CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line">GRANT ALL PRIVILEGES ON ejbcatest.* TO &#39;ejbca&#39;@&#39;%&#39; IDENTIFIED BY &#39;ejbca&#39;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="系统准备"><a href="#系统准备" class="headerlink" title="系统准备"></a>系统准备</h1><ol>
+<li>安装JDK</li>
+<li>安装ant<ol>
+<li>解压ant <code>unzip apache-ant-1.9.11-bin.zip</code></li>
+<li>配置path <code>vim /etc/profile</code>, 在文件末尾添加<code>export PATH=&quot;/opt/apache-ant-1.9.11/bin:$PATH&quot;</code></li>
+<li>编译生效<code>source /etc/profile</code></li>
+<li>检查<code>ant</code>是否成功安装<code>ant -version</code></li>
+</ol>
+</li>
+<li>为EJBCA新建用户 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adduser ca</span><br><span class="line">passwd ca</span><br></pre></td></tr></table></figure></li>
+<li>将安装包的所有者改成<code>ca</code> <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">chown ca:ca /opt/ca</span><br><span class="line">chown ca:ca /opt/ca/wildfly-12.0.0.Final.zip</span><br><span class="line">chown ca:ca /opt/ca/ejbca_ce_6_10_1_2.zip</span><br><span class="line">chown ca:ca /opt/ca/mysql-connector-java-5.1.46.jar</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><ol>
+<li>切换用户 <code>su - ca</code></li>
+<li>解压Wildfly <code>unzip /opt/ca/wildfly-12.0.0.Final.zip</code></li>
+<li>修改Wildfly运行配置文件<ol>
+<li><code>vim wildfly-12.0.0.Final/bin/standalone.conf</code></li>
+<li>找到53行</li>
+<li>将改行注释掉<code>#JAVA_OPTS=&quot;-Xms64m -Xmx512m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -Djava.net.preferIPv4Stack=true&quot;</code></li>
+<li>在该行下面加入一行<code>JAVA_OPTS=&quot;-Xms2048m -Xmx2048m -Djava.net.preferIPv4Stack=true&quot;</code></li>
+<li>保存，退出</li>
+</ol>
+</li>
+<li>启动Wildfly<code>./wildfly-12.0.0.Final/bin/standalone.sh</code></li>
+<li>对Wildfly进行配置<ol>
+<li>启动客户端<code>./wildfly-12.0.0.Final/bin/jboss-cli.sh -c</code>。出现如下字符即进入成功 <em>[standalone@localhost:9990 /]</em></li>
+<li>配置数据源 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">module add --name=com.mysql --resources=/opt/ca/mysql-connector-java-5.1.46.jar --dependencies=javax.api,javax.transaction.api</span><br><span class="line"></span><br><span class="line">/subsystem=datasources/jdbc-driver=mysql:add(driver-name=&quot;mysql&quot;,driver-module-name=&quot;com.mysql&quot;,driver-xa-datasource-class-name=com.mysql.jdbc.Driver)</span><br><span class="line"></span><br><span class="line">data-source add --name=ejbcads --driver-name=&quot;mysql&quot; --connection-url=&quot;jdbc:mysql://127.0.0.1:3306/ejbcatest&quot; --jndi-name=&quot;java:/EjbcaDS&quot; --use-ccm=true --driver-class=&quot;com.mysql.jdbc.Driver&quot; --user-name=&quot;username&quot; --password=&quot;password&quot; --validate-on-match=true --background-validation=false --prepared-statements-cache-size=50 --share-prepared-statements=true --min-pool-size=5 --max-pool-size=150 --pool-prefill=true --transaction-isolation=TRANSACTION_READ_COMMITTED --check-valid-connection-sql=&quot;select 1;&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面的命令和后续的配置命令都需要一条一条执行。注意替换<code>--connection-url=&quot;jdbc:mysql://127.0.0.1:3306/ejbcatest&quot;</code>，<code>--user-name=&quot;username&quot;</code>，<code>--password=&quot;password&quot;</code></p>
+</blockquote>
+</li>
+<li>配置Wildfly远程调用 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/subsystem=remoting/http-connector=http-remoting-connector:remove</span><br><span class="line">/subsystem=remoting/http-connector=http-remoting-connector:add(connector-ref=&quot;remoting&quot;,security-realm=&quot;ApplicationRealm&quot;)</span><br><span class="line">/socket-binding-group=standard-sockets/socket-binding=remoting:add(port=&quot;4447&quot;)</span><br><span class="line">/subsystem=undertow/server=default-server/http-listener=remoting:add(socket-binding=remoting)</span><br><span class="line">:reload</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>输入完成，需等待Wildfly reload完成，可用命令<code>:read-attribute(name=server-state)</code>来进行检查。如果出现如下信息即代表reload成功。</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;outcome&quot; =&gt; &quot;success&quot;,</span><br><span class="line">    &quot;result&quot; =&gt; &quot;running&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></blockquote>
+</li>
+<li>配置Wildfly log <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/subsystem=logging/logger=org.ejbca:add</span><br><span class="line">/subsystem=logging/logger=org.ejbca:write-attribute(name=level, value=DEBUG)</span><br><span class="line">/subsystem=logging/logger=org.cesecore:add</span><br><span class="line">/subsystem=logging/logger=org.cesecore:write-attribute(name=level, value=DEBUG)</span><br></pre></td></tr></table></figure></li>
+<li>关闭jboos-cli</li>
+</ol>
+</li>
+<li>对ejbca进行配置<ol>
+<li>解压文件，<code>unzip ejbca_ce_6_10_1_2.zip</code></li>
+<li>修改<code>ejbca.properties</code> 文件<ol>
+<li><code>cp ejbca_ce_6_10_1_2/conf/ejbca.properties.sample ejbca_ce_6_10_1_2/conf/ejbca.properties</code></li>
+<li><code>vim ejbca_ce_6_10_1_2/conf/ejbca.properties</code></li>
+<li>设置 <code>appserver.home</code> 的值(就是应用服务器的安装位置,对于我们来说是 <code>/opt/ca/wildfly-10.0.0.Final</code>)， 最终结果<code>appserver.home=/opt/ca/wildfly-12.0.0.Final</code></li>
+</ol>
+</li>
+<li>修改<code>web.properties</code>文件<ol>
+<li><code>cp ejbca_ce_6_10_1_2/conf/web.properties.sample ejbca_ce_6_10_1_2/conf/web.properties</code></li>
+<li><code>vim ejbca_ce_6_10_1_2/conf/web.properties</code></li>
+<li>设置CA的超级管理员的证书密码,以及给应用服务器生成的服务器端证书的证书密码,和CA的truststory的密码等,这些密码的设置我们可以根据需要设置,或者保持默认的配置,需要注意的是httpsserver.hostname,这个要和后边的alias相对应,我的ip地址为 147.128.105.149,那这里我们设置为147.128.105.149.</li>
+<li>最终修改，<code>httpsserver.hostname=127.0.0.1</code></li>
+</ol>
+</li>
+<li>修改<code>database.properties</code><ol>
+<li><code>cp ejbca_ce_6_10_1_2/conf/database.properties.sample ejbca_ce_6_10_1_2/conf/database.properties</code></li>
+<li><code>vim ejbca_ce_6_10_1_2/conf/database.properties</code></li>
+<li>实际上只要使用wildfly的数据源即可 。把<code>datasource.jndi-name=EjbcaDS</code>的注释取消， 还要把 数据库类型<code>database.name=mysql</code>这个注释也要放开。否则安装出错，会执行h2数据库的库表安装脚本。</li>
+</ol>
+</li>
+<li>修改<code>install.properties</code><ol>
+<li><code>cp ejbca_ce_6_10_1_2/conf/install.properties.sample ejbca_ce_6_10_1_2/conf/install.properties</code></li>
+<li><code>vim ejbca_ce_6_10_1_2/conf/install.properties</code></li>
+<li>设置CA的名称,加密方式等，建议保持默认即可。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>ejbca打包部署 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /opt/ejbca_ce_6_5.0.5/</span><br><span class="line">ant clean deployear</span><br><span class="line">ant runinstall</span><br><span class="line">ant deploy-keystore</span><br></pre></td></tr></table></figure></li>
+<li>去除Wildfly当前的HTTPS和TLS配置，需要使用<code>./wildfly-12.0.0.Final/bin/jboss-cli.sh -c</code> <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/subsystem=undertow/server=default-server/http-listener=default:remove</span><br><span class="line">/subsystem=undertow/server=default-server/https-listener=https:remove</span><br><span class="line">/socket-binding-group=standard-sockets/socket-binding=http:remove</span><br><span class="line">/socket-binding-group=standard-sockets/socket-binding=https:remove</span><br></pre></td></tr></table></figure></li>
+<li>配置TLS<ol>
+<li>配置外部可访问 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/interface=http:add(inet-address=&quot;0.0.0.0&quot;)</span><br><span class="line">/interface=httpspub:add(inet-address=&quot;0.0.0.0&quot;)</span><br><span class="line">/interface=httpspriv:add(inet-address=&quot;0.0.0.0&quot;)</span><br><span class="line">/socket-binding-group=standard-sockets/socket-binding=http:add(port=&quot;8080&quot;,interface=&quot;http&quot;)</span><br><span class="line">/socket-binding-group=standard-sockets/socket-binding=httpspriv:add(port=&quot;8443&quot;,interface=&quot;httpspriv&quot;)</span><br><span class="line">/socket-binding-group=standard-sockets/socket-binding=httpspub:add(port=&quot;8442&quot;, interface=&quot;httpspub&quot;)</span><br><span class="line">/subsystem=undertow/server=default-server/http-listener=http:add(socket-binding=http)</span><br><span class="line">/subsystem=undertow/server=default-server/http-listener=http:write-attribute(name=redirect-socket, value=&quot;httpspriv&quot;)</span><br><span class="line">:reload</span><br></pre></td></tr></table></figure></li>
+<li>配置端口绑定 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/core-service=management/security-realm=SSLRealm:add()</span><br><span class="line">/core-service=management/security-realm=SSLRealm/server-identity=ssl:add(keystore-path=&quot;$&#123;jboss.server.config.dir&#125;/keystore/keystore.jks&quot;, keystore-password=&quot;serverpwd&quot;, alias=&quot;127.0.0.1&quot;)</span><br><span class="line">/core-service=management/security-realm=SSLRealm/authentication=truststore:add(keystore-path=&quot;$&#123;jboss.server.config.dir&#125;/keystore/truststore.jks&quot;, keystore-password=&quot;changeit&quot;)</span><br><span class="line">:reload</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>其中<code>keystore-password=&quot;serverpwd&quot;</code>对应<code>web.properties</code>里面的<code>httpsserver.password</code>。<code>alias=&quot;127.0.0.1&quot;</code>对应<code>web.properties</code>里面的<code>httpsserver.hostname</code></p>
+</blockquote>
+</li>
+<li>重启wildfly<code>:shutdown(restart=true)</code>,等待重启完毕</li>
+<li>配置tls <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/subsystem=undertow/server=default-server/https-listener=httpspriv:add(socket-binding=httpspriv, security-realm=&quot;SSLRealm&quot;, verify-client=REQUIRED)</span><br><span class="line">/subsystem=undertow/server=default-server/https-listener=httpspriv:write-attribute(name=max-parameters, value=&quot;2048&quot;)</span><br><span class="line">/subsystem=undertow/server=default-server/https-listener=httpspub:add(socket-binding=httpspub, security-realm=&quot;SSLRealm&quot;)</span><br><span class="line">/subsystem=undertow/server=default-server/https-listener=httpspub:write-attribute(name=max-parameters, value=&quot;2048&quot;)</span><br><span class="line">:reload</span><br></pre></td></tr></table></figure></li>
+<li>配置编码等其他重要配置 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/system-property=org.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH:add(value=true)</span><br><span class="line">/system-property=org.apache.catalina.connector.CoyoteAdapter.ALLOW_BACKSLASH:add(value=true)</span><br><span class="line">/system-property=org.apache.catalina.connector.URI_ENCODING:add(value=&quot;UTF-8&quot;)</span><br><span class="line">/system-property=org.apache.catalina.connector.USE_BODY_ENCODING_FOR_QUERY_STRING:add(value=true)</span><br><span class="line">/subsystem=webservices:write-attribute(name=wsdl-host, value=jbossws.undefined.host)</span><br><span class="line">/subsystem=webservices:write-attribute(name=modify-wsdl-address, value=true)</span><br><span class="line">:reload</span><br></pre></td></tr></table></figure></li>
+<li>重启wildfly<code>:shutdown(restart=true)</code>,等待重启完毕</li>
+</ol>
+</li>
+<li>访问<a target="_blank" rel="noopener" href="http://127.0.0.1:8080/ejbca">http://127.0.0.1:8080/ejbca</a>进行验证</li>
+<li>下载管理员证书，将<code>/opt/ca/ejbca_ce_6_10_1_2/p12</code>下的<code>superadmin.p12</code>拷贝到本地，对证书进行安装</li>
+<li>访问<a target="_blank" rel="noopener" href="https://127.0.0.1:8443/ejbca">https://127.0.0.1:8443/ejbca</a>进行验证<blockquote>
+<p>注：所有的ip需要换成对应的ip或者域名</p>
+</blockquote>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/PKI/" rel="tag"># PKI</a>
+              <a href="/tags/EJBCA/" rel="tag"># EJBCA</a>
+              <a href="/tags/%E5%AE%89%E5%85%A8/" rel="tag"># 安全</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/07/11/PKI%E4%BD%93%E7%B3%BB%EF%BC%88%E4%BA%8C%EF%BC%89-Https&%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/" rel="prev" title="PKI体系（二）-Https&双端认证">
+      <i class="fa fa-chevron-left"></i> PKI体系（二）-Https&双端认证
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/09/25/%E5%BC%80%E6%BA%90%E6%96%87%E6%A1%A3-%E7%BF%BB%E8%AF%91%E5%88%86%E4%BA%AB/" rel="next" title="开源文档-翻译分享">
+      开源文档-翻译分享 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%89%B9%E7%82%B9"><span class="nav-number">1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%89%8D%E7%9A%84%E5%87%86%E5%A4%87"><span class="nav-number">2.</span> <span class="nav-text">安装前的准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Mysql%E5%BB%BA%E8%A1%A8"><span class="nav-number">3.</span> <span class="nav-text">Mysql建表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E5%87%86%E5%A4%87"><span class="nav-number">4.</span> <span class="nav-text">系统准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">5.</span> <span class="nav-text">安装</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="等待-希望"
+      src="/images/headPhoto.jpg">
+  <p class="site-author-name" itemprop="name">等待-希望</p>
+  <div class="site-description" itemprop="description">千山鸟飞绝，万径人踪灭。孤舟蓑笠翁，独钓寒江雪。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">等待-希望</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

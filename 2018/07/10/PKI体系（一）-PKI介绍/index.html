@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"piggsoft.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="公开密钥基础建设（英语：Public Key Infrastructure，缩写：PKI），又称公开密钥基础架构、公钥基础建设、公钥基础设施、公开密码匙基础建设或公钥基础架构，是一组由硬件、软件、参与者、管理政策与流程组成的基础架构，其目的在于创造、管理、分配、使用、存储以及撤销数字证书。 密码学上，公开密钥基础建设借着数字证书认证机构(Certificate Authority，CA)将用户的个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PKI体系（一）--PKI介绍">
+<meta property="og:url" content="https://piggsoft.github.io/2018/07/10/PKI%E4%BD%93%E7%B3%BB%EF%BC%88%E4%B8%80%EF%BC%89-PKI%E4%BB%8B%E7%BB%8D/index.html">
+<meta property="og:site_name" content="小毛驴技术空间">
+<meta property="og:description" content="公开密钥基础建设（英语：Public Key Infrastructure，缩写：PKI），又称公开密钥基础架构、公钥基础建设、公钥基础设施、公开密码匙基础建设或公钥基础架构，是一组由硬件、软件、参与者、管理政策与流程组成的基础架构，其目的在于创造、管理、分配、使用、存储以及撤销数字证书。 密码学上，公开密钥基础建设借着数字证书认证机构(Certificate Authority，CA)将用户的个">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://piggsoft.github.io/2018/07/10/PKI%E4%BD%93%E7%B3%BB%EF%BC%88%E4%B8%80%EF%BC%89-PKI%E4%BB%8B%E7%BB%8D/450px-Public-Key-Infrastructure.svg.png">
+<meta property="article:published_time" content="2018-07-10T16:15:23.000Z">
+<meta property="article:modified_time" content="2021-04-12T09:30:50.296Z">
+<meta property="article:author" content="等待-希望">
+<meta property="article:tag" content="PKI">
+<meta property="article:tag" content="EJBCA">
+<meta property="article:tag" content="安全">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://piggsoft.github.io/2018/07/10/PKI%E4%BD%93%E7%B3%BB%EF%BC%88%E4%B8%80%EF%BC%89-PKI%E4%BB%8B%E7%BB%8D/450px-Public-Key-Infrastructure.svg.png">
+
+<link rel="canonical" href="https://piggsoft.github.io/2018/07/10/PKI%E4%BD%93%E7%B3%BB%EF%BC%88%E4%B8%80%EF%BC%89-PKI%E4%BB%8B%E7%BB%8D/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>PKI体系（一）--PKI介绍 | 小毛驴技术空间</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">小毛驴技术空间</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">孤舟蓑笠翁，独钓寒江雪。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://piggsoft.github.io/2018/07/10/PKI%E4%BD%93%E7%B3%BB%EF%BC%88%E4%B8%80%EF%BC%89-PKI%E4%BB%8B%E7%BB%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/headPhoto.jpg">
+      <meta itemprop="name" content="等待-希望">
+      <meta itemprop="description" content="千山鸟飞绝，万径人踪灭。孤舟蓑笠翁，独钓寒江雪。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小毛驴技术空间">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PKI体系（一）--PKI介绍
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-07-11 00:15:23" itemprop="dateCreated datePublished" datetime="2018-07-11T00:15:23+08:00">2018-07-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-04-12 17:30:50" itemprop="dateModified" datetime="2021-04-12T17:30:50+08:00">2021-04-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">安全</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>公开密钥基础建设（英语：Public Key Infrastructure，缩写：PKI），又称公开密钥基础架构、公钥基础建设、公钥基础设施、公开密码匙基础建设或公钥基础架构，是一组由硬件、软件、参与者、管理政策与流程组成的基础架构，其目的在于创造、管理、分配、使用、存储以及撤销数字证书。</p>
+<p>密码学上，公开密钥基础建设借着数字证书认证机构(Certificate Authority，CA)将用户的个人身份跟公开密钥链接在一起。对每个证书中心用户的身份必须是唯一的。链接关系通过注册和发布过程创建，取决于担保级别，链接关系可能由CA的各种软件或在人为监督下完成。PKI的确定链接关系的这一角色称为注册管理中心（Registration Authority，RA）。RA确保公开密钥和个人身份链接，可以防抵赖。</p>
+<p>可信赖的第三者（Trusted third party，TTP）也常被用来指证书中心。PKI有时被错误地拿来代表公开密钥密码学或公开密钥算法。</p>
+<span id="more"></span>
+
+<h1 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h1><p>1976年Whitfield Diffie、Martin Hellman|Hellman、Ron Rivest、Adi Shamir和Leonard Adleman等人相继公布了安全密钥交换与非对称密钥算法后，整个通信方式为之改变。随着高速电子数字通信的发展，用户对安全通信的需求越来越强。</p>
+<p>密码协议在这种诉求下逐渐发展，造就新的密码原型。全球互联网发明与扩散后，认证与安全通信的需求也更加严苛。光商务理由便足以解释一切。时在网景工作的Taher ElGamal等人发展出传输安全层协议，包含了密钥创建、服务器认证等。公开密钥基础建设的架构因此浮现。</p>
+<p>厂商和企业家察觉了其后的广大市场，开始设立新公司并启动法律认知与保护。美国律师协会项目发行了一份对公开密钥基础建设操作的可预见法律观点的详尽分析，随后，多个美国州政府与其他国家的司法单位开始制定相关法规。消费者团体等则提出对隐私、访问、可靠性的质疑，也被列入司法的考虑中。</p>
+<p>被制定的法规实有不同，将公开密钥基础建设的机制转换成商务操作有实际上的问题，远比许多先驱者所想的缓慢。</p>
+<p>21世纪的前几年才慢慢发觉，密码工程没那么容易被设计与实践，某些存在的标准某方面甚至是不合宜的。</p>
+<p>公开密钥基础建设的厂商发现了一个市场，但并非九零年代中期所预想的那个市场，这个市场发展得缓慢而且以不同的方式前进。公开密钥基础建设并未解决所期待的问题，某些厂商甚至退出市场。公开密钥基础建设最成功的地方是在政府部门，目前最大的公开密钥基础建设是美国防卫信息系统局 （Defense Information Systems Agency，DISA）的共同访问卡（Common access Cards）方案。</p>
+<h1 id="PKI组成"><a href="#PKI组成" class="headerlink" title="PKI组成"></a>PKI组成</h1><p><img src="450px-Public-Key-Infrastructure.svg.png" alt="pki组成"></p>
+<ol>
+<li><em>Certificate Authority(CA)</em> 证书颁发机构(or系统)，CA是PKI的基础，它管理着证书的整个生命周期，其作用包括：发放证书，规定证书有效期，废弃不良信用证书。</li>
+<li><em>Registration Authority(RA)</em> 证书注册，登记机构(or系统)，RA提供一个用户和CA之前的桥梁，用户通过RA进行证书的申请，RA获取用户的身份信息并确认用户的信息，向CA提出证书申请。它接受用户的注册申请，审查用户的申请资格，并决定是否同意CA给其签发数字证书。注册机构并不给用户签发证书，而只是对用户进行资格审查。因此，RA可以设置在直接面对客户的业务部门，如银行的营业部、机构认识部门等。当然，对于一个规模较小的PKI应用系统来说，可把注册管理的职能由认证中心CA来完成，而不设立独立运行的RA。但这并不是取消了PKI的注册功能，而只是将其作为CA的一项功能而已。PKI国际标准推荐由一个独立的RA来完成注册管理的任务，可以增强应用系统的安全。<blockquote>
+<p>这里的用户是指将要申请证书的客户，可以是个人，集团或团体，政府机构等。</p>
+</blockquote>
+</li>
+<li><em>Validation Authority(VA)</em> 证书验证机构(or系统)。在PKI中，VA是一个实体，它根据X.509标准和RFC 5280（第69页）中描述的机制提供用于验证数字证书有效性的服务。<blockquote>
+<p>VA一般由第三方来提供，PKI对VA没有强制要求，可以是Nginx， Tomcat等。</p>
+</blockquote>
+</li>
+<li><em>证书存储</em>-证书和私钥存储位置</li>
+<li><em>证书管理中心</em>-管理证书的申请，下发，存储</li>
+<li><em>机构可信度</em>-PKI系统就本身的证书进行说明，其目的是允许外部分析PKI的可信度。</li>
+</ol>
+<h1 id="PKI认证方法"><a href="#PKI认证方法" class="headerlink" title="PKI认证方法"></a>PKI认证方法</h1><ol>
+<li>认证机构</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/PKI/" rel="tag"># PKI</a>
+              <a href="/tags/EJBCA/" rel="tag"># EJBCA</a>
+              <a href="/tags/%E5%AE%89%E5%85%A8/" rel="tag"># 安全</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/06/10/2017-06-10-Linux-%E4%BD%BF%E7%94%A8%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1Crontab/" rel="prev" title="Linux上使用定时任务Crontab">
+      <i class="fa fa-chevron-left"></i> Linux上使用定时任务Crontab
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/07/11/PKI%E4%BD%93%E7%B3%BB%EF%BC%88%E4%BA%8C%EF%BC%89-Https&%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/" rel="next" title="PKI体系（二）-Https&双端认证">
+      PKI体系（二）-Https&双端认证 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8E%86%E5%8F%B2"><span class="nav-number">1.</span> <span class="nav-text">历史</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PKI%E7%BB%84%E6%88%90"><span class="nav-number">2.</span> <span class="nav-text">PKI组成</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PKI%E8%AE%A4%E8%AF%81%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">PKI认证方法</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="等待-希望"
+      src="/images/headPhoto.jpg">
+  <p class="site-author-name" itemprop="name">等待-希望</p>
+  <div class="site-description" itemprop="description">千山鸟飞绝，万径人踪灭。孤舟蓑笠翁，独钓寒江雪。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">等待-希望</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
