@@ -30,7 +30,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://piggsoft.com/2018/07/10/PKI%E4%BD%93%E7%B3%BB%EF%BC%88%E4%B8%80%EF%BC%89-PKI%E4%BB%8B%E7%BB%8D/450px-Public-Key-Infrastructure.svg.png">
 <meta property="article:published_time" content="2018-07-10T16:15:23.000Z">
-<meta property="article:modified_time" content="2021-04-12T14:23:36.238Z">
+<meta property="article:modified_time" content="2021-04-12T14:25:23.832Z">
 <meta property="article:author" content="等待-希望">
 <meta property="article:tag" content="PKI">
 <meta property="article:tag" content="EJBCA">
@@ -204,7 +204,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-12 22:23:36" itemprop="dateModified" datetime="2021-04-12T22:23:36+08:00">2021-04-12</time>
+                <time title="修改时间：2021-04-12 22:25:23" itemprop="dateModified" datetime="2021-04-12T22:25:23+08:00">2021-04-12</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -295,6 +295,7 @@
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -533,6 +534,26 @@ window.addEventListener('pjax:success', () => {
   
 
   
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '381526a9b7374673c524',
+      clientSecret: 'a0a6271ada963188c2dac604635bc0b850d8b13b',
+      repo        : 'piggsoft.github.io',
+      owner       : 'piggsoft',
+      admin       : ['piggsoft'],
+      id          : '19266a9bfd024b48f41c9aa88c2f15ce',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
     </div>
 </body>
