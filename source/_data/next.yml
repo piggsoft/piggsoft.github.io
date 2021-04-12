@@ -582,8 +582,8 @@ comments:
 
 # Disqus
 disqus:
-  enable: true
-  shortname: piggsoft
+  enable: false
+  shortname: 
   count: true
   #post_meta_order: 0
 
@@ -598,14 +598,14 @@ disqusjs:
   # For example:
   # api: https://disqus.skk.moe/disqus/
   api:
-  apikey: 7zBr99VhT5lAHs7c5sVCCHVvgUhN3iAaq429Ypa0pZts6TS8aKejfewVuCYrFESt # Register new application from https://disqus.com/api/applications/
-  shortname: piggsoft # See: https://disqus.com/admin/settings/general/
+  apikey:  # Register new application from https://disqus.com/api/applications/
+  shortname:  # See: https://disqus.com/admin/settings/general/
 
 # Changyan
 changyan:
-  enable: false
-  appid:
-  appkey:
+  enable: true
+  appid: cytI8S25w
+  appkey: 9fe5c9374a5c667bfb905d7c14caf686
   #post_meta_order: 0
 
 # Valine
