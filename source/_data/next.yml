@@ -634,7 +634,7 @@ livere_uid: # <your_uid>
 # Gitalk
 # For more information: https://gitalk.github.io, https://github.com/gitalk/gitalk
 gitalk:
-  enable: false
+  enable: true
   github_id: piggsoft # GitHub repo owner
   repo: piggsoft.github.io # Repository name to store issues
   client_id: 381526a9b7374673c524 # GitHub Application Client ID
