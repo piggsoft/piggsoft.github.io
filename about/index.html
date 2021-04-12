@@ -29,7 +29,7 @@
 <meta property="og:description" content="千山鸟飞绝，万径人踪灭。孤舟蓑笠翁，独钓寒江雪。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2017-01-02T07:25:31.000Z">
-<meta property="article:modified_time" content="2021-04-12T13:45:39.418Z">
+<meta property="article:modified_time" content="2021-04-12T13:56:55.984Z">
 <meta property="article:author" content="等待-希望">
 <meta property="article:tag" content="小毛驴技术空间">
 <meta name="twitter:card" content="summary">
@@ -206,9 +206,7 @@
           
     
   <div class="comments">
-    <div id="disqus_thread">
-      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-    </div>
+    <div id="SOHUCS"></div>
   </div>
   
 
@@ -449,36 +447,19 @@ window.addEventListener('pjax:success', () => {
 
   
 
-<script>
-  function loadCount() {
-    var d = document, s = d.createElement('script');
-    s.src = 'https://piggsoft.disqus.com/count.js';
-    s.id = 'dsq-count-scr';
-    (d.head || d.body).appendChild(s);
-  }
-  // defer loading until the whole page loading is completed
-  window.addEventListener('load', loadCount, false);
-</script>
-<script>
-  var disqus_config = function() {
-    this.page.url = "https://piggsoft.com/about/index.html";
-    this.page.identifier = "about/index.html";
-    this.page.title = "about";
-    };
-  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
-    if (window.DISQUS) {
-      DISQUS.reset({
-        reload: true,
-        config: disqus_config
-      });
+  <script>
+  NexT.utils.loadComments(document.querySelector('#SOHUCS'), () => {
+    var appid = 'cytI8S25w';
+    var conf = '9fe5c9374a5c667bfb905d7c14caf686';
+    var width = window.innerWidth || document.documentElement.clientWidth;
+    if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
     } else {
-      var d = document, s = d.createElement('script');
-      s.src = 'https://piggsoft.disqus.com/embed.js';
-      s.setAttribute('data-timestamp', '' + +new Date());
-      (d.head || d.body).appendChild(s);
+      var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})});
     }
   });
-</script>
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
 
     </div>
 </body>
