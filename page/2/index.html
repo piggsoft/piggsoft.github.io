@@ -21,37 +21,31 @@
     var CONFIG = {"hostname":"piggsoft.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="公开密钥基础建设（英语：Public Key Infrastructure，缩写：PKI），又称公开密钥基础架构、公钥基础建设、公钥基础设施、公开密码匙基础建设或公钥基础架构，是一组由硬件、软件、参与者、管理政策与流程组成的基础架构，其目的在于创造、管理、分配、使用、存储以及撤销数字证书。 密码学上，公开密钥基础建设借着数字证书认证机构(Certificate Authority，CA)将用户的个">
-<meta property="og:type" content="article">
-<meta property="og:title" content="PKI体系（一）--PKI介绍">
-<meta property="og:url" content="https://piggsoft.com/2018/07/10/PKI%E4%BD%93%E7%B3%BB%EF%BC%88%E4%B8%80%EF%BC%89-PKI%E4%BB%8B%E7%BB%8D/index.html">
+  <meta name="description" content="千山鸟飞绝，万径人踪灭。孤舟蓑笠翁，独钓寒江雪。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="小毛驴技术空间">
+<meta property="og:url" content="https://piggsoft.com/page/2/index.html">
 <meta property="og:site_name" content="小毛驴技术空间">
-<meta property="og:description" content="公开密钥基础建设（英语：Public Key Infrastructure，缩写：PKI），又称公开密钥基础架构、公钥基础建设、公钥基础设施、公开密码匙基础建设或公钥基础架构，是一组由硬件、软件、参与者、管理政策与流程组成的基础架构，其目的在于创造、管理、分配、使用、存储以及撤销数字证书。 密码学上，公开密钥基础建设借着数字证书认证机构(Certificate Authority，CA)将用户的个">
+<meta property="og:description" content="千山鸟飞绝，万径人踪灭。孤舟蓑笠翁，独钓寒江雪。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://piggsoft.com/2018/07/10/PKI%E4%BD%93%E7%B3%BB%EF%BC%88%E4%B8%80%EF%BC%89-PKI%E4%BB%8B%E7%BB%8D/450px-Public-Key-Infrastructure.svg.png">
-<meta property="article:published_time" content="2018-07-10T16:15:23.000Z">
-<meta property="article:modified_time" content="2021-04-12T14:25:23.832Z">
 <meta property="article:author" content="等待-希望">
-<meta property="article:tag" content="PKI">
-<meta property="article:tag" content="EJBCA">
-<meta property="article:tag" content="安全">
+<meta property="article:tag" content="小毛驴技术空间">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://piggsoft.com/2018/07/10/PKI%E4%BD%93%E7%B3%BB%EF%BC%88%E4%B8%80%EF%BC%89-PKI%E4%BB%8B%E7%BB%8D/450px-Public-Key-Infrastructure.svg.png">
 
-<link rel="canonical" href="https://piggsoft.com/2018/07/10/PKI%E4%BD%93%E7%B3%BB%EF%BC%88%E4%B8%80%EF%BC%89-PKI%E4%BB%8B%E7%BB%8D/">
+<link rel="canonical" href="https://piggsoft.com/page/2/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : false,
-    isPost : true,
+    isHome : true,
+    isPost : false,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>PKI体系（一）--PKI介绍 | 小毛驴技术空间</title>
+  <title>小毛驴技术空间</title>
   
 
 
@@ -167,14 +161,13 @@
         <div class="content-wrap">
           
 
-          <div class="content post posts-expand">
+          <div class="content index posts-expand">
             
-
-    
+      
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://piggsoft.com/2018/07/10/PKI%E4%BD%93%E7%B3%BB%EF%BC%88%E4%B8%80%EF%BC%89-PKI%E4%BB%8B%E7%BB%8D/">
+    <link itemprop="mainEntityOfPage" href="https://piggsoft.com/2015/05/12/2015-05-13-Windows%E6%8C%87%E5%AE%9A%E9%83%A8%E5%88%86IP%E8%B5%B0VPN%E9%80%9A%E9%81%93/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/headPhoto.jpg">
@@ -186,9 +179,10 @@
       <meta itemprop="name" content="小毛驴技术空间">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          PKI体系（一）--PKI介绍<a href="https://github.com/piggsoft/piggsoft.github.io/tree/source/source/_posts/2018/07/11/PKI%E4%BD%93%E7%B3%BB%EF%BC%88%E4%B8%80%EF%BC%89-PKI%E4%BB%8B%E7%BB%8D.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pencil-alt"></i></a>
-        </h1>
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2015/05/12/2015-05-13-Windows%E6%8C%87%E5%AE%9A%E9%83%A8%E5%88%86IP%E8%B5%B0VPN%E9%80%9A%E9%81%93/" class="post-title-link" itemprop="url">Windows指定部分IP走VPN通道</a>
+        </h2>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -197,14 +191,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2018-07-11 00:15:23" itemprop="dateCreated datePublished" datetime="2018-07-11T00:15:23+08:00">2018-07-11</time>
+              <time title="创建时间：2015-05-13 00:00:00" itemprop="dateCreated datePublished" datetime="2015-05-13T00:00:00+08:00">2015-05-13</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-12 22:25:23" itemprop="dateModified" datetime="2021-04-12T22:25:23+08:00">2021-04-12</time>
+                <time title="修改时间：2021-04-12 23:55:54" itemprop="dateModified" datetime="2021-04-12T23:55:54+08:00">2021-04-12</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -212,7 +206,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">安全</span></a>
+                  <a href="/categories/IT/" itemprop="url" rel="index"><span itemprop="name">IT</span></a>
                 </span>
             </span>
 
@@ -227,75 +221,39 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>公开密钥基础建设（英语：Public Key Infrastructure，缩写：PKI），又称公开密钥基础架构、公钥基础建设、公钥基础设施、公开密码匙基础建设或公钥基础架构，是一组由硬件、软件、参与者、管理政策与流程组成的基础架构，其目的在于创造、管理、分配、使用、存储以及撤销数字证书。</p>
-<p>密码学上，公开密钥基础建设借着数字证书认证机构(Certificate Authority，CA)将用户的个人身份跟公开密钥链接在一起。对每个证书中心用户的身份必须是唯一的。链接关系通过注册和发布过程创建，取决于担保级别，链接关系可能由CA的各种软件或在人为监督下完成。PKI的确定链接关系的这一角色称为注册管理中心（Registration Authority，RA）。RA确保公开密钥和个人身份链接，可以防抵赖。</p>
-<p>可信赖的第三者（Trusted third party，TTP）也常被用来指证书中心。PKI有时被错误地拿来代表公开密钥密码学或公开密钥算法。</p>
-<span id="more"></span>
-
-<h1 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h1><p>1976年Whitfield Diffie、Martin Hellman|Hellman、Ron Rivest、Adi Shamir和Leonard Adleman等人相继公布了安全密钥交换与非对称密钥算法后，整个通信方式为之改变。随着高速电子数字通信的发展，用户对安全通信的需求越来越强。</p>
-<p>密码协议在这种诉求下逐渐发展，造就新的密码原型。全球互联网发明与扩散后，认证与安全通信的需求也更加严苛。光商务理由便足以解释一切。时在网景工作的Taher ElGamal等人发展出传输安全层协议，包含了密钥创建、服务器认证等。公开密钥基础建设的架构因此浮现。</p>
-<p>厂商和企业家察觉了其后的广大市场，开始设立新公司并启动法律认知与保护。美国律师协会项目发行了一份对公开密钥基础建设操作的可预见法律观点的详尽分析，随后，多个美国州政府与其他国家的司法单位开始制定相关法规。消费者团体等则提出对隐私、访问、可靠性的质疑，也被列入司法的考虑中。</p>
-<p>被制定的法规实有不同，将公开密钥基础建设的机制转换成商务操作有实际上的问题，远比许多先驱者所想的缓慢。</p>
-<p>21世纪的前几年才慢慢发觉，密码工程没那么容易被设计与实践，某些存在的标准某方面甚至是不合宜的。</p>
-<p>公开密钥基础建设的厂商发现了一个市场，但并非九零年代中期所预想的那个市场，这个市场发展得缓慢而且以不同的方式前进。公开密钥基础建设并未解决所期待的问题，某些厂商甚至退出市场。公开密钥基础建设最成功的地方是在政府部门，目前最大的公开密钥基础建设是美国防卫信息系统局 （Defense Information Systems Agency，DISA）的共同访问卡（Common access Cards）方案。</p>
-<h1 id="PKI组成"><a href="#PKI组成" class="headerlink" title="PKI组成"></a>PKI组成</h1><p><img src="450px-Public-Key-Infrastructure.svg.png" alt="pki组成"></p>
-<ol>
-<li><em>Certificate Authority(CA)</em> 证书颁发机构(or系统)，CA是PKI的基础，它管理着证书的整个生命周期，其作用包括：发放证书，规定证书有效期，废弃不良信用证书。</li>
-<li><em>Registration Authority(RA)</em> 证书注册，登记机构(or系统)，RA提供一个用户和CA之前的桥梁，用户通过RA进行证书的申请，RA获取用户的身份信息并确认用户的信息，向CA提出证书申请。它接受用户的注册申请，审查用户的申请资格，并决定是否同意CA给其签发数字证书。注册机构并不给用户签发证书，而只是对用户进行资格审查。因此，RA可以设置在直接面对客户的业务部门，如银行的营业部、机构认识部门等。当然，对于一个规模较小的PKI应用系统来说，可把注册管理的职能由认证中心CA来完成，而不设立独立运行的RA。但这并不是取消了PKI的注册功能，而只是将其作为CA的一项功能而已。PKI国际标准推荐由一个独立的RA来完成注册管理的任务，可以增强应用系统的安全。<blockquote>
-<p>这里的用户是指将要申请证书的客户，可以是个人，集团或团体，政府机构等。</p>
-</blockquote>
-</li>
-<li><em>Validation Authority(VA)</em> 证书验证机构(or系统)。在PKI中，VA是一个实体，它根据X.509标准和RFC 5280（第69页）中描述的机制提供用于验证数字证书有效性的服务。<blockquote>
-<p>VA一般由第三方来提供，PKI对VA没有强制要求，可以是Nginx， Tomcat等。</p>
-</blockquote>
-</li>
-<li><em>证书存储</em>-证书和私钥存储位置</li>
-<li><em>证书管理中心</em>-管理证书的申请，下发，存储</li>
-<li><em>机构可信度</em>-PKI系统就本身的证书进行说明，其目的是允许外部分析PKI的可信度。</li>
-</ol>
-<h1 id="PKI认证方法"><a href="#PKI认证方法" class="headerlink" title="PKI认证方法"></a>PKI认证方法</h1><ol>
-<li>认证机构</li>
-</ol>
-
+          <p>因为工作需要可能要在机器连接公司的VPN，但一般情况下连了VPN就无法连接到外网了，本文主要是讲解如何在Windows上配置，从而让固定ip走VPN，其余走本地网络。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2015/05/12/2015-05-13-Windows%E6%8C%87%E5%AE%9A%E9%83%A8%E5%88%86IP%E8%B5%B0VPN%E9%80%9A%E9%81%93/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
     </div>
 
     
     
     
-
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/PKI/" rel="tag"># PKI</a>
-              <a href="/tags/EJBCA/" rel="tag"># EJBCA</a>
-              <a href="/tags/%E5%AE%89%E5%85%A8/" rel="tag"># 安全</a>
-          </div>
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2017/06/10/2017-06-10-Linux-%E4%BD%BF%E7%94%A8%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1Crontab/" rel="prev" title="Linux上使用定时任务Crontab">
-      <i class="fa fa-chevron-left"></i> Linux上使用定时任务Crontab
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2018/07/11/PKI%E4%BD%93%E7%B3%BB%EF%BC%88%E4%BA%8C%EF%BC%89-Https&%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/" rel="next" title="PKI体系（二）-Https&双端认证">
-      PKI体系（二）-Https&双端认证 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
+        <div class="post-eof"></div>
       </footer>
-    
   </article>
   
   
   
 
 
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
+
+
 
           </div>
           
-    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -342,7 +300,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8E%86%E5%8F%B2"><span class="nav-number">1.</span> <span class="nav-text">历史</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PKI%E7%BB%84%E6%88%90"><span class="nav-number">2.</span> <span class="nav-text">PKI组成</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PKI%E8%AE%A4%E8%AF%81%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">PKI认证方法</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -358,19 +315,19 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -535,25 +492,6 @@ window.addEventListener('pjax:success', () => {
 
   
 
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
-
-<script>
-NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
-    var gitalk = new Gitalk({
-      clientID    : '381526a9b7374673c524',
-      clientSecret: 'a0a6271ada963188c2dac604635bc0b850d8b13b',
-      repo        : 'piggsoft.github.io',
-      owner       : 'piggsoft',
-      admin       : ['piggsoft'],
-      id          : '19266a9bfd024b48f41c9aa88c2f15ce',
-        language: 'zh-CN',
-      distractionFreeMode: true
-    });
-    gitalk.render('gitalk-container');
-  }, window.Gitalk);
-});
-</script>
 
     </div>
 </body>
