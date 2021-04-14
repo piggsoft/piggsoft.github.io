@@ -1,5 +1,5 @@
 ---
-title: 依托github搭建博客--(1)
+title: 依托github搭建博客
 date: 2021-04-12 22:45:11 
 keyword: github pages hexo next actions gittalk
 tags: github pages hexo next actions gittalk
