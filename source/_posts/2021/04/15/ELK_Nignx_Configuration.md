@@ -33,7 +33,7 @@ filebeat.inputs:
   enabled: true
   paths:
   # 日志存储目录，path配置参考https://www.elastic.co/guide/en/beats/filebeat/6.7/filebeat-input-log.html#input-paths
-    #- /usr/local/nginx/logs/access_autopre.openspeech.cn.log
+    #- /usr/local/nginx/logs/access.cn.log
     - /usr/local/nginx-1.17.9/logs/access.log
     #- /opt/webapp/filebeat-6.7.0-linux-x86_64/local.log
   #  - /data/logs/server2/*.log
