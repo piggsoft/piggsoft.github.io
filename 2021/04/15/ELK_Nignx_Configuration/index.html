@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+  <meta name="baidu-site-verification" content="4b496b80525dde623126ea38c0c5b789">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"piggsoft.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="使用ELK对nginx日志进行收集，并分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ELK_Nignx_Configuration">
+<meta property="og:url" content="https://piggsoft.com/2021/04/15/ELK_Nignx_Configuration/index.html">
+<meta property="og:site_name" content="小毛驴技术空间">
+<meta property="og:description" content="使用ELK对nginx日志进行收集，并分析">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-04-15T07:02:09.000Z">
+<meta property="article:modified_time" content="2021-04-15T09:54:12.250Z">
+<meta property="article:author" content="等待-希望">
+<meta property="article:tag" content="nginx elk ELK">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://piggsoft.com/2021/04/15/ELK_Nignx_Configuration/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>ELK_Nignx_Configuration | 小毛驴技术空间</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">小毛驴技术空间</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">孤舟蓑笠翁，独钓寒江雪。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404.html" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/piggsoft" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://piggsoft.com/2021/04/15/ELK_Nignx_Configuration/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/headPhoto.jpg">
+      <meta itemprop="name" content="等待-希望">
+      <meta itemprop="description" content="千山鸟飞绝，万径人踪灭。孤舟蓑笠翁，独钓寒江雪。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小毛驴技术空间">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ELK_Nignx_Configuration<a href="https://github.com/piggsoft/piggsoft.github.io/tree/source/source/_posts/2021/04/15/ELK_Nignx_Configuration.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pencil-alt"></i></a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-04-15 15:02:09 / 修改时间：17:54:12" itemprop="dateCreated datePublished" datetime="2021-04-15T15:02:09+08:00">2021-04-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ELK/" itemprop="url" rel="index"><span itemprop="name">ELK</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>使用ELK对nginx日志进行收集，并分析</p>
+<span id="more"></span>
+
+<h2 id="使用ELK对nginx日志进行收集，并分析"><a href="#使用ELK对nginx日志进行收集，并分析" class="headerlink" title="使用ELK对nginx日志进行收集，并分析"></a>使用ELK对nginx日志进行收集，并分析</h2><h2 id="Filebeat配置"><a href="#Filebeat配置" class="headerlink" title="Filebeat配置"></a>Filebeat配置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">###################### Filebeat Configuration Example #########################</span><br><span class="line"></span><br><span class="line"># This file is an example configuration file highlighting only the most common</span><br><span class="line"># options. The filebeat.reference.yml file from the same directory contains all the</span><br><span class="line"># supported options with more comments. You can use it as a reference.</span><br><span class="line">#</span><br><span class="line"># You can find the full configuration reference here:</span><br><span class="line"># https:&#x2F;&#x2F;www.elastic.co&#x2F;guide&#x2F;en&#x2F;beats&#x2F;filebeat&#x2F;6.7&#x2F;filebeat-input-log.html</span><br><span class="line"></span><br><span class="line"># For more available modules and options, please see the filebeat.reference.yml sample</span><br><span class="line"># configuration file.</span><br><span class="line">#&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; Filebeat inputs &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">#</span><br><span class="line">filebeat.inputs:</span><br><span class="line">- type: log</span><br><span class="line">  enabled: true</span><br><span class="line">  paths:</span><br><span class="line">  # 日志存储目录，path配置参考https:&#x2F;&#x2F;www.elastic.co&#x2F;guide&#x2F;en&#x2F;beats&#x2F;filebeat&#x2F;6.7&#x2F;filebeat-input-log.html#input-paths</span><br><span class="line">    #- &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;logs&#x2F;access_autopre.openspeech.cn.log</span><br><span class="line">    - &#x2F;usr&#x2F;local&#x2F;nginx-1.17.9&#x2F;logs&#x2F;access.log</span><br><span class="line">    #- &#x2F;opt&#x2F;webapp&#x2F;filebeat-6.7.0-linux-x86_64&#x2F;local.log</span><br><span class="line">  #  - &#x2F;data&#x2F;logs&#x2F;server2&#x2F;*.log</span><br><span class="line">  fields:</span><br><span class="line">  # 该字段用于标记服务来源，为了和容器云保持一致，字段定义为kubernetes.namespace，对应的值根据实际用途定义</span><br><span class="line">    namespace: nginx-log</span><br><span class="line">  fields_under_root: true</span><br><span class="line">  # 可多行读取，需根据多行的起始标识来配置pattern，改多行读取配置为apache日志的配置</span><br><span class="line">  #multiline.pattern: &#39;^\[&#39;</span><br><span class="line">  #multiline.negate: true</span><br><span class="line">  #multiline.match: after</span><br><span class="line"></span><br><span class="line">#----------------------------- Logstash output --------------------------------</span><br><span class="line">output.logstash:</span><br><span class="line">  # The Logstash hosts</span><br><span class="line">  hosts: [&quot;&quot;]</span><br><span class="line">  worker: 4</span><br><span class="line">  bulk_max_size: 2048</span><br><span class="line"></span><br><span class="line">#&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; Xpack Monitoring &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">#xpack.monitoring.enabled: true</span><br><span class="line">#xpack.monitoring:</span><br><span class="line">#  enabled: true</span><br><span class="line">#  elasticsearch:</span><br><span class="line">#    hosts: [&quot;&quot;]</span><br></pre></td></tr></table></figure>
+
+<h2 id="Logstash配置"><a href="#Logstash配置" class="headerlink" title="Logstash配置"></a>Logstash配置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">input &#123;</span><br><span class="line">  beats &#123;</span><br><span class="line">    port &#x3D;&gt; 5044</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">filter&#123;</span><br><span class="line">  if [namespace] &#x3D;&#x3D; &quot;nginx-log&quot; &#123;</span><br><span class="line">    grok &#123;</span><br><span class="line">      # match &#x3D;&gt; &#123; &quot;message&quot; &#x3D;&gt; [&quot;%&#123;IPORHOST:[nginx][access][remote_ip]&#125; - %&#123;DATA:[nginx][access][user_name]&#125; \[%&#123;HTTPDATE:[nginx][access][time]&#125;\] \&quot;%&#123;WORD:[nginx][access][method]&#125; %&#123;URIPATH:[nginx][access][path]&#125;(?:%&#123;URIPARAM:[nginx][access][params]&#125;)? HTTP&#x2F;%&#123;NUMBER:[nginx][access][http_version]:float&#125;\&quot; %&#123;DATA:[nginx][access][http_host]&#125; %&#123;NUMBER:[nginx][access][response_code]:int&#125; %&#123;NUMBER:[nginx][access][body_sent][bytes]:int&#125; \&quot;%&#123;DATA:[nginx][access][scheme]&#125;\&quot; \&quot;%&#123;DATA:[nginx][access][referrer]&#125;\&quot; \&quot;%&#123;DATA:[nginx][access][agent]&#125;\&quot; \&quot;%&#123;DATA:[nginx][access][forwarded]&#125;\&quot; %&#123;NUMBER:[nginx][access][request_time]:float&#125; %&#123;NUMBER:[nginx][access][response_time]:float&#125; %&#123;HOSTPORT:[nginx][access][upstream]&#125;&quot;] &#125;</span><br><span class="line">       match &#x3D;&gt; &#123; &quot;message&quot; &#x3D;&gt; [</span><br><span class="line">         &quot;%&#123;IPORHOST:[nginx][access][remote_ip]&#125; - %&#123;DATA:[nginx][access][user_name]&#125; \[%&#123;HTTPDATE:[nginx][access][time]&#125;\] \&quot;%&#123;WORD:[nginx][access][method]&#125; %&#123;URIPATH:[nginx][access][path]&#125;(?:%&#123;CUSTOMER_URIPARAM:[nginx][access][params]&#125;)? HTTP&#x2F;%&#123;NUMBER:[nginx][access][http_version]:float&#125;\&quot; %&#123;DATA:[nginx][access][http_host]&#125; %&#123;NUMBER:[nginx][access][response_code]:int&#125; %&#123;NUMBER:[nginx][access][body_sent][bytes]:int&#125; \&quot;%&#123;DATA:[nginx][access][scheme]&#125;\&quot; \&quot;%&#123;DATA:[nginx][access][referrer]&#125;\&quot; \&quot;%&#123;DATA:[nginx][access][agent]&#125;\&quot; \&quot;%&#123;DATA:[nginx][access][forwarded]&#125;\&quot; %&#123;NUMBER:[nginx][access][request_time]:float&#125; %&#123;NUMBER:[nginx][access][response_time]:float&#125;(, )?%&#123;NUMBER:[nginx][access][upstream_switch_time]:float&#125;? %&#123;HOSTPORT:[nginx][access][upstream]&#125;(, %&#123;HOSTPORT:[nginx][access][upstreamSwitch]&#125;)?&quot;,</span><br><span class="line">        &quot;%&#123;IPORHOST:[nginx][access][remote_ip]&#125; - %&#123;DATA:[nginx][access][user_name]&#125; \[%&#123;HTTPDATE:[nginx][access][time]&#125;\] \&quot;%&#123;WORD:[nginx][access][method]&#125; %&#123;URIPATH:[nginx][access][path]&#125;(?:%&#123;CUSTOMER_URIPARAM:[nginx][access][params]&#125;)? HTTP&#x2F;%&#123;NUMBER:[nginx][access][http_version]:float&#125;\&quot; %&#123;DATA:[nginx][access][http_host]&#125; %&#123;NUMBER:[nginx][access][response_code]:int&#125; %&#123;NUMBER:[nginx][access][body_sent][bytes]:int&#125; \&quot;%&#123;DATA:[nginx][access][scheme]&#125;\&quot; \&quot;%&#123;DATA:[nginx][access][referrer]&#125;\&quot; \&quot;%&#123;DATA:[nginx][access][agent]&#125;\&quot; \&quot;%&#123;DATA:[nginx][access][forwarded]&#125;\&quot; %&#123;NUMBER:[nginx][access][request_time]:float&#125;&quot;</span><br><span class="line">       ] &#125;</span><br><span class="line">       pattern_definitions &#x3D;&gt; &#123;</span><br><span class="line">         &quot;CUSTOMER_URIPARAM&quot; &#x3D;&gt; &quot;\?[A-Za-z0-9$.+!*&#39;|()&#123;&#125;,~@#%&amp;&#x2F;&#x3D;:;_?\-\[\]&lt;&gt;\\]*&quot;</span><br><span class="line">       &#125;</span><br><span class="line">       remove_field &#x3D;&gt; &quot;message&quot;</span><br><span class="line">     &#125;</span><br><span class="line">     kv &#123;</span><br><span class="line">      source &#x3D;&gt; &quot;[nginx][access][params]&quot; # 默认是message，我们这里只需要解析上面grok抽取出来的request字段</span><br><span class="line">      target &#x3D;&gt; &quot;[nginx][access][paramsJson]&quot;</span><br><span class="line">      field_split &#x3D;&gt; &quot;&amp;?&quot;</span><br><span class="line">      value_split &#x3D;&gt; &quot;&#x3D;&quot;</span><br><span class="line">      include_keys &#x3D;&gt; [ &quot;openId&quot;, &quot;openid&quot;]</span><br><span class="line">    &#125;</span><br><span class="line">    urldecode &#123;</span><br><span class="line">      all_fields &#x3D;&gt; true</span><br><span class="line">    &#125;</span><br><span class="line">     mutate &#123;</span><br><span class="line">        add_field &#x3D;&gt; &#123; &quot;read_timestamp&quot; &#x3D;&gt; &quot;%&#123;@timestamp&#125;&quot; &#125;</span><br><span class="line">      &#125;</span><br><span class="line">     date &#123;</span><br><span class="line">          match &#x3D;&gt; [ &quot;[nginx][access][time]&quot;, &quot;dd&#x2F;MMM&#x2F;YYYY:HH:mm:ss Z&quot; ]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    geoip &#123;</span><br><span class="line">      source &#x3D;&gt; &quot;[nginx][access][forwarded]&quot;</span><br><span class="line">      #target &#x3D;&gt; &quot;[nginx][access][geoip]&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">output&#123;</span><br><span class="line">  elasticsearch&#123;</span><br><span class="line">    # 添加对应集群的地址</span><br><span class="line">    hosts &#x3D;&gt; [&quot;es-host&quot;]</span><br><span class="line">    index &#x3D;&gt; &quot;nginx-log-%&#123;+yyyy.MM.dd&#125;&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="ES配置"><a href="#ES配置" class="headerlink" title="ES配置"></a>ES配置</h2><p>需要在es中创建相应的索引</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">PUT &#x2F;_template&#x2F;template_nginx?include_type_name&#x3D;true</span><br><span class="line">&#123;</span><br><span class="line">  &quot;order&quot; : 0,</span><br><span class="line">  &quot;version&quot; : 10001,</span><br><span class="line">  &quot;index_patterns&quot; : [</span><br><span class="line">    &quot;nginx-log-*&quot;</span><br><span class="line">  ],</span><br><span class="line">  &quot;settings&quot; : &#123;</span><br><span class="line">    &quot;index&quot; : &#123;</span><br><span class="line">    &quot;number_of_shards&quot;: &quot;5&quot;,</span><br><span class="line">    &quot;number_of_replicas&quot;: &quot;1&quot;,</span><br><span class="line">    &quot;refresh_interval&quot; : &quot;5s&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;mappings&quot; : &#123;</span><br><span class="line">    &quot;_default_&quot; : &#123;</span><br><span class="line">      &quot;dynamic_templates&quot; : [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;message_field&quot; : &#123;</span><br><span class="line">            &quot;path_match&quot; : &quot;message&quot;,</span><br><span class="line">            &quot;mapping&quot; : &#123;</span><br><span class="line">              &quot;norms&quot; : false,</span><br><span class="line">              &quot;type&quot; : &quot;text&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;match_mapping_type&quot; : &quot;string&quot;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;string_fields&quot; : &#123;</span><br><span class="line">            &quot;mapping&quot; : &#123;</span><br><span class="line">              &quot;norms&quot; : false,</span><br><span class="line">              &quot;type&quot; : &quot;text&quot;,</span><br><span class="line">              &quot;analyzer&quot;: &quot;ik_max_word&quot;,</span><br><span class="line">              &quot;fields&quot; : &#123;</span><br><span class="line">                &quot;keyword&quot; : &#123;</span><br><span class="line">                  &quot;ignore_above&quot; : 256,</span><br><span class="line">                  &quot;type&quot; : &quot;keyword&quot;</span><br><span class="line">                &#125;</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;match_mapping_type&quot; : &quot;string&quot;,</span><br><span class="line">            &quot;match&quot; : &quot;*&quot;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/nginx-elk-ELK/" rel="tag"># nginx elk ELK</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/04/12/%E4%BE%9D%E6%89%98github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" rel="prev" title="依托github搭建博客">
+      <i class="fa fa-chevron-left"></i> 依托github搭建博客
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8ELK%E5%AF%B9nginx%E6%97%A5%E5%BF%97%E8%BF%9B%E8%A1%8C%E6%94%B6%E9%9B%86%EF%BC%8C%E5%B9%B6%E5%88%86%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">使用ELK对nginx日志进行收集，并分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Filebeat%E9%85%8D%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text">Filebeat配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Logstash%E9%85%8D%E7%BD%AE"><span class="nav-number">3.</span> <span class="nav-text">Logstash配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ES%E9%85%8D%E7%BD%AE"><span class="nav-number">4.</span> <span class="nav-text">ES配置</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="等待-希望"
+      src="/images/headPhoto.jpg">
+  <p class="site-author-name" itemprop="name">等待-希望</p>
+  <div class="site-description" itemprop="description">千山鸟飞绝，万径人踪灭。孤舟蓑笠翁，独钓寒江雪。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/piggsoft" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;piggsoft" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:piggsoft@163.com" title="E-Mail → mailto:piggsoft@163.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://weibo.com/piggsoft" title="Weibo → http:&#x2F;&#x2F;weibo.com&#x2F;piggsoft" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://resume.piggsoft.com/" title="Resume → https:&#x2F;&#x2F;resume.piggsoft.com" rel="noopener" target="_blank"><i class="fa fa-file fa-fw"></i>Resume</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">鄂ICP备17006919号 </a>
+      <img src="/images/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=42011402000260" rel="noopener" target="_blank">鄂公网安备 42011402000260号 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">等待-希望</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '381526a9b7374673c524',
+      clientSecret: 'a0a6271ada963188c2dac604635bc0b850d8b13b',
+      repo        : 'piggsoft.github.io',
+      owner       : 'piggsoft',
+      admin       : ['piggsoft'],
+      id          : '6483fe1cf4d9d3be6fcba9c594d40ca7',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+</body>
+</html>
