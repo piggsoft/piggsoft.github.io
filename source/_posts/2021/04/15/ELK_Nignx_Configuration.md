@@ -49,7 +49,7 @@ filebeat.inputs:
 #----------------------------- Logstash output --------------------------------
 output.logstash:
   # The Logstash hosts
-  hosts: [""]
+  hosts: ["elk-logstash-1.elk-bj02-4ufsdz.svc.bjb.ipaas.cn", "elk-logstash.elk-bj02-4ufsdz.svc.bjb.ipaas.cn"]
   worker: 4
   bulk_max_size: 2048
 
@@ -70,7 +70,6 @@ input {
   }
 }
 filter{
-  if [namespace] == "nginx-log" {
     grok {
       # match => { "message" => ["%{IPORHOST:[nginx][access][remote_ip]} - %{DATA:[nginx][access][user_name]} \[%{HTTPDATE:[nginx][access][time]}\] \"%{WORD:[nginx][access][method]} %{URIPATH:[nginx][access][path]}(?:%{URIPARAM:[nginx][access][params]})? HTTP/%{NUMBER:[nginx][access][http_version]:float}\" %{DATA:[nginx][access][http_host]} %{NUMBER:[nginx][access][response_code]:int} %{NUMBER:[nginx][access][body_sent][bytes]:int} \"%{DATA:[nginx][access][scheme]}\" \"%{DATA:[nginx][access][referrer]}\" \"%{DATA:[nginx][access][agent]}\" \"%{DATA:[nginx][access][forwarded]}\" %{NUMBER:[nginx][access][request_time]:float} %{NUMBER:[nginx][access][response_time]:float} %{HOSTPORT:[nginx][access][upstream]}"] }
        match => { "message" => [
@@ -98,7 +97,6 @@ filter{
      date {
           match => [ "[nginx][access][time]", "dd/MMM/YYYY:HH:mm:ss Z" ]
         }
-    }
     geoip {
       source => "[nginx][access][forwarded]"
       #target => "[nginx][access][geoip]"
@@ -112,7 +110,7 @@ output{
   }
 }
 ```
-
+> [参考](https://github.com/logstash-plugins/logstash-patterns-core/blob/master/patterns/legacy/grok-patterns)
 ## ES配置
 
 需要在es中创建相应的索引
