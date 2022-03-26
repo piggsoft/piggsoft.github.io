@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/favicon.ico" color="#222">
+  <meta name="baidu-site-verification" content="4b496b80525dde623126ea38c0c5b789">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"piggsoft.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="&amp;ensp;&amp;ensp;Hello,大家好，我是小毛驴。欢迎大家来到每周知识点介绍栏目。本周我将带领大家一起来了解下业内较为成熟的权限系统设计方案，包含ACL,  DAL, MAC, RBAC, ABAC。&amp;ensp;&amp;ensp;通过本文的介绍，大家可以了解一些关于权限系统的概念，方案，还有一些在方案选型上的建议。好了，废话不多说，我们进入正题吧。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="每周知识点介绍-权限系统实现方案">
+<meta property="og:url" content="https://piggsoft.com/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:site_name" content="小毛驴技术空间">
+<meta property="og:description" content="&amp;ensp;&amp;ensp;Hello,大家好，我是小毛驴。欢迎大家来到每周知识点介绍栏目。本周我将带领大家一起来了解下业内较为成熟的权限系统设计方案，包含ACL,  DAL, MAC, RBAC, ABAC。&amp;ensp;&amp;ensp;通过本文的介绍，大家可以了解一些关于权限系统的概念，方案，还有一些在方案选型上的建议。好了，废话不多说，我们进入正题吧。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://piggsoft.com/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/timeline.png">
+<meta property="og:image" content="https://piggsoft.com/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/DAC.jpg">
+<meta property="og:image" content="https://piggsoft.com/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/RBAC.jpg">
+<meta property="og:image" content="https://piggsoft.com/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/ABAC.jpg">
+<meta property="article:published_time" content="2022-03-26T05:24:08.000Z">
+<meta property="article:modified_time" content="2022-03-26T11:19:04.127Z">
+<meta property="article:author" content="等待-希望">
+<meta property="article:tag" content="权限">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="知识点">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://piggsoft.com/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/timeline.png">
+
+<link rel="canonical" href="https://piggsoft.com/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>每周知识点介绍-权限系统实现方案 | 小毛驴技术空间</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">小毛驴技术空间</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">孤舟蓑笠翁，独钓寒江雪。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404.html" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/piggsoft" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://piggsoft.com/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/headPhoto.jpg">
+      <meta itemprop="name" content="等待-希望">
+      <meta itemprop="description" content="千山鸟飞绝，万径人踪灭。孤舟蓑笠翁，独钓寒江雪。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小毛驴技术空间">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          每周知识点介绍-权限系统实现方案<a href="https://github.com/piggsoft/piggsoft.github.io/tree/source/source/_posts/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pencil-alt"></i></a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-03-26 13:24:08 / 修改时间：19:19:04" itemprop="dateCreated datePublished" datetime="2022-03-26T13:24:08+08:00">2022-03-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D/" itemprop="url" rel="index"><span itemprop="name">知识点介绍</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&ensp;&ensp;Hello,大家好，我是小毛驴。欢迎大家来到每周知识点介绍栏目。本周我将带领大家一起来了解下业内较为成熟的权限系统设计方案，包含<code>ACL</code>,  <code>DAL</code>, <code>MAC</code>, <code>RBAC</code>, <code>ABAC</code>。<br>&ensp;&ensp;通过本文的介绍，大家可以了解一些关于权限系统的概念，方案，还有一些在方案选型上的建议。好了，废话不多说，我们进入正题吧。</p>
+<span id="more"></span>
+
+<h2 id="什么是权限控制"><a href="#什么是权限控制" class="headerlink" title="什么是权限控制"></a>什么是权限控制</h2><p>&ensp;&ensp;在现实场景中有些操作只能由某个特定的人或特定岗位来完成，例如对外的公章，只能由老板来在确认后使用，或者你的请假条，将由你的直属上线来进行审批。<br>&ensp;&ensp;将这些“权限要求”搬到信息化系统之后，就要求我们的信息化系统也能进行相应的权限控制，保证某些资源，操作只能由特定的人员，岗位来访问，操作。</p>
+<h2 id="权限管理模式有哪些"><a href="#权限管理模式有哪些" class="headerlink" title="权限管理模式有哪些"></a>权限管理模式有哪些</h2><p>&ensp;&ensp;在IT届长时间的演化后，将一些权限系统设计的思路抽象化，形成了一些模式，这些模式就是：</p>
+<p><img src="timeline.png" alt="权限方案发展历史"></p>
+<ul>
+<li><code>ACL</code></li>
+<li><code>DAC</code></li>
+<li><code>MAC</code></li>
+<li><code>RBAC</code></li>
+<li><code>ABAC</code></li>
+</ul>
+<p>&ensp;&ensp;重要名称解释</p>
+<ul>
+<li><code>Subject</code> 实体，可指代人，群组等</li>
+<li><code>Object</code> 对象，需要权限才能操作的对象,有时也会用<code>Resources</code>资源替代</li>
+<li><code>Action</code> 操作，对<code>Object</code>进行的权限操作，有时也会用<code>Operation</code>替代</li>
+<li><code>Permission</code> 权限，有时也会用<code>Privileges</code></li>
+<li><code>Group</code> 群组，Subject的群组</li>
+<li><code>Role</code> 角色，权限的群组，集合</li>
+</ul>
+<h3 id="ACL-Access-Control-List-访问控制列表"><a href="#ACL-Access-Control-List-访问控制列表" class="headerlink" title="ACL: Access Control List 访问控制列表"></a><code>ACL: Access Control List</code> 访问控制列表</h3><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><ul>
+<li><code>Subject</code>能对<code>Object</code>进行<code>Action</code></li>
+<li><code>Subject</code>可以是单个用户也可以是群组</li>
+</ul>
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><ol>
+<li><p>给张三授予文档的创建权限。</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Subject: 张三</span><br><span class="line">Action: 创建</span><br><span class="line">Object: 文档</span><br></pre></td></tr></table></figure></li>
+<li><p>张三现在可以创建文档了。</p>
+</li>
+</ol>
+<h3 id="DAC-Discretionary-Access-Control-自主访问控制"><a href="#DAC-Discretionary-Access-Control-自主访问控制" class="headerlink" title="DAC: Discretionary Access Control 自主访问控制"></a><code>DAC: Discretionary Access Control</code> 自主访问控制</h3><p><img src="DAC.jpg" alt="DAC"></p>
+<blockquote>
+<p>DAC是ACL的一种实现，强调灵活性。纯粹的ACL，权限由中心管理员统一分配，缺乏灵活性。为了加强灵活性，在ACL的基础上，DAC模型将授权的权力下放，允许拥有权限的用户，可以自主地将权限授予其他用户。<br>比如，在纯粹ACL模型下，每次新人培训，人事总监都要通知IT部，将培训文档的访问权限授予新人。在DAC模型下，人事总监只需将文档的访问权限授予人事专员。之后，每次新人培训，由人事专员将文档的访问权限授予不同的新人。</p>
+</blockquote>
+<h4 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h4><ul>
+<li><code>Subject</code>能对<code>Object</code>进行<code>Action</code></li>
+<li><code>Subject</code>能给其他<code>Subject</code>授权</li>
+</ul>
+<h4 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h4><ol>
+<li><p>给张三授予文档的创建权限。</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Subject: 张三</span><br><span class="line">Action: 创建</span><br><span class="line">Object: 文档</span><br></pre></td></tr></table></figure></li>
+<li><p>张三现在可以创建文档了，并且张三可以将这个权限授予给其他人。</p>
+</li>
+<li><p>张三给李四授权创建文档权限。</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Subject: 李四</span><br><span class="line">Action: 创建</span><br><span class="line">Object: 文档</span><br></pre></td></tr></table></figure></li>
+<li><p>李四现在可以创建文档了。</p>
+</li>
+</ol>
+<h3 id="MAC-Mandatory-Access-Control-强制访问控制"><a href="#MAC-Mandatory-Access-Control-强制访问控制" class="headerlink" title="MAC: Mandatory Access Control 强制访问控制"></a><code>MAC: Mandatory Access Control</code> 强制访问控制</h3><h4 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h4><ul>
+<li><code>Subject</code>能对<code>Object</code>进行<code>Action</code></li>
+<li><code>Object</code>能被<code>Subject</code>进行<code>Action</code></li>
+<li><code>Subject</code>可以是单个用户也可以是群组</li>
+</ul>
+<blockquote>
+<p>注意，MAC中的权限控制是双向的，既要确认用户是否有对资源的操作权限，也要确定资源是否能被这个用户进行操作的权限。适合保密程度要求高的场景。</p>
+</blockquote>
+<h4 id="示例-2"><a href="#示例-2" class="headerlink" title="示例"></a>示例</h4><ol>
+<li><p>给张三授予文档的创建权限。</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Subject: 张三</span><br><span class="line">Action: 创建</span><br><span class="line">Object: 文档</span><br></pre></td></tr></table></figure></li>
+<li><p>将文档的被创建权限授权给张三。</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Subject: 文档</span><br><span class="line">Action: 被创建</span><br><span class="line">Object: 张三</span><br></pre></td></tr></table></figure></li>
+<li><p>张三现在可以创建文档了。</p>
+</li>
+</ol>
+<h3 id="RBAC-Role-Based-Access-Control-基于角色的访问控制"><a href="#RBAC-Role-Based-Access-Control-基于角色的访问控制" class="headerlink" title="RBAC: Role-Based Access Control 基于角色的访问控制"></a><code>RBAC: Role-Based Access Control</code> 基于角色的访问控制</h3><p><img src="RBAC.jpg" alt="RBAC"></p>
+<h4 id="定义-3"><a href="#定义-3" class="headerlink" title="定义"></a>定义</h4><ul>
+<li><code>Subject</code>拥有一个<code>角色</code>,这个<code>角色</code>拥有对<code>Object</code>进行<code>Action</code>的<code>Permission</code></li>
+<li>具体的权限设计可以实现<code>MAC</code>或者<code>DAC</code></li>
+<li>结构（Subject or Group） - Role - Permission - Object</li>
+<li>核心概念<ul>
+<li>Subject</li>
+<li>Role</li>
+<li>Permission</li>
+<li>Operation</li>
+</ul>
+</li>
+</ul>
+<p>群组Group VS 角色Role</p>
+<ul>
+<li>Group: 实体的集合<ul>
+<li>张三，张四，张五都是张家人。（张家是一个群组）</li>
+</ul>
+</li>
+<li>Role: 权限的集合<ul>
+<li>文档管理员是一个角色，可以对文档进行查阅，编辑，创建。</li>
+<li>角色可以分配给实体或者群组，例如将文档管理员分配给张家人，或者分配给张三。</li>
+</ul>
+</li>
+</ul>
+<h4 id="示例-3"><a href="#示例-3" class="headerlink" title="示例"></a>示例</h4><ol>
+<li><p>设备权限集合名叫<code>编辑文档(write articel)</code>和<code>管理文档(manage articel)</code></p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Permission:</span><br><span class="line">- Name: write article</span><br><span class="line">- Operations:</span><br><span class="line">    - Object: Article</span><br><span class="line">      Action: Created</span><br><span class="line">    - Object: Article</span><br><span class="line">      Action: Updated</span><br><span class="line">    - Object: Article</span><br><span class="line">      Action: Read</span><br><span class="line">- Name: manage article</span><br><span class="line">- Operations:</span><br><span class="line">    - Object: Article</span><br><span class="line">      Action: Delete</span><br><span class="line">    - Object: Article</span><br><span class="line">      Action: Read</span><br></pre></td></tr></table></figure></li>
+<li><p>新建一个角色叫<code>写手(Writer)</code>，给它绑定<code>编辑文档(write articel)</code>权限；一个角色叫<code>管理员</code>,给它绑定<code>管理</code>权限；再新建一个<code>CEO</code>角色，它拥有所有权限。</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Role:</span><br><span class="line">- Name: Writer</span><br><span class="line">  Permissions:</span><br><span class="line">    - write article</span><br><span class="line">- Name: Manager</span><br><span class="line">  Permissions:</span><br><span class="line">    - manage article</span><br><span class="line">- Name: CEO</span><br><span class="line">  Permissions:</span><br><span class="line">    - write article</span><br><span class="line">    - manage article</span><br></pre></td></tr></table></figure></li>
+<li><p>给张三绑定<code>写手(Writer)</code>角色</p>
+</li>
+<li><p>张三现在可以创建，修改，读取文档了</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Subject: 张三</span><br><span class="line">Roles:</span><br><span class="line">    - Writer</span><br></pre></td></tr></table></figure></li>
+<li><p>给李四绑定<code>管理员</code>角色</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Subject: 李四</span><br><span class="line">Roles:</span><br><span class="line">   - Manager</span><br></pre></td></tr></table></figure></li>
+<li><p>李四现在可以读取，删除文档了</p>
+</li>
+<li><p>给王五绑定<code>CEO</code>角色</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Subject: 王五</span><br><span class="line">Roles:</span><br><span class="line">   - CEO</span><br></pre></td></tr></table></figure></li>
+<li><p>王五现在可以读取，创建，修改，删除文档了</p>
+</li>
+</ol>
+<h3 id="ABAC-Attribute-Based-Access-Control-基于属性的访问控制"><a href="#ABAC-Attribute-Based-Access-Control-基于属性的访问控制" class="headerlink" title="ABAC: Attribute-Based Access Control 基于属性的访问控制"></a><code>ABAC: Attribute-Based Access Control</code> 基于属性的访问控制</h3><p><img src="ABAC.jpg" alt="ABAC"></p>
+<h4 id="定义-4"><a href="#定义-4" class="headerlink" title="定义"></a>定义</h4><ul>
+<li>拥有xx属性的<code>Subject</code>在xx环境属性<code>Environment</code>的约束下可以对xxx的<code>Object</code>进行Action</li>
+<li>概念:<ul>
+<li>主要策略：规定哪些属性的主体可以对哪些属性的资源在哪些属性的情况下进行哪些操作</li>
+<li>属性：<ul>
+<li>Subject<ul>
+<li>age, clearance, department, role, job title.</li>
+</ul>
+</li>
+<li>Action<ul>
+<li>read, delete, view, approve</li>
+</ul>
+</li>
+<li>Resouce<ul>
+<li>the object type (medical record, bank account…), the department, the classification or sensitivity, the location</li>
+</ul>
+</li>
+<li>Contextual (environment)<ul>
+<li>attributes that deal with time, location or dynamic aspects of the access control scenario</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>实现标准<ul>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/XACML">XACML</a> (eXtensible Access Control Markup Language)</li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/ALFA_(XACML)">ALFA (XACML)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="示例-4"><a href="#示例-4" class="headerlink" title="示例"></a>示例</h4><p>  <code>张三</code>作为<code>销售部门</code>的<code>写手</code>，可以在<code>2022-01-01</code>到<code>2022-12-31</code>期间，对归属于<code>科技，软件</code>的<code>草案</code>和<code>文档</code>进行<code>创建和更新</code>.</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Subject:</span><br><span class="line">    Name: 张三</span><br><span class="line">    Department: 销售</span><br><span class="line">    Role: Writer</span><br><span class="line">Action:</span><br><span class="line">    - create</span><br><span class="line">    - update</span><br><span class="line">Resource:</span><br><span class="line">    Type: Article</span><br><span class="line">    Tag:</span><br><span class="line">        - technology</span><br><span class="line">        - software</span><br><span class="line">    Mode:</span><br><span class="line">        - draft</span><br><span class="line">Contextual:</span><br><span class="line">    Location: 上海</span><br><span class="line">    StartTime: 2022-01-01</span><br><span class="line">    EndTime: 2022-12-31</span><br></pre></td></tr></table></figure>
+
+<p>AWS和阿里的资源管理策略都是使用ABAC</p>
+<ul>
+<li><p>阿里</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">      <span class="attr">&quot;Version&quot;</span>: <span class="string">&quot;1&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;Statement&quot;</span>:</span><br><span class="line">        [&#123;</span><br><span class="line">          <span class="attr">&quot;Effect&quot;</span>: <span class="string">&quot;Allow&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;Action&quot;</span>: [<span class="string">&quot;oss:List*&quot;</span>, <span class="string">&quot;oss:Get*&quot;</span>],</span><br><span class="line">          <span class="attr">&quot;Resource&quot;</span>: [<span class="string">&quot;acs:oss:*:*:samplebucket&quot;</span>, <span class="string">&quot;acs:oss:*:*:samplebucket/*&quot;</span>],</span><br><span class="line">          <span class="attr">&quot;Condition&quot;</span>:</span><br><span class="line">             &#123;</span><br><span class="line">                <span class="attr">&quot;IpAddress&quot;</span>:</span><br><span class="line">                 &#123;</span><br><span class="line">                    <span class="attr">&quot;acs:SourceIp&quot;</span>: <span class="string">&quot;42.160.1.0&quot;</span></span><br><span class="line">                  &#125;</span><br><span class="line">              &#125;</span><br><span class="line">         &#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>AWS</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"><span class="attr">&quot;Version&quot;</span>: <span class="string">&quot;2012-10-17&quot;</span>,</span><br><span class="line"><span class="attr">&quot;Statement&quot;</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">&quot;Effect&quot;</span>: <span class="string">&quot;Allow&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;Action&quot;</span>: [</span><br><span class="line">            <span class="string">&quot;ec2:TerminateInstances&quot;</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">&quot;Resource&quot;</span>: [</span><br><span class="line">            <span class="string">&quot;*&quot;</span></span><br><span class="line">        ]</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">&quot;Effect&quot;</span>: <span class="string">&quot;Deny&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;Action&quot;</span>: [</span><br><span class="line">            <span class="string">&quot;ec2:TerminateInstances&quot;</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">&quot;Condition&quot;</span>: &#123;<span class="attr">&quot;NotIpAddress&quot;</span>: &#123;<span class="attr">&quot;aws:SourceIp&quot;</span>: [</span><br><span class="line">            <span class="string">&quot;192.0.2.0/24&quot;</span>,</span><br><span class="line">            <span class="string">&quot;203.0.113.0/24&quot;</span></span><br><span class="line">            ]&#125;&#125;,</span><br><span class="line">        <span class="attr">&quot;Resource&quot;</span>: [</span><br><span class="line">            <span class="string">&quot;arn:aws:ec2:&lt;REGION&gt;:&lt;ACCOUNTNUMBER&gt;:instance/*&quot;</span></span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="ABAC协议变种PBAC-Policy-Based-Access-Control-基于策略的访问控制"><a href="#ABAC协议变种PBAC-Policy-Based-Access-Control-基于策略的访问控制" class="headerlink" title="ABAC协议变种PBAC: Policy-Based Access Control 基于策略的访问控制"></a>ABAC协议变种<code>PBAC: Policy-Based Access Control</code> 基于策略的访问控制</h4><p>&ensp;&ensp;和ABAC的区别，ABAC使用一些XML的标准，但PBAC并未进行明确的规则限制，更加灵活一些。具体可以<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Attribute-based_access_control">查阅这里</a>。</p>
+<h4 id="ABAC协议变种CBAC-Context-based-access-control-基于声明的访问控制"><a href="#ABAC协议变种CBAC-Context-based-access-control-基于声明的访问控制" class="headerlink" title="ABAC协议变种CBAC: Context-based access control 基于声明的访问控制"></a>ABAC协议变种<code>CBAC: Context-based access control</code> 基于声明的访问控制</h4><p>&ensp;&ensp;这是微软在ABAC基础的改版协议，具体可以<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-azod/e600249e-247b-469c-8979-e0c578adfbe6">查阅这里</a>。</p>
+<h2 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>DAC</th>
+<th>MAC</th>
+<th>RBAC</th>
+<th>ABAC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>灵活性</td>
+<td>高</td>
+<td>低</td>
+<td>高</td>
+<td>非常高</td>
+</tr>
+<tr>
+<td>实现复杂度</td>
+<td>高</td>
+<td>中</td>
+<td>低</td>
+<td>中</td>
+</tr>
+<tr>
+<td>权限验证基础</td>
+<td>实体上绑定的权限</td>
+<td>实体和对象相对设定的要求</td>
+<td>角色上的权限</td>
+<td>属性的验证</td>
+</tr>
+<tr>
+<td>当前使用广度</td>
+<td>高</td>
+<td>低</td>
+<td>非常高</td>
+<td>国内不多</td>
+</tr>
+</tbody></table>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>&ensp;&ensp;虽说随着时间的前景，权限管理的模式不断的在推陈出新，新模式的灵活性也越来越强，但也相应的带来了一些复杂性。在实际的生产过程中需要根据项目的实际需求来抉择使用哪一种模式。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/70548562">https://zhuanlan.zhihu.com/p/70548562</a></li>
+<li><a target="_blank" rel="noopener" href="https://dzone.com/articles/acl-rbac-abac-pbac-radac-and-a-dash-of-cbac">https://dzone.com/articles/acl-rbac-abac-pbac-radac-and-a-dash-of-cbac</a></li>
+<li><a target="_blank" rel="noopener" href="https://dinolai.com/notes/others/authorization-models-acl-dac-mac-rbac-abac.html">https://dinolai.com/notes/others/authorization-models-acl-dac-mac-rbac-abac.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.dnsstuff.com/rbac-vs-abac-access-control">https://www.dnsstuff.com/rbac-vs-abac-access-control</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.axiomatics.com/policy-based-access-control/">https://www.axiomatics.com/policy-based-access-control/</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.plainid.com/the-advantage-of-pbac-over-the-traditional-abac">https://blog.plainid.com/the-advantage-of-pbac-over-the-traditional-abac</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%9D%83%E9%99%90/" rel="tag"># 权限</a>
+              <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"># 学习</a>
+              <a href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/" rel="tag"># 知识点</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/03/24/Java%E4%B8%ADSwitch%E7%9A%84%E7%94%A8%E6%B3%95%E4%BD%A0%E6%8E%8C%E6%8F%A1%E4%BA%86%E5%90%97/" rel="prev" title="Java中switch的用法你掌握了吗?">
+      <i class="fa fa-chevron-left"></i> Java中switch的用法你掌握了吗?
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6"><span class="nav-number">1.</span> <span class="nav-text">什么是权限控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E6%A8%A1%E5%BC%8F%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="nav-number">2.</span> <span class="nav-text">权限管理模式有哪些</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ACL-Access-Control-List-%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E5%88%97%E8%A1%A8"><span class="nav-number">2.1.</span> <span class="nav-text">ACL: Access Control List 访问控制列表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-number">2.1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">2.1.2.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DAC-Discretionary-Access-Control-%E8%87%AA%E4%B8%BB%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6"><span class="nav-number">2.2.</span> <span class="nav-text">DAC: Discretionary Access Control 自主访问控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B-1"><span class="nav-number">2.2.2.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MAC-Mandatory-Access-Control-%E5%BC%BA%E5%88%B6%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6"><span class="nav-number">2.3.</span> <span class="nav-text">MAC: Mandatory Access Control 强制访问控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89-2"><span class="nav-number">2.3.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B-2"><span class="nav-number">2.3.2.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBAC-Role-Based-Access-Control-%E5%9F%BA%E4%BA%8E%E8%A7%92%E8%89%B2%E7%9A%84%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6"><span class="nav-number">2.4.</span> <span class="nav-text">RBAC: Role-Based Access Control 基于角色的访问控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89-3"><span class="nav-number">2.4.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B-3"><span class="nav-number">2.4.2.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ABAC-Attribute-Based-Access-Control-%E5%9F%BA%E4%BA%8E%E5%B1%9E%E6%80%A7%E7%9A%84%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6"><span class="nav-number">2.5.</span> <span class="nav-text">ABAC: Attribute-Based Access Control 基于属性的访问控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89-4"><span class="nav-number">2.5.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B-4"><span class="nav-number">2.5.2.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ABAC%E5%8D%8F%E8%AE%AE%E5%8F%98%E7%A7%8DPBAC-Policy-Based-Access-Control-%E5%9F%BA%E4%BA%8E%E7%AD%96%E7%95%A5%E7%9A%84%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6"><span class="nav-number">2.5.3.</span> <span class="nav-text">ABAC协议变种PBAC: Policy-Based Access Control 基于策略的访问控制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ABAC%E5%8D%8F%E8%AE%AE%E5%8F%98%E7%A7%8DCBAC-Context-based-access-control-%E5%9F%BA%E4%BA%8E%E5%A3%B0%E6%98%8E%E7%9A%84%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6"><span class="nav-number">2.5.4.</span> <span class="nav-text">ABAC协议变种CBAC: Context-based access control 基于声明的访问控制</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E6%AF%94"><span class="nav-number">3.</span> <span class="nav-text">对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="等待-希望"
+      src="/images/headPhoto.jpg">
+  <p class="site-author-name" itemprop="name">等待-希望</p>
+  <div class="site-description" itemprop="description">千山鸟飞绝，万径人踪灭。孤舟蓑笠翁，独钓寒江雪。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/piggsoft" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;piggsoft" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:piggsoft@163.com" title="E-Mail → mailto:piggsoft@163.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://weibo.com/piggsoft" title="Weibo → http:&#x2F;&#x2F;weibo.com&#x2F;piggsoft" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://resume.piggsoft.com/" title="Resume → https:&#x2F;&#x2F;resume.piggsoft.com" rel="noopener" target="_blank"><i class="fa fa-file fa-fw"></i>Resume</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">鄂ICP备17006919号 </a>
+      <img src="/images/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=42011402000260" rel="noopener" target="_blank">鄂公网安备 42011402000260号 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">等待-希望</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '381526a9b7374673c524',
+      clientSecret: 'a0a6271ada963188c2dac604635bc0b850d8b13b',
+      repo        : 'piggsoft.github.io',
+      owner       : 'piggsoft',
+      admin       : ['piggsoft'],
+      id          : 'a088f75262409b7f1b14693d05cc0872',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+    </div>
+</body>
+</html>
