@@ -1,7 +1,9 @@
 ---
 title: Java中switch的用法你掌握了吗?
 date: 2022-03-24 21:51:07
-keyword: Java switch
+keyword:
+   - Java
+   - switch
 tags: Java基础
 categories: Java基础
 ---
