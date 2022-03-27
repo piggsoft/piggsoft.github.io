@@ -22,18 +22,24 @@
     var CONFIG = {"hostname":"piggsoft.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Title">
+  <meta name="description" content="&amp;ensp;&amp;ensp;Hello,大家好，我是小毛驴。欢迎大家来到每周知识点介绍栏目。本次我将带领大家一起来了解下权限系统的核心流程（概念）有哪些（见下述列表），我们在设计权限系统或者和权限系统连接时需要注意哪些。    身份认证 授权 鉴权 权限验证  &amp;ensp;&amp;ensp;通过本文的介绍，也期望能在大家未来的开发和设计上起到一些积极的作用。言归正传，我们开始进入正题吧。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="每周知识点介绍-权限验证流程-认证、授权、鉴权、权限验证">
+<meta property="og:title" content="每周知识点介绍-权限验证流程-身份认证、授权、鉴权、权限验证">
 <meta property="og:url" content="https://piggsoft.com/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81%E6%B5%81%E7%A8%8B-%E8%AE%A4%E8%AF%81%E3%80%81%E6%8E%88%E6%9D%83%E3%80%81%E9%89%B4%E6%9D%83%E3%80%81%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81/index.html">
 <meta property="og:site_name" content="小毛驴技术空间">
-<meta property="og:description" content="Title">
+<meta property="og:description" content="&amp;ensp;&amp;ensp;Hello,大家好，我是小毛驴。欢迎大家来到每周知识点介绍栏目。本次我将带领大家一起来了解下权限系统的核心流程（概念）有哪些（见下述列表），我们在设计权限系统或者和权限系统连接时需要注意哪些。    身份认证 授权 鉴权 权限验证  &amp;ensp;&amp;ensp;通过本文的介绍，也期望能在大家未来的开发和设计上起到一些积极的作用。言归正传，我们开始进入正题吧。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://piggsoft.com/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81%E6%B5%81%E7%A8%8B-%E8%AE%A4%E8%AF%81%E3%80%81%E6%8E%88%E6%9D%83%E3%80%81%E9%89%B4%E6%9D%83%E3%80%81%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81/%E6%9D%83%E9%99%90%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B.svg">
+<meta property="og:image" content="https://piggsoft.com/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81%E6%B5%81%E7%A8%8B-%E8%AE%A4%E8%AF%81%E3%80%81%E6%8E%88%E6%9D%83%E3%80%81%E9%89%B4%E6%9D%83%E3%80%81%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81/spring-security.png">
 <meta property="article:published_time" content="2022-03-26T11:24:14.000Z">
-<meta property="article:modified_time" content="2022-03-27T07:22:57.713Z">
-<meta property="article:author" content="等待-希望">
-<meta property="article:tag" content="小毛驴技术空间">
+<meta property="article:modified_time" content="2022-03-27T11:26:15.637Z">
+<meta property="article:author" content="小毛驴">
+<meta property="article:tag" content="认证">
+<meta property="article:tag" content="授权">
+<meta property="article:tag" content="鉴权">
+<meta property="article:tag" content="权限验证">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://piggsoft.com/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81%E6%B5%81%E7%A8%8B-%E8%AE%A4%E8%AF%81%E3%80%81%E6%8E%88%E6%9D%83%E3%80%81%E9%89%B4%E6%9D%83%E3%80%81%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81/%E6%9D%83%E9%99%90%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B.svg">
 
 <link rel="canonical" href="https://piggsoft.com/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81%E6%B5%81%E7%A8%8B-%E8%AE%A4%E8%AF%81%E3%80%81%E6%8E%88%E6%9D%83%E3%80%81%E9%89%B4%E6%9D%83%E3%80%81%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81/">
 
@@ -48,7 +54,7 @@
   };
 </script>
 
-  <title>每周知识点介绍-权限验证流程-认证、授权、鉴权、权限验证 | 小毛驴技术空间</title>
+  <title>每周知识点介绍-权限验证流程-身份认证、授权、鉴权、权限验证 | 小毛驴技术空间</title>
   
 
 
@@ -185,7 +191,7 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/headPhoto.jpg">
-      <meta itemprop="name" content="等待-希望">
+      <meta itemprop="name" content="小毛驴">
       <meta itemprop="description" content="千山鸟飞绝，万径人踪灭。孤舟蓑笠翁，独钓寒江雪。">
     </span>
 
@@ -194,7 +200,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          每周知识点介绍-权限验证流程-认证、授权、鉴权、权限验证<a href="https://github.com/piggsoft/piggsoft.github.io/tree/source/source/_posts/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81%E6%B5%81%E7%A8%8B-%E8%AE%A4%E8%AF%81%E3%80%81%E6%8E%88%E6%9D%83%E3%80%81%E9%89%B4%E6%9D%83%E3%80%81%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pencil-alt"></i></a>
+          每周知识点介绍-权限验证流程-身份认证、授权、鉴权、权限验证<a href="https://github.com/piggsoft/piggsoft.github.io/tree/source/source/_posts/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81%E6%B5%81%E7%A8%8B-%E8%AE%A4%E8%AF%81%E3%80%81%E6%8E%88%E6%9D%83%E3%80%81%E9%89%B4%E6%9D%83%E3%80%81%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pencil-alt"></i></a>
         </h1>
 
         <div class="post-meta">
@@ -211,11 +217,20 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-27 15:22:57" itemprop="dateModified" datetime="2022-03-27T15:22:57+08:00">2022-03-27</time>
+                <time title="修改时间：2022-03-27 19:26:15" itemprop="dateModified" datetime="2022-03-27T19:26:15+08:00">2022-03-27</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D/" itemprop="url" rel="index"><span itemprop="name">每周知识点介绍</span></a>
+                </span>
+            </span>
 
           
-            <span id="/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81%E6%B5%81%E7%A8%8B-%E8%AE%A4%E8%AF%81%E3%80%81%E6%8E%88%E6%9D%83%E3%80%81%E9%89%B4%E6%9D%83%E3%80%81%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81/" class="post-meta-item leancloud_visitors" data-flag-title="每周知识点介绍-权限验证流程-认证、授权、鉴权、权限验证" title="阅读次数">
+            <span id="/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81%E6%B5%81%E7%A8%8B-%E8%AE%A4%E8%AF%81%E3%80%81%E6%8E%88%E6%9D%83%E3%80%81%E9%89%B4%E6%9D%83%E3%80%81%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81/" class="post-meta-item leancloud_visitors" data-flag-title="每周知识点介绍-权限验证流程-身份认证、授权、鉴权、权限验证" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -246,8 +261,38 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>Title</p>
+        <p>&ensp;&ensp;Hello,大家好，我是小毛驴。欢迎大家来到每周知识点介绍栏目。本次我将带领大家一起来了解下权限系统的核心流程（概念）有哪些（见下述列表），我们在设计权限系统或者和权限系统连接时需要注意哪些。  </p>
+<ul>
+<li>身份认证</li>
+<li>授权</li>
+<li>鉴权</li>
+<li>权限验证</li>
+</ul>
+<p>&ensp;&ensp;通过本文的介绍，也期望能在大家未来的开发和设计上起到一些积极的作用。言归正传，我们开始进入正题吧。  </p>
 <span id="more"></span>
+
+<p>&ensp;&ensp;让我们来设想一个场景，你是一个酒店的前台人员，有一位顾客昨晚在你们酒店预订了一间房，今天按时到达。你先验证这位顾客的身份，登记后给他发放一张房卡，顾客拿着这种房卡即可搭乘电梯和打开他自己的房门。  </p>
+<p>&ensp;&ensp;就在这个场景中，我们就经历了身份认证，授权，鉴权，权限验证的过程，具体的对应关系我们在下面展开。  </p>
+<h2 id="身份认证是什么？"><a href="#身份认证是什么？" class="headerlink" title="身份认证是什么？"></a>身份认证是什么？</h2><p>&ensp;&ensp;身份认证是一种确认某人是某人的安全实践，听着有些虚幻就好像。但在我们系统中一般就是验证你的密码和我们存储你的密码是否一致。当前身份认证还有其他的更安全的手段，我们这里先只讨论最简单的实现。  </p>
+<p>&ensp;&ensp;在我们上面酒店的例子中，我们要求顾客给我们验证码或者身份证，就是为了对顾客进行身份认证。</p>
+<blockquote>
+<p>身份认证手段：手机短信验证，密码验证，动态口令验证，第三方验证（Oauth2）等等</p>
+</blockquote>
+<h2 id="授权是什么？"><a href="#授权是什么？" class="headerlink" title="授权是什么？"></a>授权是什么？</h2><p>&ensp;&ensp;授权是指确定想每个用户手何种访问权限的过程，即在验证了你是我的用户之后，确定你在我这里有哪些权限。避免如果每次访问都进行用户认证时，加大了用户敏感信息泄露的可能。<br>&ensp;&ensp;在酒店的例子中，就是根据你预订的房间情况给你开通不同的权限，房间权限，电梯权限，早餐权限等。<br>&ensp;&ensp;然后将这种权限用令牌的形式发放给你，也就是将权限授予给了你。在酒店中就是将房卡和早餐券发放给你。</p>
+<blockquote>
+<p>在我们的Web服务中，这个立牌就是登录完成后返回的Cookie中包含的sessionId，Token，JWT-Token，Oauth2-Token等</p>
+</blockquote>
+<h2 id="鉴权是什么？"><a href="#鉴权是什么？" class="headerlink" title="鉴权是什么？"></a>鉴权是什么？</h2><p>&ensp;&ensp;鉴权在很多时候都会和权限验证混合在一起，我们尝试将他剥开分离来说明。鉴权和授权是匹配的，上一步的时候我们给用户下发的权限凭证，这一步我们要确认这个凭证是我们下发的，不是伪造的。  </p>
+<p>&ensp;&ensp;在酒店的例子中，我们在电梯中权限来做过不太像的比喻，电梯作为基础的鉴权者，对所有的凭证来进行鉴权，是酒店下发的凭证才能乘坐电梯，其他的全部拒绝。</p>
+<blockquote>
+<p>注：虽然这里面已经涉及到权限认证了，但我们先模糊这个过程。另外那种电梯限制刷卡后只能到底自己楼层的例子也暂时不关注。</p>
+</blockquote>
+<h2 id="权限验证是什么？"><a href="#权限验证是什么？" class="headerlink" title="权限验证是什么？"></a>权限验证是什么？</h2><p>&ensp;&ensp;权限验证就比较好理解了，我这个接口，这个操作需要什么权限，你的凭证代表的权限集里是否有这个权限，有就通过，没有就拒绝，这个过程就是权限验证。<br>&ensp;&ensp;在酒店中的例子就是，你的卡在刷你的房间时是可以刷开的，刷别人的房门是没有任何响应的。<br>&ensp;&ensp;在我们系统实现时，权限验证就和我们<a target="_blank" rel="noopener" href="//2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/">权限模型</a>极其相关了。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><img src="%E6%9D%83%E9%99%90%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B.svg" alt="权限认证流程"></p>
+<p>&ensp;&ensp;正如我们在图中见到的流程，整体权限的验证流程大概分为上述四部。<br>&ensp;&ensp;但在实际实现的过程中这四部会合并两步。身份认证和授权合并在一起，鉴权和权限认证合并一起，这样既方便了设计和编码，也方便了用户操作。合并的例子我们可以看看Spring Security的架构图。</p>
+<p><img src="spring-security.png"></p>
+<p>&ensp;&ensp;将这张图中我们可以清晰的看到，Spring Security将身份认证（LDAP、OpenID）和授权结合在一起，而将鉴权和权限验证结合在一起。形成了整个Spring Security的生态。</p>
+
     </div>
 
     
@@ -255,6 +300,12 @@
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A4%E8%AF%81/" rel="tag"># 认证</a>
+              <a href="/tags/%E6%8E%88%E6%9D%83/" rel="tag"># 授权</a>
+              <a href="/tags/%E9%89%B4%E6%9D%83/" rel="tag"># 鉴权</a>
+              <a href="/tags/%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81/" rel="tag"># 权限验证</a>
+          </div>
 
         
 
@@ -325,14 +376,15 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">身份认证是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%88%E6%9D%83%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">授权是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%89%B4%E6%9D%83%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">鉴权是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">4.</span> <span class="nav-text">权限验证是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">小结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="等待-希望"
+    <img class="site-author-image" itemprop="image" alt="小毛驴"
       src="/images/headPhoto.jpg">
-  <p class="site-author-name" itemprop="name">等待-希望</p>
+  <p class="site-author-name" itemprop="name">小毛驴</p>
   <div class="site-description" itemprop="description">千山鸟飞绝，万径人踪灭。孤舟蓑笠翁，独钓寒江雪。</div>
 </div>
 <div class="site-state-wrap motion-element">
@@ -353,7 +405,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">25</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -401,7 +453,7 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">等待-希望</span>
+  <span class="author" itemprop="copyrightHolder">小毛驴</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>
