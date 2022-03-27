@@ -624,7 +624,7 @@ valine:
   visitor: true # Article reading statistic
   comment_count: true # If false, comment count will only be displayed in post page, not in home page
   recordIP: true # Whether to record the commenter IP
-  serverURLs: izvfosxu.api.lncldglobal.com
+  serverURLs: //izvfosxu.api.lncldglobal.com
   # When the custom domain name is enabled, fill it in here (it will be detected automatically by default, no need to fill in)
   #post_meta_order: 0
 
