@@ -611,22 +611,8 @@ changyan:
 # Valine
 # For more information: https://valine.js.org, https://github.com/xCss/Valine
 valine:
-  enable: true
-  appid: izvFoSXUhBCSFO34bR1wYYzN-MdYXbMMI
-  appkey: mvMkCV28YPAGdKqdxtsM5ySw
-  notify: false # Mail notifier
-  verify: false # Verification code
-  placeholder: 快来评论一个吧 # Comment box placeholder
-  avatar: mm # Gravatar style
-  guest_info: nick,mail,link # Custom comment header
-  pageSize: 10 # Pagination size
-  language: zh-cn # Language, available values: en, zh-cn
-  visitor: true # Article reading statistic
-  comment_count: true # If false, comment count will only be displayed in post page, not in home page
-  recordIP: true # Whether to record the commenter IP
-  serverURLs: //izvfosxu.api.lncldglobal.com
-  # When the custom domain name is enabled, fill it in here (it will be detected automatically by default, no need to fill in)
-  #post_meta_order: 0
+  enable: false
+  
 
 # LiveRe comments system
 # You can get your uid from https://livere.com/insight/myCode (General web site)
@@ -636,16 +622,7 @@ livere_uid: # <your_uid>
 # For more information: https://gitalk.github.io, https://github.com/gitalk/gitalk
 gitalk:
   enable: false
-  github_id: piggsoft # GitHub repo owner
-  repo: piggsoft.github.io # Repository name to store issues
-  client_id: 381526a9b7374673c524 # GitHub Application Client ID
-  client_secret: a0a6271ada963188c2dac604635bc0b850d8b13b # GitHub Application Client Secret
-  admin_user: piggsoft # GitHub repo owner and collaborators, only these guys can initialize gitHub issues
-  distraction_free_mode: true # Facebook-like distraction free mode
-  # Gitalk's display language depends on user's browser or system environment
-  # If you want everyone visiting your site to see a uniform language, you can set a force language value
-  # Available values: en | es-ES | fr | ru | zh-CN | zh-TW
-  language: zh-CN
+  
 
 
 # ---------------------------------------------------------------
@@ -707,8 +684,8 @@ leancloud_visitors:
 firestore:
   enable: false
   collection: articles # Required, a string collection name to access firestore database
-  apiKey: blue-sky-2017
-  projectId: AIzaSyAgsUZ_ynmIASol15QqxEVKceV4BWyeEk8
+  apiKey: 
+  projectId: 
 
 # Show Views / Visitors of the website / page with busuanzi.
 # Get more information on http://ibruce.info/2015/04/04/busuanzi
