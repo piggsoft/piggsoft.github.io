@@ -1,14 +1,13 @@
 ---
 title: Corepack使用问题之无法访问registry.npmjs.org
-date: 2024-01-29 03:16:43
+date: 2024-01-29 13:16:43
 keyword: 
 - corepack 无法访问 registry.npmjs.org
 - corepack 无法使用
 - corepack 无法安装pnpm
 - corepack 无法安装yarn
-- corepack enable后，pnpm无法使用
-- corepack enable后，yarn无法使用
-date: 2024-01-29 03:16:43
+- corepack enable后,pnpm无法使用
+- corepack enable后,yarn无法使用
 tags: corpack无法正常使用
 categories: 
 - corepack
