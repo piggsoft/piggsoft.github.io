@@ -14,12 +14,12 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
       with:
-        submodules: true # Checkout private submodules(themes or something else).
-    - name: Checkout tools repo
-      uses: actions/checkout@v2
-      with:
-        repository: theme-next/hexo-theme-next
-        path: themes/next
+        submodules: false # Checkout private submodules(themes or something else).
+    #- name: Checkout tools repo
+    #  uses: actions/checkout@v2
+    #  with:
+    #    repository: theme-next/hexo-theme-next
+    #    path: themes/next
     - name: Setup Node.js environment
       uses: actions/setup-node@v2.1.5
       with:
