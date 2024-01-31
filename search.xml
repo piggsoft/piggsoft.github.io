@@ -1,0 +1,1222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Windows 指定部分 IP 走 VPN 通道</title>
+    <url>/2015/05/12/2015/05/13/Windows%E6%8C%87%E5%AE%9A%E9%83%A8%E5%88%86IP%E8%B5%B0VPN%E9%80%9A%E9%81%93/</url>
+    <content><![CDATA[<p>因为工作需要可能要在机器连接公司的 VPN，但一般情况下连了 VPN 就无法连接到外网了，本文主要是讲解如何在 Windows 上配置，从而让固定 ip 走 VPN，其余走本地网络。</p>
+<span id="more"></span>
+
+<ul>
+<li>按照正常流程配置好 VPN</li>
+<li> 在 vpn 连接属性–&gt; 网络–&gt;Internet 协议版本 4–&gt; 属性–&gt; 高级–&gt; 去掉《在远程网络上使用默认网关》；这样做让所有连接都走本地网络连接，不走 vpn。<br><img data-src="/1.jpg"><br><img data-src="/2.jpg"></li>
+<li>连接 vpn，获取 vpn 分配的 ip<br>  输入命令：  <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">&gt;ipconfig</span></span><br></pre></td></tr></tbody></table></figure>
+  结果如下：  <figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">PPP 适配器 FUIOU VPN 连接: </span><br><span class="line">连接特定的 DNS 后缀 . . . . . . . : </span><br><span class="line">IPv4 地址 . . . . . . . . . . . . : 192.168.18.101 </span><br><span class="line">子网掩码 . . . . . . . . . . . . : 255.255.255.255 </span><br><span class="line">默认网关. . . . . . . . . . . . . : </span><br></pre></td></tr></tbody></table></figure></li>
+<li>添加 route 解析  <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">route add -p 192.168.8.22 mask 255.255.255.255 192.168.18.101 metric 2 </span><br></pre></td></tr></tbody></table></figure>
+  192.168.8.22 –&gt; 想要通过 vpn 访问的 ip<br>  192.168.18.101 –&gt; 上面 vpn 分配的 ip</li>
+<li> 在命令行中加入这个命令。使用下面命令进行测试<br>  ping 192.168.8.22<br>至此配置完成，既可以访问外网，又可以访问 192.168.8.22 这个 VPN 地址</li>
+</ul>
+]]></content>
+      <categories>
+        <category>IT</category>
+      </categories>
+      <tags>
+        <tag>Windows</tag>
+        <tag>VPN</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java 进行四则运算</title>
+    <url>/2016/03/14/2016/03/15/Java%E8%BF%9B%E8%A1%8C%E5%9B%9B%E5%88%99%E8%BF%90%E7%AE%97/</url>
+    <content><![CDATA[<p>更加便捷的进行四则运算，且代码足够简单。<br>一般的逻辑是按照正常人的思路来解析，这样难度太大。<br>转换思路和原理，可以参考将<a href="http://www.nowamagic.net/librarys/veda/detail/2307">中缀表达式转化为后缀表达式</a></p>
+<span id="more"></span>
+
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.piggsoft;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.math.BigDecimal;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.Stack;</span><br><span class="line"><span class="keyword">import</span> java.util.regex.Pattern;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Arithmetic</span> {</span><br><span class="line">    <span class="comment">//操作符stack</span></span><br><span class="line">    <span class="keyword">private</span> Stack&lt;String&gt; operator = <span class="keyword">new</span> <span class="title class_">Stack</span>&lt;String&gt;();</span><br><span class="line">    <span class="comment">//后缀表达式</span></span><br><span class="line">    <span class="keyword">private</span> List&lt;String&gt; postFix = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;String&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">Pattern</span> <span class="variable">operatorPattern</span> <span class="operator">=</span> Pattern.compile(<span class="string">"[\\d\\.]"</span>);</span><br><span class="line">    <span class="keyword">private</span> <span class="type">Pattern</span> <span class="variable">arithmeticPattern</span> <span class="operator">=</span> Pattern.compile(<span class="string">"[\\(\\)\\+\\-/\\*]"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//将中缀表达式换为后缀表达式</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">parse</span><span class="params">(String s)</span> {</span><br><span class="line">        s = replace(s);</span><br><span class="line">        <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; s.length(); i++) {</span><br><span class="line">            <span class="type">String</span> <span class="variable">temp</span> <span class="operator">=</span> s.substring(i, i + <span class="number">1</span>);</span><br><span class="line">            <span class="keyword">if</span> (operatorPattern.matcher(temp).matches()) {</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            }</span><br><span class="line">            <span class="keyword">if</span> (arithmeticPattern.matcher(temp).matches()) {</span><br><span class="line">                j = process(j, i, s, temp);</span><br><span class="line">            } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">""</span>.equals(temp)) {</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">if</span> (j &lt; s.length()) {</span><br><span class="line">            postFix.add(s.substring(j, s.length()));</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">while</span> (!<span class="built_in">this</span>.operator.isEmpty()) {</span><br><span class="line">            postFix.add(operator.pop());</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String <span class="title function_">replace</span><span class="params">(String s)</span> {</span><br><span class="line">        <span class="keyword">return</span> s.replaceAll(<span class="string">"\\s"</span>, <span class="string">""</span>);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="title function_">process</span><span class="params">(<span class="type">int</span> startIndex, <span class="type">int</span> currentIndex, String str, String word)</span> {</span><br><span class="line">        <span class="keyword">if</span> (startIndex != currentIndex) {</span><br><span class="line">            postFix.add(str.substring(startIndex, currentIndex));</span><br><span class="line">        }</span><br><span class="line">        addOperator(word);</span><br><span class="line">        startIndex = currentIndex + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (startIndex &gt; str.length()) {</span><br><span class="line">            startIndex = str.length();</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">return</span> startIndex;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addOperator</span><span class="params">(String operator)</span> {</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">"("</span>.equals(operator)) {</span><br><span class="line"></span><br><span class="line">        } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">")"</span>.equals(operator)) {</span><br><span class="line">            <span class="keyword">while</span> (!<span class="built_in">this</span>.operator.isEmpty()) {</span><br><span class="line">                <span class="type">String</span> <span class="variable">temp</span> <span class="operator">=</span> <span class="built_in">this</span>.operator.pop();</span><br><span class="line">                <span class="keyword">if</span> (<span class="string">"("</span>.equals(temp)) {</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                } <span class="keyword">else</span> {</span><br><span class="line">                    postFix.add(temp);</span><br><span class="line">                }</span><br><span class="line"></span><br><span class="line">            }</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        } <span class="keyword">else</span> <span class="keyword">if</span> (!<span class="built_in">this</span>.operator.isEmpty()) {</span><br><span class="line">            <span class="keyword">while</span> (!<span class="built_in">this</span>.operator.isEmpty()) {</span><br><span class="line">                <span class="type">String</span> <span class="variable">temp</span> <span class="operator">=</span> <span class="built_in">this</span>.operator.peek();</span><br><span class="line">                <span class="keyword">if</span> (needPop(temp, operator)) {</span><br><span class="line">                    <span class="built_in">this</span>.postFix.add(<span class="built_in">this</span>.operator.pop());</span><br><span class="line">                } <span class="keyword">else</span> {</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                }</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        <span class="built_in">this</span>.operator.add(operator);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">needPop</span><span class="params">(String inStackTop, String current)</span> {</span><br><span class="line">        <span class="keyword">return</span> getLevel(current.charAt(<span class="number">0</span>)) &lt;= getLevel(inStackTop.charAt(<span class="number">0</span>));</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getLevel</span><span class="params">(<span class="type">char</span> operator)</span> {</span><br><span class="line">        <span class="keyword">switch</span> (operator) {</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'+'</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'-'</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'*'</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'/'</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> BigDecimal <span class="title function_">compute</span><span class="params">()</span> {</span><br><span class="line">        Stack&lt;BigDecimal&gt; stack = <span class="keyword">new</span> <span class="title class_">Stack</span>&lt;BigDecimal&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="built_in">this</span>.postFix.size(); i++) {</span><br><span class="line">            <span class="keyword">if</span> (arithmeticPattern.matcher(postFix.get(i)).matches()) {</span><br><span class="line">                <span class="type">BigDecimal</span> <span class="variable">bd2</span> <span class="operator">=</span> stack.pop();</span><br><span class="line">                <span class="type">BigDecimal</span> <span class="variable">bd1</span> <span class="operator">=</span> stack.pop();</span><br><span class="line">                <span class="type">BigDecimal</span> <span class="variable">temp</span> <span class="operator">=</span> compute(postFix.get(i).charAt(<span class="number">0</span>), bd1, bd2);</span><br><span class="line">                stack.add(temp);</span><br><span class="line">            } <span class="keyword">else</span> {</span><br><span class="line">                stack.add(<span class="keyword">new</span> <span class="title class_">BigDecimal</span>(postFix.get(i)));</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">return</span> stack.pop();</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> BigDecimal <span class="title function_">compute</span><span class="params">(<span class="type">char</span> operator, BigDecimal bd1, BigDecimal bd2)</span> {</span><br><span class="line">        <span class="keyword">switch</span> (operator) {</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'+'</span>:</span><br><span class="line">                <span class="keyword">return</span> bd1.add(bd2);</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'-'</span>:</span><br><span class="line">                <span class="keyword">return</span> bd1.subtract(bd2);</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'*'</span>:</span><br><span class="line">                <span class="keyword">return</span> bd1.multiply(bd2);</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'/'</span>:</span><br><span class="line">                <span class="keyword">return</span> bd1.divide(bd2);<span class="comment">//应当使用bd1.divide(divisor, scale, roundingMode);</span></span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> {</span><br><span class="line">        <span class="type">Arithmetic</span> <span class="variable">arithmetic</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Arithmetic</span>();</span><br><span class="line">        arithmetic.parse(<span class="string">"9 + (3 - 1) * 3 + 10 / 2"</span>);</span><br><span class="line">        System.out.println(arithmetic.postFix);</span><br><span class="line">        System.out.println(arithmetic.compute());</span><br><span class="line"></span><br><span class="line">        arithmetic = <span class="keyword">new</span> <span class="title class_">Arithmetic</span>();</span><br><span class="line">        arithmetic.parse(<span class="string">"9 + (3 - 1) * 3 + 10 / 2 + 1000 - 200 - (100 + 5 - 9 / 3)"</span>);</span><br><span class="line">        System.out.println(arithmetic.postFix);</span><br><span class="line">        System.out.println(arithmetic.compute());</span><br><span class="line"></span><br><span class="line">        arithmetic = <span class="keyword">new</span> <span class="title class_">Arithmetic</span>();</span><br><span class="line">        arithmetic.parse(<span class="string">"9 + (3 - 1) * 3 + 10 / 2 + 1000 - 200 - (100 + 5 - 9 / 3)"</span>);</span><br><span class="line">        System.out.println(arithmetic.postFix);</span><br><span class="line">        System.out.println(arithmetic.compute());</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>Math</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>TCP 通讯详解及实战</title>
+    <url>/2017/01/03/2017/01/03/TCP%E9%80%9A%E8%AE%AF%E8%AF%A6%E8%A7%A3%E5%8F%8A%E5%AE%9E%E6%88%98/</url>
+    <content><![CDATA[<p>日常开发，测试过程中，特别是在压力测试过程中，用 <code>netstat -nat</code> 查看，发现客户端出现大量 <code>SYN_SENT</code> 状态，服务端出现大量 <code>SYN_RCVD</code> 状态连接，下面我们一起看下</p>
+<ul>
+<li>为什么会有这些状态？</li>
+<li>出现这些状态原因是什么？</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="TCP协议模型"><a href="#TCP协议模型" class="headerlink" title="TCP协议模型"></a>TCP 协议模型</h2><p><img data-src="/1.png"></p>
+<h3 id="IP和端口"><a href="#IP和端口" class="headerlink" title="IP和端口"></a>IP 和端口</h3><p>解决了文章最开始提到的定位的问题。<br>IP 在互联网中能唯一标识一台计算机，是每一台计算机的唯一标识（身份证）；网络编程是和远程计算机的通信，所以必须先能定位到远程计算机；IP 帮助解决此问题；一台计算机中可能有很多进程，具体和哪一个进程进行通信，这就得靠端口来识别；
+&nbsp;</p>
+<h3 id="TCP和UDP协议"><a href="#TCP和UDP协议" class="headerlink" title="TCP和UDP协议"></a>TCP 和 UDP 协议</h3><ul>
+<li>TCP 是 Tranfer Control Protocol 的简称，是一种面向连接的保证可靠传输的协议。通过 TCP 协议传输，得到的是一个顺序的无差错的数据流。发送方和接收方的成对的两个 socket 之间必须建立连接，以便在 TCP 协议的基础上进行通信，当一个 socket（通常都是 server socket）等待建立连接时，另一个 socket 可以要求进行连接，一旦这两个 socket 连接起来，它们就可以进行双向数据目的地的时间以及内容的正确性都是不能被保证的传输，双方都可以进行发送或接收操作。</li>
+<li>UDP 是 User Datagram Protocol 的简称，是一种无连接的协议，每个数据报都是一个独立的信息，包括完整的源地址或目的地址，它在网络上以任何可能的路径传往目的地，因此能否到达目的地，到达。</li>
+<li>比较：<ul>
+<li>UDP：<ul>
+<li>每个数据报中都给出了完整的地址信息，因此无需要建立发送方和接收方的连接。</li>
+<li>UDP 传输数据时是有大小限制的，每个被传输的数据报必须限定在 64KB 之内。</li>
+<li>UDP 是一个不可靠的协议，发送方所发送的数据报并不一定以相同的次序到达接收方</li>
+</ul>
+</li>
+<li> TCP：<ul>
+<li>面向连接的协议，在 socket 之间进行数据传输之前必然要建立连接，所以在 TCP 中需要连接时间。</li>
+<li>TCP 传输数据大小限制，一旦连接建立起来，双方的 socket 就可以按统一的格式传输大的数据。</li>
+<li>TCP 是一个可靠的协议，它确保接收方完全正确地获取发送方所发送的全部数据。<ul>
+<li>应用数据分割成 TCP 认为最适合发送的数据块。这部分是通过 “MSS”（最大数据包长度）选项来控制的，通常这种机制也被称为一种协商机制，MSS 规定了 TCP 传往另一端的最大数据块的长度。值得注意的是，MSS 只能出现在 SYN 报文段中，若一方不接收来自另一方的 MSS 值，则 MSS 就定为 536 字节。一般来讲，在不出现分段的情况下，MSS 值还是越大越好，这样可以提高网络的利用率。</li>
+<li>重传机制。设置定时器，等待确认包。</li>
+<li>对首部和数据进行校验。</li>
+<li>TCP 对收到的数据进行排序，然后交给应用层。</li>
+<li>TCP 的接收端丢弃重复的数据。</li>
+<li>TCP 还提供流量控制。（通过每一端声明的窗口大小来提供的）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="TCP状态机"><a href="#TCP状态机" class="headerlink" title="TCP状态机"></a>TCP 状态机</h2><p><img data-src="/2.jpg"> </p>
+<h3 id="TCP状态图"><a href="#TCP状态图" class="headerlink" title="TCP状态图"></a>TCP 状态图</h3><ul>
+<li><p>连接建立</p>
+<ul>
+<li>第一次握手：主机 A 发送位码为 syn＝1, 随机产生 seq number=1234567 的数据包到服务器，主机 B 由 SYN=1 知道，A 要求建立联机；</li>
+<li>第二次握手：主机 B 收到请求后要确认联机信息，向 A 发送 ack number=(主机 A 的 seq+1),syn=1,ack=1, 随机产生 seq=7654321 的包</li>
+<li>第三次握手：主机 A 收到后检查 ack number 是否正确，即第一次发送的 seq number+1, 以及位码 ack 是否为 1，若正确，主机 A 会再发送 ack number=(主机 B 的 seq+1),ack=1，主机 B 收到后确认 seq 值与 ack=1 则连接建立成功。</li>
+<li>完成三次握手，主机 A 与主机 B 开始传送数据。</li>
+</ul>
+</li>
+<li><p>连接关闭，<em>由于 TCP 连接是全双工的，因此每个方向都必须单独进行关闭。这个原则是当一方完成它的数据发送任务后就能发送一个 FIN 来终止这个方向的连接。收到一个&nbsp;FIN 只意味着这一方向上没有数据流动，一个 TCP 连接在收到一个 FIN 后仍能发送数据。首先进行关闭的一方将执行主动关闭，而另一方执行被动关闭。</em> </p>
+<ul>
+<li>客户端 A 发送一个 FIN，用来关闭客户 A 到服务器 B 的数据传送（报文段 4）。</li>
+<li>服务器 B 收到这个 FIN，它发回一个 ACK，确认序号为收到的序号加 1（报文段 5）。和 SYN 一样，一个 FIN 将占用一个序号。</li>
+<li>服务器 B 关闭与客户端 A 的连接，发送一个 FIN 给客户端 A（报文段 6）。</li>
+<li>客户端 A 发回 ACK 报文确认，并将确认序号设置为收到序号加 1（报文段 7）。<br>附上另一张图：<br><img data-src="/3.png"></li>
+</ul>
+</li>
+</ul>
+<h3 id="TCP状态"><a href="#TCP状态" class="headerlink" title="TCP状态"></a>TCP 状态</h3><ul>
+<li><p><strong>CLOSED</strong>：&nbsp;表示初始状态。</p>
+</li>
+<li><p><strong>LISTEN</strong>：  表示服务器端的某个 SOCKET 处于监听状态，可以接受连接了。</p>
+</li>
+<li><p><strong>SYN_RCVD</strong>：&nbsp;这个状态表示接受到了 SYN 报文，在正常情况下，这个状态是服务器端的 SOCKET 在建立 TCP 连接时的三次握手会话过程中的一个中间状态，很短暂，基本 上用 netstat 你是很难看到这种状态的，除非你特意写了一个客户端测试程序，故意将三次 TCP 握手过程中最后一个 ACK 报文不予发送。因此这种状态 时，当收到客户端的 ACK 报文后，它会进入到 ESTABLISHED 状态。</p>
+</li>
+<li><p><strong>SYN_SENT</strong>：&nbsp;这个状态与 SYN_RCVD 遥想呼应，当客户端 SOCKET 执行 CONNECT 连接时，它首先发送 SYN 报文，因此也随即它会进入到了 SYN_SENT 状态，并等待服务端的发送三次握手中的第 2 个报文。SYN_SENT 状态表示客户端已发送 SYN 报文。</p>
+</li>
+<li><p><strong>ESTABLISHED</strong>：表示连接已经建立。</p>
+</li>
+<li><p><strong>FIN_WAIT_1</strong>：&nbsp;这个状态要好好解释一下，其实 FIN_WAIT_1 和 FIN_WAIT_2 状态的真正含义都是表示等待对方的 FIN 报文。而这两种状态的区别 是：FIN_WAIT_1 状态实际上是当 SOCKET 在 ESTABLISHED 状态时，它想主动关闭连接，向对方发送了 FIN 报文，此时该 SOCKET 即 进入到 FIN_WAIT_1 状态。而当对方回应 ACK 报文后，则进入到 FIN_WAIT_2 状态，当然在实际的正常情况下，无论对方何种情况下，都应该马 上回应 ACK 报文，所以 FIN_WAIT_1 状态一般是比较难见到的，而 FIN_WAIT_2 状态还有时常常可以用 netstat 看到。</p>
+</li>
+<li><p><strong>FIN_WAIT_2</strong>：上面已经详细解释了这种状态，实际上 FIN_WAIT_2 状态下的 SOCKET，表示半连接，也即有一方要求 close 连接，但另外还告诉对方，我暂时还有点数据需要传送给你，稍后再关闭连接。</p>
+</li>
+<li><p><strong>TIME_WAIT</strong>：&nbsp;表示收到了对方的 FIN 报文，并发送出了 ACK 报文，就等 2MSL 后即可回到 CLOSED 可用状态了。如果 FIN_WAIT_1 状态下，收到了对方同时带 FIN 标志和 ACK 标志的报文时，可以直接进入到 TIME_WAIT 状态，而无须经过 FIN_WAIT_2 状态。</p>
+</li>
+<li><p><strong>CLOSE_WAIT</strong>：&nbsp;这种状态的含义其实是表示在等待关闭。怎么理解呢？当对方 close 一个 SOCKET 后发送 FIN 报文给自己，你系统毫无疑问地会回应一个 ACK 报文给对 方，此时则进入到 CLOSE_WAIT 状态。接下来呢，实际上你真正需要考虑的事情是察看你是否还有数据发送给对方，如果没有的话，那么你也就可以 close 这个 SOCKET，发送 FIN 报文给对方，也即关闭连接。所以你在 CLOSE_WAIT 状态下，需要完成的事情是等待你去关闭连接。</p>
+</li>
+<li><p><strong>LAST_ACK</strong>：&nbsp;这个状态还是比较容易好理解的，它是被动关闭一方在发送 FIN 报文后，最后等待对方的 ACK 报文。当收到 ACK 报文后，也即可以进入到 CLOSED 可用状态了。</p>
+</li>
+<li><p><strong>CLOSING</strong>：&nbsp;这种状态比较特殊，实际情况中应该是很少见，属于一种比较罕见的例外状态。正常情况下，当你发送 FIN 报文后，按理来说是应该先收到（或同时收到）对方的 ACK 报文，再收到对方的 FIN 报文。但是 CLOSING 状态表示你发送 FIN 报文后，并没有收到对方的 ACK 报文，反而却也收到了对方的 FIN 报文。什 么情况下会出现此种情况呢？其实细想一下，也不难得出结论：那就是如果双方几乎在同时 close 一个 SOCKET 的话，那么就出现了双方同时发送 FIN 报 文的情况，也即会出现 CLOSING 状态，表示双方都正在关闭 SOCKET 连接</p>
+</li>
+</ul>
+<h3 id="通讯类型"><a href="#通讯类型" class="headerlink" title="通讯类型"></a>通讯类型</h3><ul>
+<li>短连接<ul>
+<li>连接 -&gt; 数据传输 -&gt; 关闭连接</li>
+</ul>
+</li>
+<li>长连接，要求长连接在没有数据通信时，定时发送数据包，以维持连接状态，短连接在没有数据传输时直接关闭就行了 长连接需要心跳包维护连接状态<ul>
+<li>连接 -&gt; 数据传输 -&gt; 保持连接 -&gt; 数据传输 -&gt; 保持连接 -&gt; …… -&gt; 关闭连接</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<blockquote>
+<p>什么时候用长连接，短连接？<br>长连接主要用于在少数客户端与服务端的频繁通信，因为这时候如果用短连接频繁通信常会发生 Socket 出错，并且频繁创建 Socket 连接也是对资源的浪费。<br>但是对于服务端来说，长连接也会耗费一定的资源，需要专门的线程来负责维护连接状态。</p>
+</blockquote>
+</blockquote>
+<ul>
+<li><p>同步通讯–报文发送和接收是同步进行，既报文发送后等待接收返回报文。</p>
+<ul>
+<li>发送数据之后等待接收返回数据。同步方式一般需要考虑超时问题，即报文发上去后不能无限等待，需要设定超时时间，超过该时间发送方不再等待读返回报文，直接通知超时返回。</li>
+</ul>
+</li>
+<li><p>异步通讯–报文发送和接收是分开的，相互独立的，互不影响。这种方式又分两种情况：</p>
+<ul>
+<li>异步双工：接收和发送在同一个程序中，有两个不同的子进程分别负责发送和接收</li>
+<li>异步单工：接收和发送是用两个不同的程序来完成。</li>
+</ul>
+</li>
+</ul>
+<h2 id="日常应用"><a href="#日常应用" class="headerlink" title="日常应用"></a>日常应用</h2><p>我们通过了解 TCP 各个状态，可以排除和定位网络或系统故障时大有帮助。</p>
+<h3 id="linux查看tcp的状态命令："><a href="#linux查看tcp的状态命令：" class="headerlink" title="linux查看tcp的状态命令："></a>linux 查看 tcp 的状态命令：</h3><ol>
+<li><code>netstat -nat</code> &nbsp;查看 TCP 各个状态的数量</li>
+<li><code>lsof &nbsp;-i:port</code> &nbsp;可以检测到打开套接字的状况</li>
+<li><code>tcpdump -iany tcp port 9000</code> 对 tcp 端口为 9000 的进行抓包</li>
+</ol>
+<h3 id="故障排查"><a href="#故障排查" class="headerlink" title="故障排查"></a>故障排查</h3><p>通过端口监听判断服务启动是否正常<br><code>netstat –an| grep 8080</code></p>
+<ol>
+<li>例如：提供 www 服务默认开的是 80 端口，提供 ftp 服务默认的端口为 21，当提供的服务没有被连接时就处于 LISTENING 状态。FTP 服务启动后首先处于侦听（LISTENING）状态。处于侦听 LISTENING 状态时，该端口是开放的，等待连接</li>
+<li>客户端出现大量 SYN_SENT 状态<ul>
+<li>当请求连接时客户端首先要发送同步信号给要访问的机器，此时状态为 SYN_SENT，如果连接成功了就变为 ESTABLISHED，正常情况下 SYN_SENT 状态非常短暂</li>
+<li>如果发现有很多 SYN_SENT 出现，那一般有这么几种情况，一是你要访问的服务器网络不好，二是服务端无法建立连接返回 ack</li>
+</ul>
+</li>
+<li> 服务端出现大量 SYN_RCVD 状态连接<ul>
+<li>同理 SYN_RCVD 状态也是非常短暂的，如果大量出现说明有可能遭到了攻击，或者是客户端网络限制</li>
+</ul>
+</li>
+<li>大量的 CLOSE-WAIT 状态<ul>
+<li>被动关闭 (passive close) 端 TCP 接到 FIN 后，就发出 ACK 以回应 FIN 请求 (它的接收也作为文件结束符传递给上层应用程序), 并进 CLOSE_WAIT. 如果连接不关闭 CLOSE_WAIT 持续时间会非常长，如果长时间积累，可能会导致系统资源耗尽</li>
+</ul>
+</li>
+<li>发现系统存在大量 TIME_WAIT 状态的连接，可以修改内核参数解决，修改 TIME_WAIT 持续时间</li>
+</ol>
+]]></content>
+      <categories>
+        <category>IT</category>
+      </categories>
+      <tags>
+        <tag>TCP IP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>跟着独钓翁一起学习 spring-boot (一)</title>
+    <url>/2017/01/03/2017/01/03/%E8%B7%9F%E7%9D%80%E7%8B%AC%E9%92%93%E7%BF%81%E4%B8%80%E8%B5%B7%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/</url>
+    <content><![CDATA[<h2 id="相关背景"><a href="#相关背景" class="headerlink" title="相关背景"></a>相关背景</h2><p><a href="http://projects.spring.io/spring-boot/">Spring Boot</a> 是由 Pivotal 团队提供的全新框架，其设计目的是用来简化新 Spring 应用的初始搭建以及开发过程。该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。通过这种方式，Boot 致力于在蓬勃发展的快速应用开发领域（rapid application development）成为领导者。</p>
+<span id="more"></span>
+
+<p>多年以来，Spring IO 平台饱受非议的一点就是大量的 XML 配置以及复杂的依赖管理。在去年的 SpringOne 2GX 会议上，Pivotal 的 CTO Adrian Colyer 回应了这些批评，并且特别提到该平台将来的目标之一就是实现免 XML 配置的开发体验。Boot 所实现的功能超出了这个任务的描述，开发人员不仅不再需要编写 XML，而且在一些场景中甚至不需要编写繁琐的 import 语句。在对外公开的 beta 版本刚刚发布之时，Boot 描述了如何使用该框架在 140 个字符内实现可运行的 web 应用，从而获得了极大的关注度，该样例发表在 tweet 上。</p>
+<p>然而，Spring Boot 并不是要成为 Spring IO 平台里面众多 “Foundation” 层项目的替代者。Spring Boot 的目标不在于为已解决的问题域提供新的解决方案，而是为平台带来另一种开发体验，从而简化对这些已有技术的使用。对于已经熟悉 Spring 生态系统的开发人员来说，Boot 是一个很理想的选择，不过对于采用 Spring 技术的新人来说，Boot 提供一种更简洁的方式来使用这些技术。</p>
+<p>在追求开发体验的提升方面，Spring Boot，甚至可以说整个 Spring 生态系统都使用到了 Groovy 编程语言。Boot 所提供的众多便捷功能，都是借助于 Groovy 强大的 MetaObject 协议、可插拔的 AST 转换过程以及内置的依赖解决方案引擎所实现的。在其核心的编译模型之中，Boot 使用 Groovy 来构建工程文件，所以它可以使用通用的导入和样板方法（如类的 main 方法）对类所生成的字节码进行装饰（decorate）。这样使用 Boot 编写的应用就能保持非常简洁，却依然可以提供众多的功能</p>
+<h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><ul>
+<li>访问 <a href="http://start.spring.io/">Spring Initializr</a></li>
+<li> 选择构建方式 Maven，Spring Boot 版本<br>  <img data-src="/1.png"></li>
+<li>填写 group，artifact<br>  <img data-src="/2.png"></li>
+<li>选择所需依赖，如果不记得依赖的名称，可以点击 <code>Switch to the full version.</code><br>  <img data-src="/3-1.png"><br>  <img data-src="/3-2.png"></li>
+<li>点击 <code>Generate Project</code>， 进行下载。</li>
+</ul>
+<h2 id="配置运行"><a href="#配置运行" class="headerlink" title="配置运行"></a>配置运行</h2><ul>
+<li>接下压缩包，用你熟悉的 ide 打开项目</li>
+<li>删除 <code>mvnw</code>，<code>mvnw.cmd</code> 文件和 <code>.mvn</code> 目录</li>
+<li>编写一个 Controller<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HomeController</span> {</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping("/")</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">hello</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> IOException {</span><br><span class="line">        response.getWriter().write(<span class="string">"Hello World"</span>);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></li>
+<li>运行 <code>XXApplication</code> 的 <code>main</code> 方法，访问 <a href="http://localhost:8080/">http://localhost:8080</a>，观看到 Hello World，即代表成功。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>IT</category>
+      </categories>
+      <tags>
+        <tag>Java Spring Spring-Boot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux 上使用定时任务 Crontab</title>
+    <url>/2017/06/10/2017/06/10/Linux-%E4%BD%BF%E7%94%A8%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1Crontab/</url>
+    <content><![CDATA[<p>使用 linux 的定时器，在服务器上面定时执行某些任务，比如时间同步，比如 Hexo 的定时更新和生成</p>
+<span id="more"></span>
+
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="检查是否安装crontab"><a href="#检查是否安装crontab" class="headerlink" title="检查是否安装crontab"></a>检查是否安装 crontab</h2><p>在命令行中输入如下命令，观察是否安装 crontab</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">crontab -e</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="安装crontab"><a href="#安装crontab" class="headerlink" title="安装crontab"></a>安装 crontab</h2><p>如果没有安装，使用 yum 来进行安装，在命令行中输入下令命令来安装</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">yum install vixie-cron crontabs </span><br></pre></td></tr></tbody></table></figure>
+<blockquote>
+<p>其中 vixie-cron 软件包是 cron 的主程序，crontabs 软件包是用来安装、卸装、或列举用来驱动 cron 守护进程的表格的程序。</p>
+</blockquote>
+<h2 id="启动crontab"><a href="#启动crontab" class="headerlink" title="启动crontab"></a>启动 crontab</h2><p>cron 是 linux 的内置服务，但它不自动起来，可以用以下的方法启动、关闭这个服务：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">service crond start //启动服务</span><br><span class="line">service crond stop //关闭服务</span><br><span class="line">service crond restart //重启服务</span><br><span class="line">service crond reload //重新载入配置</span><br><span class="line">service crond status //查看crontab服务状态</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="加入开机启动"><a href="#加入开机启动" class="headerlink" title="加入开机启动"></a>加入开机启动</h2><p>命令行中输入如下命令，在 crond 加入开机启动</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">chkconfig --level 35 crond on</span><br></pre></td></tr></tbody></table></figure>
+
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="cron表达式"><a href="#cron表达式" class="headerlink" title="cron表达式"></a>cron 表达式</h2><p>linux 上 cron 表达式为 5 位，分别代表 </p>
+<table>
+<thead>
+<tr>
+<th>第一位</th>
+<th>第二位</th>
+<th>第三位</th>
+<th>第四位</th>
+<th>第五位</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>分钟</td>
+<td>小时</td>
+<td>天</td>
+<td>月</td>
+<td>周</td>
+</tr>
+</tbody></table>
+<h2 id="命令使用方法"><a href="#命令使用方法" class="headerlink" title="命令使用方法"></a>命令使用方法</h2><ol>
+<li>命令行中输入 <code>crontab -e</code></li>
+<li>在弹出的文本中输入 <code>* * * * * * command</code><blockquote>
+<p>比如 <code>*/1 * * * * echo "hello world" &gt; /log/corn_test</code></p>
+</blockquote>
+</li>
+</ol>
+<h1 id="查看现有的cron配置"><a href="#查看现有的cron配置" class="headerlink" title="查看现有的cron配置"></a>查看现有的 cron 配置</h1><ol>
+<li>在命令行中输入 <code>crontab -l</code></li>
+<li>直接查看文件 <code>vim /var/spool/cron/root</code>, 其中最后的 <code>root</code> 为当前的用户名</li>
+</ol>
+]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>定时器</tag>
+        <tag>cron</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>常用文档目录整理</title>
+    <url>/2017/06/10/2017/06/10/%E5%B8%B8%E7%94%A8%E6%96%87%E6%A1%A3%E7%9B%AE%E5%BD%95%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<p> &nbsp;<br>本目录旨在集合各个优秀 IT 书籍 &amp; API 翻译 &amp; 官方 Docs 翻译。<br>这个仓库不产出书籍，只是将网上流传着的书籍 &amp; 书籍翻译集合在一起，供大家检索学习。<br>在此先感谢那些为我们提供书籍和书籍翻译的作者，因为有他们，我们才能更好学习，了解，使用技术。<br>下面的列表将按字母的升序排列  </p>
+<span id="more"></span>
+
+<h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2><ul>
+<li><a href="#%E5%89%8D%E7%AB%AF">前端</a></li>
+<li><a href="#android">Android</a></li>
+<li><a href="#elasticsearch">Elasticsearch</a></li>
+<li><a href="#docker">Docker</a></li>
+<li><a href="#git">Git</a></li>
+<li><a href="#go">Go</a></li>
+<li><a href="#ios">IOS</a></li>
+<li><a href="#java">Java</a></li>
+<li><a href="#linux">Linux</a></li>
+<li><a href="#python">Python</a></li>
+<li><a href="#redis">Redis</a></li>
+<li><a href="#rxrxjava">Rx/RxJava</a></li>
+<li><a href="#tensorflow">TensorFlow</a></li>
+<li><a href="#%E5%85%B6%E4%BB%96">其他</a></li>
+</ul>
+<h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><ul>
+<li><a href="https://github.com/1sters/material_design_zh">Material Design 中文协同翻译</a></li>
+<li><a href="https://github.com/jsfront/month">知识月刊</a></li>
+<li><a href="https://www.gitbook.com/book/llh911001/mostly-adequate-guide-chinese/details">JS 函数式编程指南</a></li>
+<li><a href="https://www.gitbook.com/book/hulufei/react-tutorial/details">React 入门教程</a></li>
+<li><a href="https://www.gitbook.com/book/leohxj/front-end-database/details">前端工程师手册</a></li>
+<li><a href="https://www.gitbook.com/book/zhongsp/typescript-handbook/details">TypeScript Handbook（中文版）</a></li>
+<li><a href="https://www.gitbook.com/book/zhaoda/webpack/details">Webpack 中文指南</a></li>
+<li><a href="http://es6.ruanyifeng.com/">ECMAScript 6 入门</a></li>
+<li><a href="http://lzw.me/pages/ecmascript/">ECMAScript 5 入门</a></li>
+<li><a href="http://nqdeng.github.io/7-days-nodejs/">七天学会 NodeJS</a></li>
+<li><a href="http://lodashjs.com/docs/">lodash</a></li>
+<li><a href="http://juicer.name/docs/docs_zh_cn.html">juicer</a></li>
+<li><a href="https://angular.cn/docs/ts/latest/">Angular 4.0 中文文档</a></li>
+<li><a href="http://www.zeptojs.cn/">zeptojs</a></li>
+<li><a href="http://cn.redux.js.org/index.html">Redux 中文文档</a></li>
+<li><a href="http://www.ctolib.com/docs-vue-js-c-index">Vue.js 教程</a></li>
+<li><a href="http://cn.vuejs.org/v2/guide/installation.html#%E7%8B%AC%E7%AB%8B%E7%89%88%E6%9C%AC">Vue2.0 教程</a></li>
+<li><a href="https://vuex.vuejs.org/zh-cn/api.html">vuex 教程</a></li>
+<li><a href="https://vux.li/#/zh-CN/README">vux 教程</a></li>
+<li><a href="http://learn.jser.com/ionic/ionic-tutorial.html">ionic 教程</a></li>
+<li><a href="http://learn.jser.com/js/js-tutorial.html">JavaScript 教程</a></li>
+<li><a href="http://learn.jser.com/html/html-tutorial.html">HTML 教程</a></li>
+<li><a href="http://learn.jser.com/css/css-tutorial.html">CSS 教程</a></li>
+<li><a href="http://learn.jser.com/cssref/css-reference.html">CSS 参考手册</a></li>
+<li><a href="http://learn.jser.com/jquery/jquery-tutorial.html">jQuery 教程</a></li>
+<li><a href="http://learn.jser.com/jquery/jquery-tutorial.html">Foundation 教程</a></li>
+<li><a href="http://learn.jser.com/css3/css3-tutorial.html">CSS3 教程</a></li>
+<li><a href="http://learn.jser.com/htmldom/htmldom-tutorial.html">HTML DOM 教程</a></li>
+<li><a href="http://learn.jser.com/jsref/jsref-tutorial.html">JavaScript 参考手册</a></li>
+<li><a href="http://learn.jser.com/react/react-tutorial.html">React 教程</a></li>
+<li><a href="http://learn.jser.com/bootstrap/bootstrap-tutorial.html">Bootstrap 教程</a></li>
+<li><a href="http://learn.jser.com/angularjs/angularjs-tutorial.html">AngularJS 教程</a></li>
+<li><a href="http://learn.jser.com/dtd/dtd-tutorial.html">DTD 教程</a></li>
+<li><a href="http://learn.jser.com/jqueryui/jqueryui-tutorial.html">jQuery UI 教程</a></li>
+<li><a href="http://learn.jser.com/jeasyui/jqueryeasyui-tutorial.html">jQuery EasyUI 教程</a></li>
+<li><a href="http://learn.jser.com/ajax/ajax-tutorial.html">Ajax 教程</a></li>
+<li><a href="http://learn.jser.com/highcharts/highcharts-tutorial.html">Highcharts 教程</a></li>
+<li><a href="http://learn.jser.com/appml/appml-tutorial.html">AppML 教程</a></li>
+<li><a href="http://learn.jser.com/vbscript/vbscript-tutorial.html">VBScript 教程</a></li>
+<li><a href="http://learn.jser.com/jquerymobile/jquerymobile-tutorial.html">jQuery Mobile 教程</a></li>
+<li><a href="http://learn.jser.com/svg/svg-tutorial.html">SVG 教程</a></li>
+<li><a href="http://learn.jser.com/browsers/browser-information.html">浏览器</a></li>
+<li><a href="http://learn.jser.com/tags/html-reference.html">HTML 参考手册</a></li>
+<li><a href="http://learn.jser.com/regexp/regexp-tutorial.html">正则表达式</a></li>
+<li><a href="http://learn.jser.com/json/json-tutorial.html">JSON 教程</a></li>
+</ul>
+<h3 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h3><ul>
+<li><a href="https://github.com/hehonghui/android-tech-frontier">Android 开发技术前线 (android-tech-frontier)</a></li>
+<li><a href="https://github.com/Skykai521/ECTranslation">Android Studio Plugin,Translate English to Chinese. Android Studio 翻译插件，可以将英文翻译为中文.</a></li>
+</ul>
+<h3 id="Elasticsearch"><a href="#Elasticsearch" class="headerlink" title="Elasticsearch"></a>Elasticsearch</h3><ul>
+<li><a href="https://www.gitbook.com/book/looly/elasticsearch-the-definitive-guide-cn/details">Elasticsearch 权威指南（中文版）</a></li>
+<li><a href="https://www.gitbook.com/book/chenryn/elk-stack-guide-cn/details">ELKstack 中文指南</a></li>
+</ul>
+<h3 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h3><ul>
+<li><a href="https://www.gitbook.com/book/yeasy/docker_practice/details">Docker —— 从入门到实践</a></li>
+</ul>
+<h3 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h3><ul>
+<li><a href="https://www.gitbook.com/book/0532/progit/details">Pro Git 中文版</a></li>
+</ul>
+<h3 id="Go"><a href="#Go" class="headerlink" title="Go"></a>Go</h3><ul>
+<li><a href="https://www.gitbook.com/book/wizardforcel/gopl-zh/details">Go 语言圣经 中文版</a></li>
+<li><a href="https://www.gitbook.com/book/astaxie/build-web-application-with-golang/details">Go Web 编程</a></li>
+</ul>
+<h3 id="IOS"><a href="#IOS" class="headerlink" title="IOS"></a>IOS</h3><ul>
+<li><a href="https://github.com/AttackOnDobby/iOS-Core-Animation-Advanced-Techniques">iOS-Core-Animation-Advanced-Techniques</a></li>
+<li><a href="https://github.com/oa414/objc-zen-book-cn">禅与 Objective-C 编程艺术 （Zen and the Art of the Objective-C Craftsmanship 中文翻译）</a></li>
+<li><a href="https://github.com/nixzhu/dev-blog">翻译、开发心得或学习笔记</a></li>
+<li><a href="https://github.com/X140Yu/Developing_iOS_8_Apps_With_Swift">Stanford 公开课，Developing iOS 8 Apps with Swift 字幕翻译</a></li>
+<li><a href="https://github.com/objccn/articles">Articles for objccn.io. objc.io 的完整、准确、优雅的中文翻译版本</a></li>
+<li><a href="https://github.com/hehonghui/iOS-tech-frontier">一个定期翻译国外 iOS 优质的技术、开源库、软件架构设计、测试等文章的开源项目</a></li>
+<li><a href="https://github.com/SwiftGGTeam/Developing-iOS-9-Apps-with-Swift">Developing iOS 9 Apps with Swift 字幕简体中文翻译项目</a></li>
+<li><a href="https://www.gitbook.com/book/numbbbbb/-the-swift-programming-language-/details">《The Swift Programming Language》中文版</a></li>
+<li><a href="https://www.gitbook.com/book/zonble/kkbox-ios-dev/details">KKBOX iOS/Mac OS X 基礎開發教材</a></li>
+<li><a href="http://learn.jser.com/swift/swift-tutorial.html">Swift 教程</a></li>
+</ul>
+<h3 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h3><ul>
+<li><a href="https://www.gitbook.com/book/quanke/think-in-java/details">Thinking in Java (Java 编程思想)</a></li>
+<li><a href="https://github.com/giantray/stackoverflow-java-top-qa">stackoverflow 上 Java 相关回答 Top100 整理翻译</a></li>
+<li><a href="https://github.com/qibaoguang/Spring-Boot-Reference-Guide">Spring Boot Reference Guide 中文翻译 -《Spring Boot 参考指南》</a></li>
+<li><a href="https://github.com/waylau/spring-framework-4-reference">中文翻译《Spring Framework 4.x 参考文档》</a></li>
+<li><a href="https://github.com/waylau/netty-4-user-guide">《Netty 4.x 用户指南》</a></li>
+<li><a href="https://github.com/YiiGuxing/TranslationPlugin">JetBrains IDE/Android Studio 翻译插件</a></li>
+<li><a href="https://github.com/linesh-simplicity/translation-spring-mvc-4-documentation">Spring MVC 4.2.4 RELEASE 中文文档完整翻译稿</a></li>
+<li><a href="https://www.gitbook.com/book/dongchuan/gradle-user-guide-/details">Gradle User Guide 中文版</a></li>
+</ul>
+<h3 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h3><ul>
+<li><a href="https://www.gitbook.com/book/wizardforcel/vbird-linux-basic-4e/details">鸟哥的 Linux 私房菜：基础学习篇 第四版</a></li>
+<li><a href="https://github.com/LCTT/TranslateProject">Linux 中国翻译项目</a></li>
+<li><a href="https://www.gitbook.com/book/tinylab/shellbook/details">Shell 编程范例</a></li>
+</ul>
+<h3 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h3><ul>
+<li><a href="https://www.gitbook.com/book/looly/python-basic/details">零基础学 Python</a></li>
+<li><a href="https://github.com/ictar/python-doc">python document</a></li>
+<li><a href="https://github.com/wklken/stackoverflow-py-top-qa">stackoverflow-py-top-qa</a></li>
+</ul>
+<h3 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h3><ul>
+<li><a href="https://github.com/huangz1990/redis">《Redis Command Reference》全文的中文翻译版</a></li>
+<li><a href="https://www.gitbook.com/book/gnuhpc/redis-all-about/details">Redis 开发运维实践指南</a></li>
+</ul>
+<h3 id="Rx-RxJava"><a href="#Rx-RxJava" class="headerlink" title="Rx/RxJava"></a>Rx/RxJava</h3><ul>
+<li><a href="https://github.com/mcxiaoke/RxDocs">Rx 和 RxJava 文档中文翻译项目</a></li>
+<li><a href="https://github.com/yuxingxin/RxJava-Essentials-CN">RxJava Essentials 中文翻译版</a></li>
+</ul>
+<h3 id="TensorFlow"><a href="#TensorFlow" class="headerlink" title="TensorFlow"></a>TensorFlow</h3><ul>
+<li><a href="https://github.com/jikexueyuanwiki/tensorflow-zh">TensorFlow 官方文档中文版</a></li>
+</ul>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><a href="https://github.com/xitu/gold-miner">掘金翻译计划，翻译掘金上优质的英文文章</a></li>
+<li><a href="https://github.com/skyline75489/what-happens-when-zh_CN">What-happens-when 的中文翻译</a></li>
+<li><a href="https://www.gitbook.com/book/leohxj/a-programmer-prepares/details">程序员的自我修养</a></li>
+<li><a href="https://www.gitbook.com/book/wizardforcel/the-art-of-programming-by-july/details">编程之法：面试和算法心得</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>文档</category>
+      </categories>
+      <tags>
+        <tag>Java Document</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PKI 体系（一）--PKI 介绍</title>
+    <url>/2018/07/10/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%B8%80)-PKI%E4%BB%8B%E7%BB%8D/</url>
+    <content><![CDATA[<p>公开密钥基础建设（英语：Public Key Infrastructure，缩写：PKI），又称公开密钥基础架构、公钥基础建设、公钥基础设施、公开密码匙基础建设或公钥基础架构，是一组由硬件、软件、参与者、管理政策与流程组成的基础架构，其目的在于创造、管理、分配、使用、存储以及撤销数字证书。</p>
+<p>密码学上，公开密钥基础建设借着数字证书认证机构 (Certificate Authority，CA) 将用户的个人身份跟公开密钥链接在一起。对每个证书中心用户的身份必须是唯一的。链接关系通过注册和发布过程创建，取决于担保级别，链接关系可能由 CA 的各种软件或在人为监督下完成。PKI 的确定链接关系的这一角色称为注册管理中心（Registration Authority，RA）。RA 确保公开密钥和个人身份链接，可以防抵赖。</p>
+<p>可信赖的第三者（Trusted third party，TTP）也常被用来指证书中心。PKI 有时被错误地拿来代表公开密钥密码学或公开密钥算法。</p>
+<span id="more"></span>
+
+<h1 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h1><p>1976 年 Whitfield Diffie、Martin Hellman|Hellman、Ron Rivest、Adi Shamir 和 Leonard Adleman 等人相继公布了安全密钥交换与非对称密钥算法后，整个通信方式为之改变。随着高速电子数字通信的发展，用户对安全通信的需求越来越强。</p>
+<p>密码协议在这种诉求下逐渐发展，造就新的密码原型。全球互联网发明与扩散后，认证与安全通信的需求也更加严苛。光商务理由便足以解释一切。时在网景工作的 Taher ElGamal 等人发展出传输安全层协议，包含了密钥创建、服务器认证等。公开密钥基础建设的架构因此浮现。</p>
+<p>厂商和企业家察觉了其后的广大市场，开始设立新公司并启动法律认知与保护。美国律师协会项目发行了一份对公开密钥基础建设操作的可预见法律观点的详尽分析，随后，多个美国州政府与其他国家的司法单位开始制定相关法规。消费者团体等则提出对隐私、访问、可靠性的质疑，也被列入司法的考虑中。</p>
+<p>被制定的法规实有不同，将公开密钥基础建设的机制转换成商务操作有实际上的问题，远比许多先驱者所想的缓慢。</p>
+<p>21 世纪的前几年才慢慢发觉，密码工程没那么容易被设计与实践，某些存在的标准某方面甚至是不合宜的。</p>
+<p>公开密钥基础建设的厂商发现了一个市场，但并非九零年代中期所预想的那个市场，这个市场发展得缓慢而且以不同的方式前进。公开密钥基础建设并未解决所期待的问题，某些厂商甚至退出市场。公开密钥基础建设最成功的地方是在政府部门，目前最大的公开密钥基础建设是美国防卫信息系统局 （Defense Information Systems Agency，DISA）的共同访问卡（Common access Cards）方案。</p>
+<h1 id="PKI组成"><a href="#PKI组成" class="headerlink" title="PKI组成"></a>PKI 组成</h1><p><img data-src="/450px-Public-Key-Infrastructure.svg.png" alt="pki组成"></p>
+<ol>
+<li><em>Certificate Authority(CA)</em> 证书颁发机构 (or 系统)，CA 是 PKI 的基础，它管理着证书的整个生命周期，其作用包括：发放证书，规定证书有效期，废弃不良信用证书。</li>
+<li><em>Registration Authority(RA)</em> 证书注册，登记机构 (or 系统)，RA 提供一个用户和 CA 之前的桥梁，用户通过 RA 进行证书的申请，RA 获取用户的身份信息并确认用户的信息，向 CA 提出证书申请。它接受用户的注册申请，审查用户的申请资格，并决定是否同意 CA 给其签发数字证书。注册机构并不给用户签发证书，而只是对用户进行资格审查。因此，RA 可以设置在直接面对客户的业务部门，如银行的营业部、机构认识部门等。当然，对于一个规模较小的 PKI 应用系统来说，可把注册管理的职能由认证中心 CA 来完成，而不设立独立运行的 RA。但这并不是取消了 PKI 的注册功能，而只是将其作为 CA 的一项功能而已。PKI 国际标准推荐由一个独立的 RA 来完成注册管理的任务，可以增强应用系统的安全。<blockquote>
+<p>这里的用户是指将要申请证书的客户，可以是个人，集团或团体，政府机构等。</p>
+</blockquote>
+</li>
+<li><em>Validation Authority(VA)</em> 证书验证机构 (or 系统)。在 PKI 中，VA 是一个实体，它根据 X.509 标准和 RFC 5280（第 69 页）中描述的机制提供用于验证数字证书有效性的服务。<blockquote>
+<p>VA 一般由第三方来提供，PKI 对 VA 没有强制要求，可以是 Nginx， Tomcat 等。</p>
+</blockquote>
+</li>
+<li><em>证书存储</em> - 证书和私钥存储位置</li>
+<li><em>证书管理中心</em> - 管理证书的申请，下发，存储</li>
+<li><em>机构可信度</em> -PKI 系统就本身的证书进行说明，其目的是允许外部分析 PKI 的可信度。</li>
+</ol>
+<h1 id="PKI认证方法"><a href="#PKI认证方法" class="headerlink" title="PKI认证方法"></a>PKI 认证方法</h1><ol>
+<li>认证机构</li>
+</ol>
+]]></content>
+      <categories>
+        <category>安全</category>
+      </categories>
+      <tags>
+        <tag>PKI</tag>
+        <tag>EJBCA</tag>
+        <tag>安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PKI 体系（三）-EJBCA 安装</title>
+    <url>/2018/07/11/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%B8%89)-EJBCA%E5%AE%89%E8%A3%85/</url>
+    <content><![CDATA[<p>EJBCA 是一个全功能的 CA 系统软件，它基于 J2EE 技术，并提供了一个强大的、高性能并基于组件的 CA。EJBCA 兼具灵活性和平台独立性，能够独立使用，也能和任何 J2EE 应用程序集成。</p>
+<span id="more"></span>
+
+<h1 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h1><ul>
+<li><p>特性： LGPL 开源许可；</p>
+</li>
+<li><p>建立在 J2EE 1.3（EJB2.0）规范之上；</p>
+</li>
+<li><p>灵活的、基于组件的体系结构；</p>
+</li>
+<li><p>多级 CA</p>
+</li>
+<li><p>多个 CA 和多级 CA，在一个 EJBCA 实例中建立一个或者多个完整的基础设施单独运行，或者在任何 J2EE 应用中集成它；</p>
+</li>
+<li><p>简单的安装和配置</p>
+</li>
+<li><p>强大的基于 Web 的管理界面，并采用了高强度的鉴别算法</p>
+</li>
+<li><p>支持基于命令行的管理，并支持脚本等功能</p>
+</li>
+<li><p>支持个人证书申请或者证书的批量生产</p>
+</li>
+<li><p>服务器和客户端证书能够采用 PKCS12, JKS 或者 PEM 格 式导出</p>
+</li>
+<li><p>支持采用 Netscape, Mozilla, IE 等浏览器直接进行证书申请</p>
+</li>
+<li><p>支持采用开放 API 和工具通过其它应用程序申请证书</p>
+</li>
+<li><p>由 RA 添加的新用户可以通过 email 进行提醒</p>
+</li>
+<li><p>对于新用户验证可以采用随机或者手工的方式生成密码</p>
+</li>
+<li><p>支持硬件模块，来集成硬件签发系统（例如智能卡）</p>
+</li>
+<li><p>支持 SCEP</p>
+</li>
+<li><p>支持用特定用户权限和用户组的方式来进行多极化管理</p>
+</li>
+<li><p>对不同类型和内容的证书可以进行证书配置</p>
+</li>
+<li><p>对不同类型的用户可以进行实体配置</p>
+</li>
+<li><p>遵循 X509 和 PKIX (RFC3280) 标准</p>
+</li>
+<li><p>支持 CRL</p>
+</li>
+<li><p>完全支持 OCSP，包括 AIA 扩展</p>
+</li>
+<li><p>CRL 生成和基于 URL 的 CRL 分发点遵循 RFC3280，可以在任何 SQL 数据库中存储证书和 CRL（通过应用服务器来处 理）。</p>
+</li>
+<li><p>可选的多个发布器，以用来在 LDAP 中 发布证书和 CRL</p>
+</li>
+<li><p>支持用来为指定用户和证书来恢复私钥的密钥恢复模块</p>
+</li>
+<li><p>基于组件的体系结构，用来发布证书和 CRL 到不 同的目的地</p>
+</li>
+<li><p>基于组件的体系结构，用来在发布证书时采用多种实体授权方法</p>
+</li>
+<li><p>容易集成到大型应用程序中，并为集成到业务流程进行了优化</p>
+</li>
+<li><p>EJBCA 完 全采用 Java 编写，能够在任何采用 J2EE 服 务器的平台上运行。开发和测试是在 Linux 和 Windows 上 进行的。</p>
+</li>
+</ul>
+<h1 id="安装前的准备"><a href="#安装前的准备" class="headerlink" title="安装前的准备"></a>安装前的准备</h1><ol>
+<li>JDK1.8</li>
+<li>apache-ant-1.9.11-bin</li>
+<li>Wildfly-12.0.0.Final</li>
+<li>ejbca_ce_6_10_1_2</li>
+<li>mysql-connector-java-5.1.46.jar</li>
+<li>MySQL</li>
+<li>Centos 7 (也可是其他系统)</li>
+</ol>
+<blockquote>
+<p>将其中的 Wildfly，ejbca_ce_6_10_1_2，mysql-connector-java-5.1.46.jar 放到同一个目录下，比如 <code>/opt/ca</code></p>
+</blockquote>
+<h1 id="Mysql建表"><a href="#Mysql建表" class="headerlink" title="Mysql建表"></a>Mysql 建表</h1><p>在 mysql 中新建一个表对应 EJBCA 的数据</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">CREATE DATABASE ejbcatest CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br><span class="line">GRANT ALL PRIVILEGES ON ejbcatest.* TO 'ejbca'@'%' IDENTIFIED BY 'ejbca';</span><br></pre></td></tr></tbody></table></figure>
+
+<h1 id="系统准备"><a href="#系统准备" class="headerlink" title="系统准备"></a>系统准备</h1><ol>
+<li>安装 JDK</li>
+<li> 安装 ant<ol>
+<li> 解压 ant <code>unzip apache-ant-1.9.11-bin.zip</code></li>
+<li>配置 path <code>vim /etc/profile</code>, 在文件末尾添加 <code>export PATH="/opt/apache-ant-1.9.11/bin:$PATH"</code></li>
+<li>编译生效 <code>source /etc/profile</code></li>
+<li>检查 <code>ant</code> 是否成功安装 <code>ant -version</code></li>
+</ol>
+</li>
+<li>为 EJBCA 新建用户 <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">adduser ca</span><br><span class="line">passwd ca</span><br></pre></td></tr></tbody></table></figure></li>
+<li>将安装包的所有者改成 <code>ca</code> <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">chown ca:ca /opt/ca</span><br><span class="line">chown ca:ca /opt/ca/wildfly-12.0.0.Final.zip</span><br><span class="line">chown ca:ca /opt/ca/ejbca_ce_6_10_1_2.zip</span><br><span class="line">chown ca:ca /opt/ca/mysql-connector-java-5.1.46.jar</span><br></pre></td></tr></tbody></table></figure></li>
+</ol>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><ol>
+<li>切换用户 <code>su - ca</code></li>
+<li>解压 Wildfly <code>unzip /opt/ca/wildfly-12.0.0.Final.zip</code></li>
+<li>修改 Wildfly 运行配置文件<ol>
+<li><code>vim wildfly-12.0.0.Final/bin/standalone.conf</code></li>
+<li>找到 53 行</li>
+<li>将改行注释掉<code>#JAVA_OPTS="-Xms64m -Xmx512m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -Djava.net.preferIPv4Stack=true"</code></li>
+<li>在该行下面加入一行 <code>JAVA_OPTS="-Xms2048m -Xmx2048m -Djava.net.preferIPv4Stack=true"</code></li>
+<li>保存，退出</li>
+</ol>
+</li>
+<li>启动 Wildfly<code>./wildfly-12.0.0.Final/bin/standalone.sh</code></li>
+<li>对 Wildfly 进行配置<ol>
+<li>启动客户端<code>./wildfly-12.0.0.Final/bin/jboss-cli.sh -c</code>。出现如下字符即进入成功 <em>[standalone@localhost:9990 /]</em></li>
+<li> 配置数据源 <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">module add --name=com.mysql --resources=/opt/ca/mysql-connector-java-5.1.46.jar --dependencies=javax.api,javax.transaction.api</span><br><span class="line"></span><br><span class="line">/subsystem=datasources/jdbc-driver=mysql:add(driver-name="mysql",driver-module-name="com.mysql",driver-xa-datasource-class-name=com.mysql.jdbc.Driver)</span><br><span class="line"></span><br><span class="line">data-source add --name=ejbcads --driver-name="mysql" --connection-url="jdbc:mysql://127.0.0.1:3306/ejbcatest" --jndi-name="java:/EjbcaDS" --use-ccm=true --driver-class="com.mysql.jdbc.Driver" --user-name="username" --password="password" --validate-on-match=true --background-validation=false --prepared-statements-cache-size=50 --share-prepared-statements=true --min-pool-size=5 --max-pool-size=150 --pool-prefill=true --transaction-isolation=TRANSACTION_READ_COMMITTED --check-valid-connection-sql="select 1;"</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<blockquote>
+<p>上面的命令和后续的配置命令都需要一条一条执行。注意替换 <code>--connection-url="jdbc:mysql://127.0.0.1:3306/ejbcatest"</code>，<code>--user-name="username"</code>，<code>--password="password"</code></p>
+</blockquote>
+</li>
+<li>配置 Wildfly 远程调用 <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">/subsystem=remoting/http-connector=http-remoting-connector:remove</span><br><span class="line">/subsystem=remoting/http-connector=http-remoting-connector:add(connector-ref="remoting",security-realm="ApplicationRealm")</span><br><span class="line">/socket-binding-group=standard-sockets/socket-binding=remoting:add(port="4447")</span><br><span class="line">/subsystem=undertow/server=default-server/http-listener=remoting:add(socket-binding=remoting)</span><br><span class="line">:reload</span><br></pre></td></tr></tbody></table></figure>
+<blockquote>
+<p>输入完成，需等待 Wildfly reload 完成，可用命令<code>:read-attribute(name=server-state)</code> 来进行检查。如果出现如下信息即代表 reload 成功。<br> </p><figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">{</span><br><span class="line">    "outcome" =&gt; "success",</span><br><span class="line">    "result" =&gt; "running"</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure><p></p>
+</blockquote>
+</li>
+<li>配置 Wildfly log <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">/subsystem=logging/logger=org.ejbca:add</span><br><span class="line">/subsystem=logging/logger=org.ejbca:write-attribute(name=level, value=DEBUG)</span><br><span class="line">/subsystem=logging/logger=org.cesecore:add</span><br><span class="line">/subsystem=logging/logger=org.cesecore:write-attribute(name=level, value=DEBUG)</span><br></pre></td></tr></tbody></table></figure></li>
+<li>关闭 jboos-cli</li>
+</ol>
+</li>
+<li> 对 ejbca 进行配置<ol>
+<li>解压文件，<code>unzip ejbca_ce_6_10_1_2.zip</code></li>
+<li>修改 <code>ejbca.properties</code> 文件<ol>
+<li><code>cp ejbca_ce_6_10_1_2/conf/ejbca.properties.sample ejbca_ce_6_10_1_2/conf/ejbca.properties</code></li>
+<li><code>vim ejbca_ce_6_10_1_2/conf/ejbca.properties</code></li>
+<li>设置 <code>appserver.home</code> 的值 (就是应用服务器的安装位置，对于我们来说是 <code>/opt/ca/wildfly-10.0.0.Final</code>)， 最终结果 <code>appserver.home=/opt/ca/wildfly-12.0.0.Final</code></li>
+</ol>
+</li>
+<li>修改 <code>web.properties</code> 文件<ol>
+<li><code>cp ejbca_ce_6_10_1_2/conf/web.properties.sample ejbca_ce_6_10_1_2/conf/web.properties</code></li>
+<li><code>vim ejbca_ce_6_10_1_2/conf/web.properties</code></li>
+<li>设置 CA 的超级管理员的证书密码，以及给应用服务器生成的服务器端证书的证书密码，和 CA 的 truststory 的密码等，这些密码的设置我们可以根据需要设置，或者保持默认的配置，需要注意的是 httpsserver.hostname, 这个要和后边的 alias 相对应，我的 ip 地址为 147.128.105.149, 那这里我们设置为 147.128.105.149.</li>
+<li> 最终修改，<code>httpsserver.hostname=127.0.0.1</code></li>
+</ol>
+</li>
+<li>修改 <code>database.properties</code><ol>
+<li><code>cp ejbca_ce_6_10_1_2/conf/database.properties.sample ejbca_ce_6_10_1_2/conf/database.properties</code></li>
+<li><code>vim ejbca_ce_6_10_1_2/conf/database.properties</code></li>
+<li>实际上只要使用 wildfly 的数据源即可 。把 <code>datasource.jndi-name=EjbcaDS</code> 的注释取消， 还要把 数据库类型 <code>database.name=mysql</code> 这个注释也要放开。否则安装出错，会执行 h2 数据库的库表安装脚本。</li>
+</ol>
+</li>
+<li>修改 <code>install.properties</code><ol>
+<li><code>cp ejbca_ce_6_10_1_2/conf/install.properties.sample ejbca_ce_6_10_1_2/conf/install.properties</code></li>
+<li><code>vim ejbca_ce_6_10_1_2/conf/install.properties</code></li>
+<li>设置 CA 的名称，加密方式等，建议保持默认即可。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>ejbca 打包部署 <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">cd /opt/ejbca_ce_6_5.0.5/</span><br><span class="line">ant clean deployear</span><br><span class="line">ant runinstall</span><br><span class="line">ant deploy-keystore</span><br></pre></td></tr></tbody></table></figure></li>
+<li>去除 Wildfly 当前的 HTTPS 和 TLS 配置，需要使用<code>./wildfly-12.0.0.Final/bin/jboss-cli.sh -c</code> <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">/subsystem=undertow/server=default-server/http-listener=default:remove</span><br><span class="line">/subsystem=undertow/server=default-server/https-listener=https:remove</span><br><span class="line">/socket-binding-group=standard-sockets/socket-binding=http:remove</span><br><span class="line">/socket-binding-group=standard-sockets/socket-binding=https:remove</span><br></pre></td></tr></tbody></table></figure></li>
+<li>配置 TLS<ol>
+<li> 配置外部可访问 <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">/interface=http:add(inet-address="0.0.0.0")</span><br><span class="line">/interface=httpspub:add(inet-address="0.0.0.0")</span><br><span class="line">/interface=httpspriv:add(inet-address="0.0.0.0")</span><br><span class="line">/socket-binding-group=standard-sockets/socket-binding=http:add(port="8080",interface="http")</span><br><span class="line">/socket-binding-group=standard-sockets/socket-binding=httpspriv:add(port="8443",interface="httpspriv")</span><br><span class="line">/socket-binding-group=standard-sockets/socket-binding=httpspub:add(port="8442", interface="httpspub")</span><br><span class="line">/subsystem=undertow/server=default-server/http-listener=http:add(socket-binding=http)</span><br><span class="line">/subsystem=undertow/server=default-server/http-listener=http:write-attribute(name=redirect-socket, value="httpspriv")</span><br><span class="line">:reload</span><br></pre></td></tr></tbody></table></figure></li>
+<li>配置端口绑定 <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">/core-service=management/security-realm=SSLRealm:add()</span><br><span class="line">/core-service=management/security-realm=SSLRealm/server-identity=ssl:add(keystore-path="${jboss.server.config.dir}/keystore/keystore.jks", keystore-password="serverpwd", alias="127.0.0.1")</span><br><span class="line">/core-service=management/security-realm=SSLRealm/authentication=truststore:add(keystore-path="${jboss.server.config.dir}/keystore/truststore.jks", keystore-password="changeit")</span><br><span class="line">:reload</span><br></pre></td></tr></tbody></table></figure>
+<blockquote>
+<p>其中 <code>keystore-password="serverpwd"</code> 对应 <code>web.properties</code> 里面的 <code>httpsserver.password</code>。<code>alias="127.0.0.1"</code> 对应 <code>web.properties</code> 里面的 <code>httpsserver.hostname</code></p>
+</blockquote>
+</li>
+<li>重启 wildfly<code>:shutdown(restart=true)</code>, 等待重启完毕</li>
+<li>配置 tls <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">/subsystem=undertow/server=default-server/https-listener=httpspriv:add(socket-binding=httpspriv, security-realm="SSLRealm", verify-client=REQUIRED)</span><br><span class="line">/subsystem=undertow/server=default-server/https-listener=httpspriv:write-attribute(name=max-parameters, value="2048")</span><br><span class="line">/subsystem=undertow/server=default-server/https-listener=httpspub:add(socket-binding=httpspub, security-realm="SSLRealm")</span><br><span class="line">/subsystem=undertow/server=default-server/https-listener=httpspub:write-attribute(name=max-parameters, value="2048")</span><br><span class="line">:reload</span><br></pre></td></tr></tbody></table></figure></li>
+<li>配置编码等其他重要配置 <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">/system-property=org.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH:add(value=true)</span><br><span class="line">/system-property=org.apache.catalina.connector.CoyoteAdapter.ALLOW_BACKSLASH:add(value=true)</span><br><span class="line">/system-property=org.apache.catalina.connector.URI_ENCODING:add(value="UTF-8")</span><br><span class="line">/system-property=org.apache.catalina.connector.USE_BODY_ENCODING_FOR_QUERY_STRING:add(value=true)</span><br><span class="line">/subsystem=webservices:write-attribute(name=wsdl-host, value=jbossws.undefined.host)</span><br><span class="line">/subsystem=webservices:write-attribute(name=modify-wsdl-address, value=true)</span><br><span class="line">:reload</span><br></pre></td></tr></tbody></table></figure></li>
+<li>重启 wildfly<code>:shutdown(restart=true)</code>, 等待重启完毕</li>
+</ol>
+</li>
+<li>访问 <a href="http://127.0.0.1:8080/ejbca">http://127.0.0.1:8080/ejbca</a> 进行验证</li>
+<li>下载管理员证书，将 <code>/opt/ca/ejbca_ce_6_10_1_2/p12</code> 下的 <code>superadmin.p12</code> 拷贝到本地，对证书进行安装</li>
+<li>访问 <a href="https://127.0.0.1:8443/ejbca">https://127.0.0.1:8443/ejbca</a> 进行验证<blockquote>
+<p>注：所有的 ip 需要换成对应的 ip 或者域名</p>
+</blockquote>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>安全</category>
+      </categories>
+      <tags>
+        <tag>PKI</tag>
+        <tag>EJBCA</tag>
+        <tag>安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PKI 体系（二）-Https &amp; 双端认证</title>
+    <url>/2018/07/11/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/</url>
+    <content><![CDATA[<p>超文本传输安全协议（英语：Hypertext Transfer Protocol Secure，缩写：HTTPS，常称为 HTTP over TLS，HTTP over SSL 或 HTTP Secure）是一种透过计算机网络进行安全通信的传输协议。HTTPS 经由 HTTP 进行通信，但利用 SSL/TLS 来加密数据包。HTTPS 开发的主要目的，是提供对网站服务器的身份认证，保护交换数据的隐私与完整性。这个协议由网景公司（Netscape）在 1994 年首次提出，随后扩展到互联网上。</p>
+<p>Https 协议默认支持双向认证，只是一般浏览器 - 服务器架构下不会进行开启。</p>
+<span id="more"></span>
+
+<h1 id="SSL-TLS协议"><a href="#SSL-TLS协议" class="headerlink" title="SSL/TLS协议"></a>SSL/TLS 协议</h1><p>传输层安全性协议（英语：Transport Layer Security，缩写作 TLS），及其前身安全套接层（Secure Sockets Layer，缩写作 SSL）是一种安全协议，目的是为互联网通信，提供安全及数据完整性保障。网景公司（Netscape）在 1994 年推出首版网页浏览器，网景导航者时，推出 HTTPS 协议，以 SSL 进行加密，这是 SSL 的起源。IETF 将 SSL 进行标准化，1999 年公布第一版 TLS 标准文件。随后又公布 RFC 5246 （2008 年 8 月）与 RFC 6176 （2011 年 3 月）。在浏览器、电子邮件、即时通信、VoIP、网络传真等应用程序中，广泛支持这个协议。主要的网站，如 Google、Facebook 等也以这个协议来创建安全连接，发送数据。目前已成为互联网上保密通信的工业标准。</p>
+<p>SSL 包含记录层（Record Layer）和传输层，记录层协议确定传输层数据的封装格式。传输层安全协议使用 X.509 认证，之后利用非对称加密演算来对通信方做身份认证，之后交换对称密钥作为会话密钥（Session key）。这个会谈密钥是用来将通信两方交换的数据做加密，保证两个应用间通信的保密性和可靠性，使客户与服务器应用之间的通信不被攻击者窃听。</p>
+<p>TLS 协议采用 C/S 架构模型，用于在两个应用程序间透过网络创建起安全的连接，防止在交换数据时受到窃听及篡改。</p>
+<p>TLS 协议的优势是与高层的应用层协议（如 HTTP、FTP、Telnet 等）无耦合。应用层协议能透明地运行在 TLS 协议之上，由 TLS 协议进行创建加密通道需要的协商和认证。应用层协议传送的数据在通过 TLS 协议时都会被加密，从而保证通信的私密性。</p>
+<p>TLS 协议是可选的，必须配置客户端和服务器才能使用。主要有两种方式实现这一目标：一个是使用统一的 TLS 协议通信端口（例如：用于 HTTPS 的端口 443）；另一个是客户端请求服务器连接到 TLS 时使用特定的协议机制（例如：邮件、新闻协议和 STARTTLS）。一旦客户端和服务器都同意使用 TLS 协议，他们通过使用一个握手过程协商出一个有状态的连接以传输数据 [1]。通过握手，客户端和服务器协商各种参数用于创建安全连接：</p>
+<pre><code>* 当客户端连接到支持TLS协议的服务器要求创建安全连接并列出了受支持的密码组合（加密密码算法和加密哈希函数），握手开始。
+* 服务器从该列表中决定加密和散列函数，并通知客户端。
+* 服务器发回其数字证书，此证书通常包含服务器的名称、受信任的证书颁发机构（CA）和服务器的公钥。
+* 客户端确认其颁发的证书的有效性。
+* 为了生成会话密钥用于安全连接，客户端使用服务器的公钥加密随机生成的密钥，并将其发送到服务器，只有服务器才能使用自己的私钥解密。
+* 利用随机数，双方生成用于加密和解密的对称密钥。这就是TLS协议的握手，握手完毕后的连接是安全的，直到连接（被）关闭。如果上述任何一个步骤失败，TLS握手过程就会失败，并且断开所有的连接。
+</code></pre>
+<h1 id="SSL-TLS原理"><a href="#SSL-TLS原理" class="headerlink" title="SSL&amp;TLS原理"></a>SSL&amp;TLS 原理</h1><h2 id="协议组成"><a href="#协议组成" class="headerlink" title="协议组成"></a>协议组成</h2><p>协议分为三个部分</p>
+<ul>
+<li>握手协议（Handshake protocol）</li>
+<li>记录协议（Record protocol）</li>
+<li>警报协议（Alert protocol）</li>
+</ul>
+<h3 id="握手协议"><a href="#握手协议" class="headerlink" title="握手协议"></a>握手协议</h3><p>握手协议是客户机和服务器用 SSL 连接通信时使用的第一个子协议，握手协议包括客户机与服务器之间的一系列消息。SSL 中最复杂的协议就是握手协议。该协议允许服务器和客户机相互验证，协商加密和 MAC 算法以及保密密钥，用来保护在 SSL 记录中发送的数据。握手协议是在应用程序的数据传输之前使用的。</p>
+<h4 id="握手协议数据格式"><a href="#握手协议数据格式" class="headerlink" title="握手协议数据格式"></a>握手协议数据格式</h4><p>每个握手协议包含以下 3 个字段</p>
+<ol>
+<li>Type：表示 10 种消息类型之一</li>
+<li> Length：表示消息长度字节数</li>
+<li> Content：与消息相关的参数</li>
+</ol>
+<p><img data-src="/%E5%9B%BE%E7%89%871.png" alt="握手协议数据格式"></p>
+<h4 id="握手协议流程"><a href="#握手协议流程" class="headerlink" title="握手协议流程"></a>握手协议流程</h4><p>握手协议分为 4 个阶段</p>
+<ol>
+<li>建立安全能力</li>
+<li>服务器鉴别与密钥交换</li>
+<li>客户机鉴别与密钥交换</li>
+<li>完成</li>
+</ol>
+<p><img data-src="/%E5%9B%BE%E7%89%872.png" alt="握手协议流程"></p>
+<h5 id="阶段1：建立安全能力"><a href="#阶段1：建立安全能力" class="headerlink" title="阶段1：建立安全能力"></a>阶段 1：建立安全能力</h5><p>SSL 握手的第一阶段启动逻辑连接，建立这个连接的安全能力。首先客户机向服务器发出 client hello 消息并等待服务器响应，随后服务器向客户机返回 server hello 消息，对 client hello 消息中的信息进行确认。<br>ClientHello 客户发送 CilentHello 信息，包含如下内容：</p>
+<ol>
+<li>客户端可以支持的 SSL 最高版本号</li>
+<li>一个用于生成主秘密的 32 字节的随机数。（等会介绍主秘密是什么）</li>
+<li>一个确定会话的会话 ID。</li>
+<li>一个客户端支持的加密算法列表。</li>
+<li>一个客户端可以可以支持的压缩算法列表</li>
+</ol>
+<p>ServerHello 服务器用 ServerHello 信息应答客户，包括下列内容：</p>
+<ol>
+<li>一个 SSL 版本号。取客户端支持的最高版本号和服务端支持的最高版本号中的较低者。</li>
+<li>一个用于生成主秘密的 32 字节的随机数。（客户端一个、服务端一个）</li>
+<li>会话 ID</li>
+<li> 从客户端的密码套件列表中选择的一个加密算法</li>
+<li>从客户端的压缩方法的列表中选择的压缩方法</li>
+</ol>
+<p><img data-src="/%E5%9B%BE%E7%89%873.png" alt="建立安全能力"></p>
+<h5 id="阶段2：服务器鉴别和密钥交换"><a href="#阶段2：服务器鉴别和密钥交换" class="headerlink" title="阶段2：服务器鉴别和密钥交换"></a>阶段 2：服务器鉴别和密钥交换</h5><p>服务器启动 SSL 握手第 2 阶段，是本阶段所有消息的唯一发送方，客户机是所有消息的唯一接收方。该阶段分为 4 步：</p>
+<ol>
+<li>证书：服务器将数字证书和到根 CA 整个链发给客户端，使客户端能用服务器证书中的服务器公钥认证服务器。</li>
+<li>服务器密钥交换（可选）：这里视密钥交换算法而定</li>
+<li>证书请求（可选）：服务端可能会要求客户自身进行验证。</li>
+<li>服务器握手完成：第二阶段的结束，第三阶段开始的信号</li>
+</ol>
+<p><img data-src="/%E5%9B%BE%E7%89%873.png" alt="服务器鉴别和密钥交换"></p>
+<blockquote>
+<p>服务器密钥交换：1 和 2 是基于密钥交换方法的。SSL 中密钥交换算法有 6 种：无效（没有密钥交换）、RSA、匿名 Diffie-Hellman、暂时 Diffie-Hellman、固定 Diffie-Hellman、Fortezza。<br>在阶段 1 过程客户端与服务端协商的过程中已经确定使哪种密钥交换算法。<br>如果协商过程中确定使用 RSA 交换密钥，那么过程如下图：<br><img data-src="/%E5%9B%BE%E7%89%875.jpg" alt="服务器密钥交换"></p>
+</blockquote>
+<h5 id="阶段3：客户机鉴别和密钥交换"><a href="#阶段3：客户机鉴别和密钥交换" class="headerlink" title="阶段3：客户机鉴别和密钥交换"></a>阶段 3：客户机鉴别和密钥交换</h5><p>客户机启动 SSL 握手第 3 阶段，是本阶段所有消息的唯一发送方，服务器是所有消息的唯一接收方。该阶段分为 3 步：</p>
+<ol>
+<li>证书（可选）：为了对服务器证明自身，客户要发送一个证书信息，这是可选的，在 Tomcat 中可以配置强制客户端证书认证。（服务器端请求了客户端证书才会有此步骤）</li>
+<li>客户机密钥交换（Pre-master-secret）：这里客户端将预备主密钥发送给服务端，注意这里会使用服务端的公钥进行加密。</li>
+<li>证书验证（可选），对预备秘密和随机数进行签名，证明拥有（1）证书的公钥。（服务器端请求了客户端证书才会有此步骤）</li>
+</ol>
+<p><img data-src="/%E5%9B%BE%E7%89%876.png" alt="客户机鉴别和密钥交换"></p>
+<h4 id="阶段4：完成"><a href="#阶段4：完成" class="headerlink" title="阶段4：完成"></a>阶段 4：完成</h4><p>握手完成后，客户端和服务器端后面的信息使用主密钥进行对称加 / 解密</p>
+<p><img data-src="/%E5%9B%BE%E7%89%877.png" alt="完成"></p>
+<h1 id="Https"><a href="#Https" class="headerlink" title="Https"></a>Https</h1><p>HTTP 协议和安全协议同属于应用层（OSI 模型的最高层），具体来讲，安全协议工作在 HTTP 之下，运输层之上：安全协议向运行 HTTP 的进程提供一个类似于 TCP 的 Socket，供进程向其中注入报文，安全协议将报文加密并注入运输层 Socket；或是从运输层获取加密报文，解密后交给对应的进程。严格地讲，HTTPS 并不是一个单独的协议，而是对工作在一加密连接（TLS 或 SSL）上的常规 HTTP 协议的称呼。</p>
+<p>HTTPS 报文中的任何东西都被加密，包括所有报头和荷载。除了可能的选择密文攻击（参见限制小节）之外，一个攻击者所能知道的只有在两者之间有一连接这一事实。</p>
+]]></content>
+      <categories>
+        <category>安全</category>
+      </categories>
+      <tags>
+        <tag>PKI</tag>
+        <tag>EJBCA</tag>
+        <tag>安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>开源文档 - 翻译分享</title>
+    <url>/2019/09/25/2019/09/25/%E5%BC%80%E6%BA%90%E6%96%87%E6%A1%A3-%E7%BF%BB%E8%AF%91%E5%88%86%E4%BA%AB/</url>
+    <content><![CDATA[<p>官方文档都是英文的，看不懂怎么办？<br>优质的文档零碎的散落在网络的各个角落，好难找怎么办？<br>现在有这样一个 github 仓库，旨在维护一个目录，集合各个优秀的 IT 技术书籍和技术书籍翻译，方便大家进行检索。<br>不过这个项目还需要大家的共同努力，个人的接触面有限，不能接触到所有的优秀书籍和书籍翻译。现在我们需要并且期待你的加入，来完善这个目录。<br><a href="https://github.com/piggsoft/Awesome-IT-Books">Github 地址</a></p>
+]]></content>
+      <categories>
+        <category>文档</category>
+      </categories>
+      <tags>
+        <tag>翻译</tag>
+        <tag>Spring</tag>
+        <tag>Spring boot 教程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>依托 github 搭建博客</title>
+    <url>/2021/04/12/2021/04/12/%E4%BE%9D%E6%89%98github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<p>依托于 github 来创建属于个人的博客，并开启评论，以及使用自定义域名访问。<br>你将达成</p>
+<ol>
+<li>依托 Github Pages 搭建博客</li>
+<li>使用自定义域名访问 Github Pages</li>
+<li> 引入 Hexo Next 模板</li>
+<li>加入备案信息</li>
+<li>开启评论</li>
+<li>个性化配置</li>
+</ol>
+<span id="more"></span>
+
+<h1 id="依托github搭建博客"><a href="#依托github搭建博客" class="headerlink" title="依托github搭建博客"></a>依托 github 搭建博客</h1><h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><ol>
+<li><p>新建一个名为 <code>xxx.github.io</code> 的仓库，其中 <code>xxx</code> 为你登录后 <code>https://github.com/xxx</code> 显示的用户名</p>
+</li>
+<li><p>对仓库进行配置，配置如下<br> <img data-src="/githubpages.png" alt="githubpages"></p>
+</li>
+<li><p>安装 hexo</p>
+<figure class="highlight js"><table><tbody><tr><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>创建博客工程</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">hexo init xxx.github.io</span><br><span class="line">cd init xxx.github.io</span><br><span class="line">npm install</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>下载主题插件</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">cd init xxx.github.io</span><br><span class="line">git clone https://github.com/ themes/next</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>创建用户数据文件</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">cd init xxx.github.io/source</span><br><span class="line">mkdir _data</span><br><span class="line">cd _data</span><br></pre></td></tr></tbody></table></figure>
+
+<p>将 <code>themes/next/_config.yml</code> 复制到 <code>source/_data</code> 目标，并改名为 <code>next.yml</code><br>将 <code>next.yml</code> 中的 <code>override: false</code> 改为 <code>override: true</code></p>
+</li>
+<li><p>修改配置 hexo 的住配置文件 <code>xxx.github.io/_config.yml</code>, 修改项如下</p>
+<figure class="highlight yml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attr">title:</span> <span class="string">xxxx</span>  <span class="comment">#博客标题</span></span><br><span class="line"><span class="attr">subtitle:</span> <span class="string">xxxx</span>  <span class="comment">## 副标题</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">xxxx</span>  <span class="comment">## 博客说明</span></span><br><span class="line"><span class="attr">keywords:</span> <span class="string">xxxx</span>  <span class="comment">##SEO用</span></span><br><span class="line"><span class="attr">author:</span> <span class="string">xxxx</span>  <span class="comment">##作者名称，显示用</span></span><br><span class="line"><span class="attr">language:</span> <span class="string">zh-CN</span></span><br><span class="line"><span class="attr">timezone:</span> <span class="string">Asia/Shanghai</span></span><br><span class="line"></span><br><span class="line"><span class="attr">url:</span> <span class="string">https://xxx.github.io</span></span><br><span class="line"></span><br><span class="line"><span class="attr">theme:</span> <span class="string">next</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>推送到 <code>github</code> 上</p>
+ <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">git init</span><br><span class="line">git add .</span><br><span class="line">git commit -m "first commit"</span><br><span class="line">git remote add origin https://github.com/xxx/xxx.github.io</span><br><span class="line">git push -u origin master</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>本地新建 <code>source</code> 分支，切换到 <code>source</code> 分支上，并将该分支推到 <code>github</code></p>
+ <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">git checkout -b source</span><br><span class="line">git push origin source:source</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>在本地创建部署公私钥 <code>ssh-keygen -t rsa -b 4096 -C "your_email@example.com"</code></p>
+</li>
+<li><p>将公私钥填入到 <code>github</code> 中，并确认私钥的名称，假设私钥名称为 <code>GENERATE</code><br><img data-src="/public_key.png" alt="public_key"><br><img data-src="/secret.png" alt="secret"></p>
+</li>
+<li><p>在 <code>github</code> 上创建流水线文件<code>.github/workflows/pages.yml</code>, 内容为</p>
+<figure class="highlight yml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">Pages</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line"><span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">source</span>  <span class="comment"># default branch</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line"><span class="attr">build:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">A</span> <span class="string">job</span> <span class="string">to</span> <span class="string">deploy</span> <span class="string">blog.</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span></span><br><span class="line">    <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line">    <span class="attr">with:</span></span><br><span class="line">        <span class="attr">submodules:</span> <span class="literal">true</span> <span class="comment"># Checkout private submodules(themes or something else).</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span> <span class="string">tools</span> <span class="string">repo</span></span><br><span class="line">    <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line">    <span class="attr">with:</span></span><br><span class="line">        <span class="attr">repository:</span> <span class="string">theme-next/hexo-theme-next</span></span><br><span class="line">        <span class="attr">path:</span> <span class="string">themes/next</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Setup</span> <span class="string">Node.js</span> <span class="string">environment</span></span><br><span class="line">    <span class="attr">uses:</span> <span class="string">actions/setup-node@v2.1.5</span></span><br><span class="line">    <span class="attr">with:</span></span><br><span class="line">        <span class="attr">node-version:</span> <span class="number">12.</span><span class="string">x</span></span><br><span class="line">    <span class="comment"># Caching dependencies to speed up workflows. (GitHub will remove any cache entries that have not been accessed in over 7 days.)</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Cache</span> <span class="string">node</span> <span class="string">modules</span></span><br><span class="line">    <span class="attr">uses:</span> <span class="string">actions/cache@v1</span></span><br><span class="line">    <span class="attr">id:</span> <span class="string">cache</span></span><br><span class="line">    <span class="attr">with:</span></span><br><span class="line">        <span class="attr">path:</span> <span class="string">node_modules</span></span><br><span class="line">        <span class="attr">key:</span> <span class="string">${{</span> <span class="string">runner.os</span> <span class="string">}}-node-${{</span> <span class="string">hashFiles('**/package-lock.json')</span> <span class="string">}}</span></span><br><span class="line">        <span class="attr">restore-keys:</span> <span class="string">|</span></span><br><span class="line"><span class="string">        ${{ runner.os }}-node-</span></span><br><span class="line"><span class="string"></span>    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">Dependencies</span></span><br><span class="line">    <span class="attr">if:</span> <span class="string">steps.cache.outputs.cache-hit</span> <span class="type">!=</span> <span class="string">'true'</span></span><br><span class="line">    <span class="attr">run:</span> <span class="string">npm</span> <span class="string">ci</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Build</span></span><br><span class="line">    <span class="attr">run:</span> <span class="string">npm</span> <span class="string">run</span> <span class="string">build</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Deploy</span></span><br><span class="line">    <span class="attr">uses:</span> <span class="string">peaceiris/actions-gh-pages@v3.7.3</span></span><br><span class="line">    <span class="attr">with:</span></span><br><span class="line">        <span class="attr">deploy_key:</span> <span class="string">${{</span> <span class="string">secrets.GENERATE</span> <span class="string">}}</span></span><br><span class="line">        <span class="comment">#github_token: ${{ secrets.GENERATE }}</span></span><br><span class="line">        <span class="attr">publish_dir:</span> <span class="string">./public</span></span><br><span class="line">        <span class="attr">publish_branch:</span> <span class="string">master</span></span><br><span class="line">    <span class="comment"># Deploy hexo blog website.</span></span><br><span class="line">    <span class="comment">#- name: Deploy</span></span><br><span class="line">    <span class="comment">#  id: deploy</span></span><br><span class="line">    <span class="comment"># uses: sma11black/hexo-action@v1.0.3</span></span><br><span class="line">    <span class="comment">#with:</span></span><br><span class="line">    <span class="comment"># deploy_key: ${{ secrets.GENERATE }}</span></span><br><span class="line">        <span class="comment">#user_name: piggsoft  # (or delete this input setting to use bot account)</span></span><br><span class="line">        <span class="comment">#user_email: piggsoft@163.com  # (or delete this input setting to use bot account)</span></span><br><span class="line">        <span class="comment">#commit_msg: ${{ github.event.head_commit.message }}  # (or delete this input setting to use hexo default settings)</span></span><br><span class="line">        <span class="comment">#publish_dir: ./public</span></span><br><span class="line">        <span class="comment">#publish_branch: master  # deploying branch</span></span><br><span class="line">    <span class="comment"># Use the output from the `deploy` step(use for test action)</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Get</span> <span class="string">the</span> <span class="string">output</span></span><br><span class="line">    <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">        echo "${{ steps.deploy.outputs.notify }}"</span></span><br><span class="line"><span class="string"></span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>修改 <code>source/helloworld.md</code> 中任意内容，观察 <code>Github Actions</code>, 待完成后，浏览器中输入 <code>xxx.github.io</code>，观察博客</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>建站 博客</category>
+      </categories>
+      <tags>
+        <tag>github pages hexo next actions gittalk</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ELK_Nignx_Configuration</title>
+    <url>/2021/04/15/2021/04/15/ELK_Nignx_Configuration/</url>
+    <content><![CDATA[<p>使用 ELK 对 nginx 日志进行收集，并分析</p>
+<span id="more"></span>
+
+<h2 id="使用ELK对nginx日志进行收集，并分析"><a href="#使用ELK对nginx日志进行收集，并分析" class="headerlink" title="使用ELK对nginx日志进行收集，并分析"></a>使用 ELK 对 nginx 日志进行收集，并分析</h2><h2 id="Filebeat配置"><a href="#Filebeat配置" class="headerlink" title="Filebeat配置"></a>Filebeat 配置</h2><figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">###################### Filebeat Configuration Example #########################</span><br><span class="line"></span><br><span class="line"># This file is an example configuration file highlighting only the most common</span><br><span class="line"># options. The filebeat.reference.yml file from the same directory contains all the</span><br><span class="line"># supported options with more comments. You can use it as a reference.</span><br><span class="line">#</span><br><span class="line"># You can find the full configuration reference here:</span><br><span class="line"># https://www.elastic.co/guide/en/beats/filebeat/6.7/filebeat-input-log.html</span><br><span class="line"></span><br><span class="line"># For more available modules and options, please see the filebeat.reference.yml sample</span><br><span class="line"># configuration file.</span><br><span class="line">#=========================== Filebeat inputs =============================</span><br><span class="line">#</span><br><span class="line">filebeat.inputs:</span><br><span class="line">- type: log</span><br><span class="line">  enabled: true</span><br><span class="line">  paths:</span><br><span class="line">  # 日志存储目录，path配置参考https://www.elastic.co/guide/en/beats/filebeat/6.7/filebeat-input-log.html#input-paths</span><br><span class="line">    #- /usr/local/nginx/logs/access.cn.log</span><br><span class="line">    - /usr/local/nginx-1.17.9/logs/access.log</span><br><span class="line">    #- /opt/webapp/filebeat-6.7.0-linux-x86_64/local.log</span><br><span class="line">  #  - /data/logs/server2/*.log</span><br><span class="line">  fields:</span><br><span class="line">  # 该字段用于标记服务来源，为了和容器云保持一致，字段定义为kubernetes.namespace，对应的值根据实际用途定义</span><br><span class="line">    namespace: nginx-log</span><br><span class="line">  fields_under_root: true</span><br><span class="line">  # 可多行读取，需根据多行的起始标识来配置pattern，改多行读取配置为apache日志的配置</span><br><span class="line">  #multiline.pattern: '^\['</span><br><span class="line">  #multiline.negate: true</span><br><span class="line">  #multiline.match: after</span><br><span class="line"></span><br><span class="line">#----------------------------- Logstash output --------------------------------</span><br><span class="line">output.logstash:</span><br><span class="line">  # The Logstash hosts</span><br><span class="line">  hosts: ["elk-logstash-1.elk-bj02-4ufsdz.svc.bjb.ipaas.cn", "elk-logstash.elk-bj02-4ufsdz.svc.bjb.ipaas.cn"]</span><br><span class="line">  worker: 4</span><br><span class="line">  bulk_max_size: 2048</span><br><span class="line"></span><br><span class="line">#============================== Xpack Monitoring ===============================</span><br><span class="line">#xpack.monitoring.enabled: true</span><br><span class="line">#xpack.monitoring:</span><br><span class="line">#  enabled: true</span><br><span class="line">#  elasticsearch:</span><br><span class="line">#    hosts: [""]</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="Logstash配置"><a href="#Logstash配置" class="headerlink" title="Logstash配置"></a>Logstash 配置</h2><figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">input {</span><br><span class="line">  beats {</span><br><span class="line">    port =&gt; 5044</span><br><span class="line">  }</span><br><span class="line">}</span><br><span class="line">filter{</span><br><span class="line">    grok {</span><br><span class="line">      # match =&gt; { "message" =&gt; ["%{IPORHOST:[nginx][access][remote_ip]} - %{DATA:[nginx][access][user_name]} \[%{HTTPDATE:[nginx][access][time]}\] \"%{WORD:[nginx][access][method]} %{URIPATH:[nginx][access][path]}(?:%{URIPARAM:[nginx][access][params]})? HTTP/%{NUMBER:[nginx][access][http_version]:float}\" %{DATA:[nginx][access][http_host]} %{NUMBER:[nginx][access][response_code]:int} %{NUMBER:[nginx][access][body_sent][bytes]:int} \"%{DATA:[nginx][access][scheme]}\" \"%{DATA:[nginx][access][referrer]}\" \"%{DATA:[nginx][access][agent]}\" \"%{DATA:[nginx][access][forwarded]}\" %{NUMBER:[nginx][access][request_time]:float} %{NUMBER:[nginx][access][response_time]:float} %{HOSTPORT:[nginx][access][upstream]}"] }</span><br><span class="line">       match =&gt; { "message" =&gt; [</span><br><span class="line">         "%{IPORHOST:[nginx][access][remote_ip]} - %{DATA:[nginx][access][user_name]} \[%{HTTPDATE:[nginx][access][time]}\] \"%{WORD:[nginx][access][method]} %{URIPATH:[nginx][access][path]}(?:%{CUSTOMER_URIPARAM:[nginx][access][params]})? HTTP/%{NUMBER:[nginx][access][http_version]:float}\" %{DATA:[nginx][access][http_host]} %{NUMBER:[nginx][access][response_code]:int} %{NUMBER:[nginx][access][body_sent][bytes]:int} \"%{DATA:[nginx][access][scheme]}\" \"%{DATA:[nginx][access][referrer]}\" \"%{DATA:[nginx][access][agent]}\" \"%{DATA:[nginx][access][forwarded]}\" %{NUMBER:[nginx][access][request_time]:float} %{NUMBER:[nginx][access][response_time]:float}(, )?%{NUMBER:[nginx][access][upstream_switch_time]:float}? %{HOSTPORT:[nginx][access][upstream]}(, %{HOSTPORT:[nginx][access][upstreamSwitch]})?",</span><br><span class="line">        "%{IPORHOST:[nginx][access][remote_ip]} - %{DATA:[nginx][access][user_name]} \[%{HTTPDATE:[nginx][access][time]}\] \"%{WORD:[nginx][access][method]} %{URIPATH:[nginx][access][path]}(?:%{CUSTOMER_URIPARAM:[nginx][access][params]})? HTTP/%{NUMBER:[nginx][access][http_version]:float}\" %{DATA:[nginx][access][http_host]} %{NUMBER:[nginx][access][response_code]:int} %{NUMBER:[nginx][access][body_sent][bytes]:int} \"%{DATA:[nginx][access][scheme]}\" \"%{DATA:[nginx][access][referrer]}\" \"%{DATA:[nginx][access][agent]}\" \"%{DATA:[nginx][access][forwarded]}\" %{NUMBER:[nginx][access][request_time]:float}"</span><br><span class="line">       ] }</span><br><span class="line">       pattern_definitions =&gt; {</span><br><span class="line">         "CUSTOMER_URIPARAM" =&gt; "\?[A-Za-z0-9$.+!*'|(){},~@#%&amp;/=:;_?\-\[\]&lt;&gt;\\]*"</span><br><span class="line">       }</span><br><span class="line">       remove_field =&gt; "message"</span><br><span class="line">     }</span><br><span class="line">     kv {</span><br><span class="line">      source =&gt; "[nginx][access][params]" # 默认是message，我们这里只需要解析上面grok抽取出来的request字段</span><br><span class="line">      target =&gt; "[nginx][access][paramsJson]"</span><br><span class="line">      field_split =&gt; "&amp;?"</span><br><span class="line">      value_split =&gt; "="</span><br><span class="line">      include_keys =&gt; [ "openId", "openid"]</span><br><span class="line">    }</span><br><span class="line">    urldecode {</span><br><span class="line">      all_fields =&gt; true</span><br><span class="line">    }</span><br><span class="line">     mutate {</span><br><span class="line">        add_field =&gt; { "read_timestamp" =&gt; "%{@timestamp}" }</span><br><span class="line">      }</span><br><span class="line">     date {</span><br><span class="line">          match =&gt; [ "[nginx][access][time]", "dd/MMM/YYYY:HH:mm:ss Z" ]</span><br><span class="line">        }</span><br><span class="line">    geoip {</span><br><span class="line">      source =&gt; "[nginx][access][forwarded]"</span><br><span class="line">      #target =&gt; "[nginx][access][geoip]"</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line">output{</span><br><span class="line">  elasticsearch{</span><br><span class="line">    # 添加对应集群的地址</span><br><span class="line">    hosts =&gt; ["es-host"]</span><br><span class="line">    index =&gt; "nginx-log-%{+yyyy.MM.dd}"</span><br><span class="line">  }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<blockquote>
+<p><a href="https://github.com/logstash-plugins/logstash-patterns-core/blob/master/patterns/legacy/grok-patterns">参考</a></p>
+</blockquote>
+<h2 id="ES配置"><a href="#ES配置" class="headerlink" title="ES配置"></a>ES 配置</h2><p>需要在 es 中创建相应的索引</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">PUT /_template/template_nginx?include_type_name=true</span><br><span class="line">{</span><br><span class="line">  "order" : 0,</span><br><span class="line">  "version" : 10001,</span><br><span class="line">  "index_patterns" : [</span><br><span class="line">    "nginx-log-*"</span><br><span class="line">  ],</span><br><span class="line">  "settings" : {</span><br><span class="line">    "index" : {</span><br><span class="line">    "number_of_shards": "5",</span><br><span class="line">    "number_of_replicas": "1",</span><br><span class="line">    "refresh_interval" : "5s"</span><br><span class="line">    }</span><br><span class="line">  },</span><br><span class="line">  "mappings" : {</span><br><span class="line">    "_default_" : {</span><br><span class="line">      "dynamic_templates" : [</span><br><span class="line">        {</span><br><span class="line">          "message_field" : {</span><br><span class="line">            "path_match" : "message",</span><br><span class="line">            "mapping" : {</span><br><span class="line">              "norms" : false,</span><br><span class="line">              "type" : "text"</span><br><span class="line">            },</span><br><span class="line">            "match_mapping_type" : "string"</span><br><span class="line">          }</span><br><span class="line">        },</span><br><span class="line">        {</span><br><span class="line">          "string_fields" : {</span><br><span class="line">            "mapping" : {</span><br><span class="line">              "norms" : false,</span><br><span class="line">              "type" : "text",</span><br><span class="line">              "analyzer": "ik_max_word",</span><br><span class="line">              "fields" : {</span><br><span class="line">                "keyword" : {</span><br><span class="line">                  "ignore_above" : 256,</span><br><span class="line">                  "type" : "keyword"</span><br><span class="line">                }</span><br><span class="line">              }</span><br><span class="line">            },</span><br><span class="line">            "match_mapping_type" : "string",</span><br><span class="line">            "match" : "*"</span><br><span class="line">          }</span><br><span class="line">        }</span><br><span class="line">      ]</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+]]></content>
+      <categories>
+        <category>ELK</category>
+      </categories>
+      <tags>
+        <tag>nginx elk ELK</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java 中 switch 的用法你掌握了吗？</title>
+    <url>/2022/03/24/2022/03/24/Java%E4%B8%ADSwitch%E7%9A%84%E7%94%A8%E6%B3%95%E4%BD%A0%E6%8E%8C%E6%8F%A1%E4%BA%86%E5%90%97/</url>
+    <content><![CDATA[<p>Java 中 switch 的用法你掌握了吗？我们一起来温故知新吧！</p>
+<span id="more"></span>
+
+<h1 id="Java重复判断之-switch"><a href="#Java重复判断之-switch" class="headerlink" title="Java重复判断之 switch"></a>Java 重复判断之 <code>switch</code></h1><p><code>switch</code> <code>case</code> 语句是用于判断一个变量与一系列值中某个值是否相等来作相应的操作，其执行效率比 <code>if</code> 语句要高，但相应的也有一定的限制性，它是只做等式比较，不能做其他条件筛选的。<br><code>switch</code> <code>case</code> 语句语法格式如下：</p>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">switch</span>(expression) {</span><br><span class="line">   <span class="keyword">case</span> value:</span><br><span class="line">       <span class="comment">//语句</span></span><br><span class="line">       <span class="keyword">break</span>;<span class="comment">//可选</span></span><br><span class="line">    <span class="keyword">case</span> value:</span><br><span class="line">       <span class="comment">//语句</span></span><br><span class="line">       <span class="keyword">break</span>;<span class="comment">//可选</span></span><br><span class="line">    <span class="keyword">default</span>:<span class="comment">//可选</span></span><br><span class="line">        <span class="comment">//语句</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p><code>switch</code> <code>case</code> 语句有如下规则：</p>
+<ul>
+<li><code>switch</code> 语句中的 expression 变量类型可以是： <code>byte</code>、<code>short</code>、<code>int</code> 或者 <code>char</code>。从 Java SE 7 开始，<code>switch</code> 支持字符串 <code>String</code> 类型了，同时 <code>case</code> 标签必须为字符串常量或字面量，不能出现变量。  </li>
+<li><code>switch</code> 语句可以拥有多个 <code>case</code> 语句。每个 <code>case</code> 后面跟一个要比较的值和冒号。</li>
+<li><code>case</code> 语句中的值的数据类型必须与变量的数据类型相同，而且只能是常量或者字面常量。</li>
+<li>当变量的值与 <code>case</code> 语句的值相等时，那么 <code>case</code> 语句之后的语句开始执行，直到 <code>break</code> 语句出现才会跳出 <code>switch</code> 语句。</li>
+<li>当遇到 <code>break</code> 语句时，<code>switch</code> 语句终止。程序跳转到 <code>switch</code> 语句后面的语句执行。<code>case</code> 语句不必须要包含 <code>break</code> 语句。如果没有 <code>break</code> 语句出现，程序会继续执行下一条 <code>case</code> 语句，直到出现 <code>break</code> 语句。</li>
+<li><code>switch</code> 语句可以包含一个 <code>default</code> 分支，该分支一般是 <code>switch</code> 语句的最后一个分支（可以在任何位置，但建议在最后一个）。<code>default</code> 在没有 <code>case</code> 语句的值和变量值相等的时候执行。<code>default</code> 分支不需要 <code>break</code> 语句 </li>
+</ul>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">switch</span>(i) {</span><br><span class="line">     <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">        System.out.println(<span class="string">"0"</span>);</span><br><span class="line">     <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">        System.out.println(<span class="string">"1"</span>);</span><br><span class="line">     <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">        System.out.println(<span class="string">"2"</span>);</span><br><span class="line">     <span class="keyword">default</span>:</span><br><span class="line">        System.out.println(<span class="string">"default"</span>);</span><br><span class="line">      }</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><h3 id="case穿透"><a href="#case穿透" class="headerlink" title="case穿透"></a><code>case</code> 穿透</h3><p>如果想要终止程序，必须在 <code>case</code> 语句中加上 <code>break</code>，<br>比如上例中若 <code>i</code> 的值为 <code>1</code>，则会执行到</p>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">case</span> <span class="number">1</span>: </span><br><span class="line">   System.out.println(<span class="string">"1"</span>);</span><br></pre></td></tr></tbody></table></figure>
+
+<p>语句，同时由于 <code>case 1</code> 分支中没有加入 <code>break</code> 语句，程序会继续执行下面的所有语句而不会继续做判断，直到遇到 <code>break</code> 语句，结果就会打印</p>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="keyword">default</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果想要匹配到结果后中断程序，就需要在 <code>case</code> 分支中加入 <code>break</code> 语句，修改如下：</p>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">switch</span>(i) {</span><br><span class="line">     <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">        System.out.println(<span class="string">"0"</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">     <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">        System.out.println(<span class="string">"1"</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">     <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">        System.out.println(<span class="string">"2"</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">     <span class="keyword">default</span>:</span><br><span class="line">        System.out.println(<span class="string">"default"</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      }</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="case中定义变量"><a href="#case中定义变量" class="headerlink" title="case中定义变量"></a><code>case</code> 中定义变量</h3><p><code>case</code> 分支中如果想要定义变量，必须用 “{}” 将分支内容给包含进去，否则，不能定义变量。<br>如：</p>
+<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">case</span> <span class="number">1</span> :</span><br><span class="line">    {</span><br><span class="line">        <span class="type">int</span> <span class="variable">num</span> <span class="operator">=</span> <span class="number">0</span> ;</span><br><span class="line">        System.out.println(num);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    }  </span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>]]></content>
+      <categories>
+        <category>Java基础</category>
+      </categories>
+      <tags>
+        <tag>Java基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>每周知识点介绍 - 权限系统实现方案</title>
+    <url>/2022/03/26/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/</url>
+    <content><![CDATA[<p>  Hello, 大家好，我是小毛驴。欢迎大家来到每周知识点介绍栏目。本周我将带领大家一起来了解下业内较为成熟的权限系统设计方案，包含 <code>ACL</code>,  <code>DAL</code>, <code>MAC</code>, <code>RBAC</code>, <code>ABAC</code>。<br>  通过本文的介绍，大家可以了解一些关于权限系统的概念，方案，还有一些在方案选型上的建议。好了，废话不多说，我们进入正题吧。</p>
+<span id="more"></span>
+
+<h2 id="什么是权限控制"><a href="#什么是权限控制" class="headerlink" title="什么是权限控制"></a>什么是权限控制</h2><p>  在现实场景中有些操作只能由某个特定的人或特定岗位来完成，例如对外的公章，只能由老板来在确认后使用，或者你的请假条，将由你的直属上线来进行审批。<br>  将这些 “权限要求” 搬到信息化系统之后，就要求我们的信息化系统也能进行相应的权限控制，保证某些资源，操作只能由特定的人员，岗位来访问，操作。</p>
+<h2 id="权限管理模式有哪些"><a href="#权限管理模式有哪些" class="headerlink" title="权限管理模式有哪些"></a>权限管理模式有哪些</h2><p>  在 IT 届长时间的演化后，将一些权限系统设计的思路抽象化，形成了一些模式，这些模式就是：</p>
+<p><img data-src="/timeline.png" alt="权限方案发展历史"></p>
+<ul>
+<li><code>ACL</code></li>
+<li><code>DAC</code></li>
+<li><code>MAC</code></li>
+<li><code>RBAC</code></li>
+<li><code>ABAC</code></li>
+</ul>
+<p>  重要名称解释</p>
+<ul>
+<li><code>Subject</code> 实体，可指代人，群组等</li>
+<li><code>Object</code> 对象，需要权限才能操作的对象，有时也会用 <code>Resources</code> 资源替代</li>
+<li><code>Action</code> 操作，对 <code>Object</code> 进行的权限操作，有时也会用 <code>Operation</code> 替代</li>
+<li><code>Permission</code> 权限，有时也会用 <code>Privileges</code></li>
+<li><code>Group</code> 群组，Subject 的群组</li>
+<li><code>Role</code> 角色，权限的群组，集合</li>
+</ul>
+<h3 id="ACL-Access-Control-List-访问控制列表"><a href="#ACL-Access-Control-List-访问控制列表" class="headerlink" title="ACL: Access Control List 访问控制列表"></a><code>ACL: Access Control List</code> 访问控制列表</h3><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><ul>
+<li><code>Subject</code> 能对 <code>Object</code> 进行 <code>Action</code></li>
+<li><code>Subject</code> 可以是单个用户也可以是群组</li>
+</ul>
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><ol>
+<li><p>给张三授予文档的创建权限。</p>
+ <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">Subject: 张三</span><br><span class="line">Action: 创建</span><br><span class="line">Object: 文档</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>张三现在可以创建文档了。</p>
+</li>
+</ol>
+<h3 id="DAC-Discretionary-Access-Control-自主访问控制"><a href="#DAC-Discretionary-Access-Control-自主访问控制" class="headerlink" title="DAC: Discretionary Access Control 自主访问控制"></a><code>DAC: Discretionary Access Control</code> 自主访问控制</h3><p><img data-src="/DAC.jpg" alt="DAC"></p>
+<blockquote>
+<p>DAC 是 ACL 的一种实现，强调灵活性。纯粹的 ACL，权限由中心管理员统一分配，缺乏灵活性。为了加强灵活性，在 ACL 的基础上，DAC 模型将授权的权力下放，允许拥有权限的用户，可以自主地将权限授予其他用户。<br>比如，在纯粹 ACL 模型下，每次新人培训，人事总监都要通知 IT 部，将培训文档的访问权限授予新人。在 DAC 模型下，人事总监只需将文档的访问权限授予人事专员。之后，每次新人培训，由人事专员将文档的访问权限授予不同的新人。</p>
+</blockquote>
+<h4 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h4><ul>
+<li><code>Subject</code> 能对 <code>Object</code> 进行 <code>Action</code></li>
+<li><code>Subject</code> 能给其他 <code>Subject</code> 授权</li>
+</ul>
+<h4 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h4><ol>
+<li><p>给张三授予文档的创建权限。</p>
+ <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">Subject: 张三</span><br><span class="line">Action: 创建</span><br><span class="line">Object: 文档</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>张三现在可以创建文档了，并且张三可以将这个权限授予给其他人。</p>
+</li>
+<li><p>张三给李四授权创建文档权限。</p>
+ <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">Subject: 李四</span><br><span class="line">Action: 创建</span><br><span class="line">Object: 文档</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>李四现在可以创建文档了。</p>
+</li>
+</ol>
+<h3 id="MAC-Mandatory-Access-Control-强制访问控制"><a href="#MAC-Mandatory-Access-Control-强制访问控制" class="headerlink" title="MAC: Mandatory Access Control 强制访问控制"></a><code>MAC: Mandatory Access Control</code> 强制访问控制</h3><h4 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h4><ul>
+<li><code>Subject</code> 能对 <code>Object</code> 进行 <code>Action</code></li>
+<li><code>Object</code> 能被 <code>Subject</code> 进行 <code>Action</code></li>
+<li><code>Subject</code> 可以是单个用户也可以是群组</li>
+</ul>
+<blockquote>
+<p>注意，MAC 中的权限控制是双向的，既要确认用户是否有对资源的操作权限，也要确定资源是否能被这个用户进行操作的权限。适合保密程度要求高的场景。</p>
+</blockquote>
+<h4 id="示例-2"><a href="#示例-2" class="headerlink" title="示例"></a>示例</h4><ol>
+<li><p>给张三授予文档的创建权限。</p>
+ <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">Subject: 张三</span><br><span class="line">Action: 创建</span><br><span class="line">Object: 文档</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>将文档的被创建权限授权给张三。</p>
+ <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">Subject: 文档</span><br><span class="line">Action: 被创建</span><br><span class="line">Object: 张三</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>张三现在可以创建文档了。</p>
+</li>
+</ol>
+<h3 id="RBAC-Role-Based-Access-Control-基于角色的访问控制"><a href="#RBAC-Role-Based-Access-Control-基于角色的访问控制" class="headerlink" title="RBAC: Role-Based Access Control 基于角色的访问控制"></a><code>RBAC: Role-Based Access Control</code> 基于角色的访问控制</h3><p><img data-src="/RBAC.jpg" alt="RBAC"></p>
+<h4 id="定义-3"><a href="#定义-3" class="headerlink" title="定义"></a>定义</h4><ul>
+<li><code>Subject</code> 拥有一个<code>角色</code> , 这个<code>角色</code>拥有对 <code>Object</code> 进行 <code>Action</code> 的 <code>Permission</code></li>
+<li>具体的权限设计可以实现 <code>MAC</code> 或者 <code>DAC</code></li>
+<li>结构（Subject or Group） - Role - Permission - Object</li>
+<li> 核心概念<ul>
+<li> Subject</li>
+<li>Role</li>
+<li>Permission</li>
+<li>Operation</li>
+</ul>
+</li>
+</ul>
+<p>群组 Group VS 角色 Role</p>
+<ul>
+<li>Group: 实体的集合<ul>
+<li>张三，张四，张五都是张家人。（张家是一个群组）</li>
+</ul>
+</li>
+<li>Role: 权限的集合<ul>
+<li>文档管理员是一个角色，可以对文档进行查阅，编辑，创建。</li>
+<li>角色可以分配给实体或者群组，例如将文档管理员分配给张家人，或者分配给张三。</li>
+</ul>
+</li>
+</ul>
+<h4 id="示例-3"><a href="#示例-3" class="headerlink" title="示例"></a>示例</h4><ol>
+<li><p>设备权限集合名叫<code>编辑文档(write articel)</code> 和<code>管理文档(manage articel)</code></p>
+ <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">Permission:</span><br><span class="line">- Name: write article</span><br><span class="line">- Operations:</span><br><span class="line">    - Object: Article</span><br><span class="line">      Action: Created</span><br><span class="line">    - Object: Article</span><br><span class="line">      Action: Updated</span><br><span class="line">    - Object: Article</span><br><span class="line">      Action: Read</span><br><span class="line">- Name: manage article</span><br><span class="line">- Operations:</span><br><span class="line">    - Object: Article</span><br><span class="line">      Action: Delete</span><br><span class="line">    - Object: Article</span><br><span class="line">      Action: Read</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>新建一个角色叫<code>写手(Writer)</code>，给它绑定<code>编辑文档(write articel)</code> 权限；一个角色叫<code>管理员</code> , 给它绑定<code>管理</code>权限；再新建一个 <code>CEO</code> 角色，它拥有所有权限。</p>
+ <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">Role:</span><br><span class="line">- Name: Writer</span><br><span class="line">  Permissions:</span><br><span class="line">    - write article</span><br><span class="line">- Name: Manager</span><br><span class="line">  Permissions:</span><br><span class="line">    - manage article</span><br><span class="line">- Name: CEO</span><br><span class="line">  Permissions:</span><br><span class="line">    - write article</span><br><span class="line">    - manage article</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>给张三绑定<code>写手(Writer)</code> 角色</p>
+</li>
+<li><p>张三现在可以创建，修改，读取文档了</p>
+ <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">Subject: 张三</span><br><span class="line">Roles:</span><br><span class="line">    - Writer</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>给李四绑定<code>管理员</code>角色</p>
+ <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">Subject: 李四</span><br><span class="line">Roles:</span><br><span class="line">   - Manager</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>李四现在可以读取，删除文档了</p>
+</li>
+<li><p>给王五绑定 <code>CEO</code> 角色</p>
+ <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">Subject: 王五</span><br><span class="line">Roles:</span><br><span class="line">   - CEO</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>王五现在可以读取，创建，修改，删除文档了</p>
+</li>
+</ol>
+<h3 id="ABAC-Attribute-Based-Access-Control-基于属性的访问控制"><a href="#ABAC-Attribute-Based-Access-Control-基于属性的访问控制" class="headerlink" title="ABAC: Attribute-Based Access Control 基于属性的访问控制"></a><code>ABAC: Attribute-Based Access Control</code> 基于属性的访问控制</h3><p><img data-src="/ABAC.jpg" alt="ABAC"></p>
+<h4 id="定义-4"><a href="#定义-4" class="headerlink" title="定义"></a>定义</h4><ul>
+<li>拥有 xx 属性的 <code>Subject</code> 在 xx 环境属性 <code>Environment</code> 的约束下可以对 xxx 的 <code>Object</code> 进行 Action</li>
+<li> 概念:<ul>
+<li> 主要策略：规定哪些属性的主体可以对哪些属性的资源在哪些属性的情况下进行哪些操作</li>
+<li>属性：<ul>
+<li>Subject<ul>
+<li>age, clearance, department, role, job title.</li>
+</ul>
+</li>
+<li>Action<ul>
+<li>read, delete, view, approve</li>
+</ul>
+</li>
+<li>Resouce<ul>
+<li>the object type (medical record, bank account…), the department, the classification or sensitivity, the location</li>
+</ul>
+</li>
+<li>Contextual (environment)<ul>
+<li>attributes that deal with time, location or dynamic aspects of the access control scenario</li>
+</ul>
+</li>
+</ul>
+</li>
+<li> 实现标准 <ul>
+<li><a href="https://en.wikipedia.org/wiki/XACML">XACML</a> (eXtensible Access Control Markup Language)</li>
+<li><a href="https://en.wikipedia.org/wiki/ALFA_(XACML)">ALFA (XACML)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="示例-4"><a href="#示例-4" class="headerlink" title="示例"></a>示例</h4><p>  <code>张三</code>作为<code>销售部门</code>的<code>写手</code>，可以在 <code>2022-01-01</code> 到 <code>2022-12-31</code> 期间，对归属于<code>科技，软件</code>的<code>草案</code>和<code>文档</code>进行<code>创建和更新</code>.</p>
+  <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">Subject:</span><br><span class="line">    Name: 张三</span><br><span class="line">    Department: 销售</span><br><span class="line">    Role: Writer</span><br><span class="line">Action:</span><br><span class="line">    - create</span><br><span class="line">    - update</span><br><span class="line">Resource:</span><br><span class="line">    Type: Article</span><br><span class="line">    Tag:</span><br><span class="line">        - technology</span><br><span class="line">        - software</span><br><span class="line">    Mode:</span><br><span class="line">        - draft</span><br><span class="line">Contextual:</span><br><span class="line">    Location: 上海</span><br><span class="line">    StartTime: 2022-01-01</span><br><span class="line">    EndTime: 2022-12-31</span><br></pre></td></tr></tbody></table></figure>
+
+<p>AWS 和阿里的资源管理策略都是使用 ABAC</p>
+<ul>
+<li><p>阿里</p>
+<figure class="highlight json"><table><tbody><tr><td class="code"><pre><span class="line"><span class="punctuation">{</span></span><br><span class="line">      <span class="attr">"Version"</span><span class="punctuation">:</span> <span class="string">"1"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"Statement"</span><span class="punctuation">:</span></span><br><span class="line">        <span class="punctuation">[</span><span class="punctuation">{</span></span><br><span class="line">          <span class="attr">"Effect"</span><span class="punctuation">:</span> <span class="string">"Allow"</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">"Action"</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">"oss:List*"</span><span class="punctuation">,</span> <span class="string">"oss:Get*"</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">"Resource"</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">"acs:oss:*:*:samplebucket"</span><span class="punctuation">,</span> <span class="string">"acs:oss:*:*:samplebucket/*"</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">"Condition"</span><span class="punctuation">:</span></span><br><span class="line">             <span class="punctuation">{</span></span><br><span class="line">                <span class="attr">"IpAddress"</span><span class="punctuation">:</span></span><br><span class="line">                 <span class="punctuation">{</span></span><br><span class="line">                    <span class="attr">"acs:SourceIp"</span><span class="punctuation">:</span> <span class="string">"42.160.1.0"</span></span><br><span class="line">                  <span class="punctuation">}</span></span><br><span class="line">              <span class="punctuation">}</span></span><br><span class="line">         <span class="punctuation">}</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">}</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>AWS</p>
+<figure class="highlight json"><table><tbody><tr><td class="code"><pre><span class="line"><span class="punctuation">{</span></span><br><span class="line"><span class="attr">"Version"</span><span class="punctuation">:</span> <span class="string">"2012-10-17"</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">"Statement"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">{</span></span><br><span class="line">        <span class="attr">"Effect"</span><span class="punctuation">:</span> <span class="string">"Allow"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">"Action"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">            <span class="string">"ec2:TerminateInstances"</span></span><br><span class="line">        <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">"Resource"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">            <span class="string">"*"</span></span><br><span class="line">        <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">{</span></span><br><span class="line">        <span class="attr">"Effect"</span><span class="punctuation">:</span> <span class="string">"Deny"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">"Action"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">            <span class="string">"ec2:TerminateInstances"</span></span><br><span class="line">        <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">"Condition"</span><span class="punctuation">:</span> <span class="punctuation">{</span><span class="attr">"NotIpAddress"</span><span class="punctuation">:</span> <span class="punctuation">{</span><span class="attr">"aws:SourceIp"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">            <span class="string">"192.0.2.0/24"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="string">"203.0.113.0/24"</span></span><br><span class="line">            <span class="punctuation">]</span><span class="punctuation">}</span><span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">"Resource"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">            <span class="string">"arn:aws:ec2:&lt;REGION&gt;:&lt;ACCOUNTNUMBER&gt;:instance/*"</span></span><br><span class="line">        <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">}</span></span><br><span class="line"><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">}</span></span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+<h4 id="ABAC协议变种PBAC-Policy-Based-Access-Control-基于策略的访问控制"><a href="#ABAC协议变种PBAC-Policy-Based-Access-Control-基于策略的访问控制" class="headerlink" title="ABAC协议变种PBAC: Policy-Based Access Control 基于策略的访问控制"></a>ABAC 协议变种 <code>PBAC: Policy-Based Access Control</code> 基于策略的访问控制</h4><p>  和 ABAC 的区别，ABAC 使用一些 XML 的标准，但 PBAC 并未进行明确的规则限制，更加灵活一些。具体可以<a href="https://en.wikipedia.org/wiki/Attribute-based_access_control">查阅这里</a>。</p>
+<h4 id="ABAC协议变种CBAC-Context-based-access-control-基于声明的访问控制"><a href="#ABAC协议变种CBAC-Context-based-access-control-基于声明的访问控制" class="headerlink" title="ABAC协议变种CBAC: Context-based access control 基于声明的访问控制"></a>ABAC 协议变种 <code>CBAC: Context-based access control</code> 基于声明的访问控制</h4><p>  这是微软在 ABAC 基础的改版协议，具体可以<a href="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-azod/e600249e-247b-469c-8979-e0c578adfbe6">查阅这里</a>。</p>
+<h2 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>DAC</th>
+<th>MAC</th>
+<th>RBAC</th>
+<th>ABAC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td> 灵活性</td>
+<td>高</td>
+<td>低</td>
+<td>高</td>
+<td>非常高</td>
+</tr>
+<tr>
+<td>实现复杂度</td>
+<td>高</td>
+<td>中</td>
+<td>低</td>
+<td>中</td>
+</tr>
+<tr>
+<td>权限验证基础</td>
+<td>实体上绑定的权限</td>
+<td>实体和对象相对设定的要求</td>
+<td>角色上的权限</td>
+<td>属性的验证</td>
+</tr>
+<tr>
+<td>当前使用广度</td>
+<td>高</td>
+<td>低</td>
+<td>非常高</td>
+<td>国内不多</td>
+</tr>
+</tbody></table>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>  虽说随着时间的前景，权限管理的模式不断的在推陈出新，新模式的灵活性也越来越强，但也相应的带来了一些复杂性。在实际的生产过程中需要根据项目的实际需求来抉择使用哪一种模式。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://zhuanlan.zhihu.com/p/70548562">https://zhuanlan.zhihu.com/p/70548562</a></li>
+<li><a href="https://dzone.com/articles/acl-rbac-abac-pbac-radac-and-a-dash-of-cbac">https://dzone.com/articles/acl-rbac-abac-pbac-radac-and-a-dash-of-cbac</a></li>
+<li><a href="https://dinolai.com/notes/others/authorization-models-acl-dac-mac-rbac-abac.html">https://dinolai.com/notes/others/authorization-models-acl-dac-mac-rbac-abac.html</a></li>
+<li><a href="https://www.dnsstuff.com/rbac-vs-abac-access-control">https://www.dnsstuff.com/rbac-vs-abac-access-control</a></li>
+<li><a href="https://www.axiomatics.com/policy-based-access-control/">https://www.axiomatics.com/policy-based-access-control/</a></li>
+<li><a href="https://blog.plainid.com/the-advantage-of-pbac-over-the-traditional-abac">https://blog.plainid.com/the-advantage-of-pbac-over-the-traditional-abac</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>每周知识点介绍</category>
+      </categories>
+      <tags>
+        <tag>权限</tag>
+        <tag>学习</tag>
+        <tag>知识点</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>每周知识点介绍 - 权限验证流程 - 身份认证、授权、鉴权、权限验证</title>
+    <url>/2022/03/26/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81%E6%B5%81%E7%A8%8B-%E8%AE%A4%E8%AF%81%E3%80%81%E6%8E%88%E6%9D%83%E3%80%81%E9%89%B4%E6%9D%83%E3%80%81%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81/</url>
+    <content><![CDATA[<p>  Hello, 大家好，我是小毛驴。欢迎大家来到每周知识点介绍栏目。本次我将带领大家一起来了解下权限系统的核心流程（概念）有哪些（见下述列表），我们在设计权限系统或者和权限系统连接时需要注意哪些。  </p>
+<ul>
+<li>身份认证</li>
+<li>授权</li>
+<li>鉴权</li>
+<li>权限验证</li>
+</ul>
+<p>  通过本文的介绍，也期望能在大家未来的开发和设计上起到一些积极的作用。言归正传，我们开始进入正题吧。  </p>
+<span id="more"></span>
+
+<p>  让我们来设想一个场景，你是一个酒店的前台人员，有一位顾客昨晚在你们酒店预订了一间房，今天按时到达。你先验证这位顾客的身份，登记后给他发放一张房卡，顾客拿着这种房卡即可搭乘电梯和打开他自己的房门。  </p>
+<p>  就在这个场景中，我们就经历了身份认证，授权，鉴权，权限验证的过程，具体的对应关系我们在下面展开。  </p>
+<h2 id="身份认证是什么？"><a href="#身份认证是什么？" class="headerlink" title="身份认证是什么？"></a>身份认证是什么？</h2><p>  身份认证是一种确认某人是某人的安全实践，听着有些虚幻就好像。但在我们系统中一般就是验证你的密码和我们存储你的密码是否一致。当前身份认证还有其他的更安全的手段，我们这里先只讨论最简单的实现。  </p>
+<p>  在我们上面酒店的例子中，我们要求顾客给我们验证码或者身份证，就是为了对顾客进行身份认证。</p>
+<blockquote>
+<p>身份认证手段：手机短信验证，密码验证，动态口令验证，第三方验证（Oauth2）等等</p>
+</blockquote>
+<h2 id="授权是什么？"><a href="#授权是什么？" class="headerlink" title="授权是什么？"></a>授权是什么？</h2><p>  授权是指确定想每个用户手何种访问权限的过程，即在验证了你是我的用户之后，确定你在我这里有哪些权限。避免如果每次访问都进行用户认证时，加大了用户敏感信息泄露的可能。<br>  在酒店的例子中，就是根据你预订的房间情况给你开通不同的权限，房间权限，电梯权限，早餐权限等。<br>  然后将这种权限用令牌的形式发放给你，也就是将权限授予给了你。在酒店中就是将房卡和早餐券发放给你。</p>
+<blockquote>
+<p>在我们的 Web 服务中，这个立牌就是登录完成后返回的 Cookie 中包含的 sessionId，Token，JWT-Token，Oauth2-Token 等</p>
+</blockquote>
+<h2 id="鉴权是什么？"><a href="#鉴权是什么？" class="headerlink" title="鉴权是什么？"></a>鉴权是什么？</h2><p>  鉴权在很多时候都会和权限验证混合在一起，我们尝试将他剥开分离来说明。鉴权和授权是匹配的，上一步的时候我们给用户下发的权限凭证，这一步我们要确认这个凭证是我们下发的，不是伪造的。  </p>
+<p>  在酒店的例子中，我们在电梯中权限来做过不太像的比喻，电梯作为基础的鉴权者，对所有的凭证来进行鉴权，是酒店下发的凭证才能乘坐电梯，其他的全部拒绝。</p>
+<blockquote>
+<p>注：虽然这里面已经涉及到权限认证了，但我们先模糊这个过程。另外那种电梯限制刷卡后只能到底自己楼层的例子也暂时不关注。</p>
+</blockquote>
+<h2 id="权限验证是什么？"><a href="#权限验证是什么？" class="headerlink" title="权限验证是什么？"></a>权限验证是什么？</h2><p>  权限验证就比较好理解了，我这个接口，这个操作需要什么权限，你的凭证代表的权限集里是否有这个权限，有就通过，没有就拒绝，这个过程就是权限验证。<br>  在酒店中的例子就是，你的卡在刷你的房间时是可以刷开的，刷别人的房门是没有任何响应的。<br>  在我们系统实现时，权限验证就和我们<a href="//2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/">权限模型</a>极其相关了。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><img data-src="/%E6%9D%83%E9%99%90%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B.svg" alt="权限认证流程"></p>
+<p>  正如我们在图中见到的流程，整体权限的验证流程大概分为上述四部。<br>  但在实际实现的过程中这四部会合并两步。身份认证和授权合并在一起，鉴权和权限认证合并一起，这样既方便了设计和编码，也方便了用户操作。合并的例子我们可以看看 Spring Security 的架构图。</p>
+<p><img data-src="/spring-security.png"></p>
+<p>  将这张图中我们可以清晰的看到，Spring Security 将身份认证（LDAP、OpenID）和授权结合在一起，而将鉴权和权限验证结合在一起。形成了整个 Spring Security 的生态。</p>
+]]></content>
+      <categories>
+        <category>每周知识点介绍</category>
+      </categories>
+      <tags>
+        <tag>认证</tag>
+        <tag>授权</tag>
+        <tag>鉴权</tag>
+        <tag>权限验证</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ioGame 学习 (一)- 初识</title>
+    <url>/2024/01/03/2024/01/04/ioGame%E5%AD%A6%E4%B9%A0(%E4%B8%80)-%E5%88%9D%E8%AF%86/</url>
+    <content><![CDATA[<p>   从今天开始学习游戏的网络游戏服务器框架《ioGame》。</p>
+<span id="more"></span>]]></content>
+      <categories>
+        <category>游戏服务端学习</category>
+      </categories>
+      <tags>
+        <tag>学习</tag>
+        <tag>游戏</tag>
+        <tag>服务端</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Corepack 使用问题之无法访问 registry.npmjs.org</title>
+    <url>/2024/01/29/2024/01/29/Corepack%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E4%B9%8B%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AEregistry-npmjs-org/</url>
+    <content><![CDATA[<p>Corepack 使用问题之无法访问 registry.npmjs.org</p>
+<span id="more"></span>
+<h2 id="起始"><a href="#起始" class="headerlink" title="起始"></a>起始</h2><p><code>Corepack</code> 作为一款默认集成了 <code>pnpm</code> <code>npx</code> <code>pnpx</code> <code>yarn</code> <code>npm</code> <code>yarnpkg</code> 的管理工具，可在有效对 <code>nodejs</code> 相关的包管理工具进行管理，也已加入到 <code>nodejs</code> 的默认安装内容中进行分发。</p>
+<p>作为一名折腾爱好者，对于这种集成管理工具特别亲切，能方便进行各种切换更新。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>于是抽空对 <code>corepack</code> 进行了体验，体验过程中遇到的第一个问题就是使用命令 <code>corepack enable</code> 后，不论是 <code>pnpm</code> 还是 <code>yarn</code> 都无法正常使用。都会出现报错，<code>Internal Error: Error when performing the request https://registry.npmjs.org/pnpm</code>。</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">at ClientRequest.&lt;anonymous&gt; (/usr/lib/node_modules/corepack/dist/corepack.cjs:42195:20)</span><br><span class="line">at ClientRequest.emit (node:events:390:28)</span><br><span class="line">at TLSSocket.socketErrorListener (node:_http_client:447:9)</span><br><span class="line">at TLSSocket.emit (node:events:390:28)</span><br><span class="line">at emitErrorNT (node:internal/streams/destroy:157:8)</span><br><span class="line">at emitErrorCloseNT (node:internal/streams/destroy:122:3)</span><br><span class="line">at processTicksAndRejections (node:internal/process/task_queues:83:21)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>看到出现 <code>registry</code> 的问题，第一反应是由于国内墙了，然后访问不了。赶忙确认 <code>~/.npmrc</code> 和 <code>~/.yarnrc</code> 是否已经配置好了。</p>
+<p>检查后确认已经配置好，并无问题。尝试用命令 <code>pnpm config get</code> 和 <code>yarn config get</code> 来进行确认，但这两命令也会提示无法连接到 <code>https://registry.npmjs.org/pnpm</code>。</p>
+<h2 id="发现"><a href="#发现" class="headerlink" title="发现"></a>发现</h2><p>仔细观察报错日志，发现问题来自于 <code>corepack.cjs</code>。这就又带来一个问题，为什么输入 <code>pnpm</code> 和 <code>yarn</code> 后，会是 <code>corepack</code> 报错呢？</p>
+<p>研究后发现 <code>pnpm</code> 是调用的 <code>~/AppData/Roaming/npm/pnpm.ps1</code> 或者是 <code>~/AppData/Roaming/npm/pnpm.CMD</code></p>
+<figure class="highlight powershell"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env pwsh</span></span><br><span class="line"><span class="variable">$basedir</span>=<span class="built_in">Split-Path</span> <span class="variable">$MyInvocation</span>.MyCommand.Definition <span class="literal">-Parent</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$exe</span>=<span class="string">""</span></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$PSVersionTable</span>.PSVersion <span class="operator">-lt</span> <span class="string">"6.0"</span> <span class="operator">-or</span> <span class="variable">$IsWindows</span>) {</span><br><span class="line">  <span class="comment"># Fix case when both the Windows and Linux builds of Node</span></span><br><span class="line">  <span class="comment"># are installed in the same directory</span></span><br><span class="line">  <span class="variable">$exe</span>=<span class="string">".exe"</span></span><br><span class="line">}</span><br><span class="line"><span class="variable">$ret</span>=<span class="number">0</span></span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">Test-Path</span> <span class="string">"<span class="variable">$basedir</span>/node<span class="variable">$exe</span>"</span>) {</span><br><span class="line">  <span class="comment"># Support pipeline input</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="variable">$MyInvocation</span>.ExpectingInput) {</span><br><span class="line">    <span class="variable">$input</span> | &amp; <span class="string">"<span class="variable">$basedir</span>/node<span class="variable">$exe</span>"</span>  <span class="string">"<span class="variable">$basedir</span>/node_modules/corepack/dist/pnpm.js"</span> <span class="variable">$args</span></span><br><span class="line">  } <span class="keyword">else</span> {</span><br><span class="line">    &amp; <span class="string">"<span class="variable">$basedir</span>/node<span class="variable">$exe</span>"</span>  <span class="string">"<span class="variable">$basedir</span>/node_modules/corepack/dist/pnpm.js"</span> <span class="variable">$args</span></span><br><span class="line">  }</span><br><span class="line">  <span class="variable">$ret</span>=<span class="variable">$LASTEXITCODE</span></span><br><span class="line">} <span class="keyword">else</span> {</span><br><span class="line">  <span class="comment"># Support pipeline input</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="variable">$MyInvocation</span>.ExpectingInput) {</span><br><span class="line">    <span class="variable">$input</span> | &amp; <span class="string">"node<span class="variable">$exe</span>"</span>  <span class="string">"<span class="variable">$basedir</span>/node_modules/corepack/dist/pnpm.js"</span> <span class="variable">$args</span></span><br><span class="line">  } <span class="keyword">else</span> {</span><br><span class="line">    &amp; <span class="string">"node<span class="variable">$exe</span>"</span>  <span class="string">"<span class="variable">$basedir</span>/node_modules/corepack/dist/pnpm.js"</span> <span class="variable">$args</span></span><br><span class="line">  }</span><br><span class="line">  <span class="variable">$ret</span>=<span class="variable">$LASTEXITCODE</span></span><br><span class="line">}</span><br><span class="line"><span class="keyword">exit</span> <span class="variable">$ret</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后 <code>pnpm.js</code> 中更简单</p>
+<figure class="highlight javascript"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env node</span></span><br><span class="line"><span class="built_in">require</span>(<span class="string">'./lib/corepack.cjs'</span>).<span class="title function_">runMain</span>([<span class="string">'pnpm'</span>, ...process.<span class="property">argv</span>.<span class="title function_">slice</span>(<span class="number">2</span>)]);</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这个疑问就算解决了。那么回归正题，corepack 如何设置 npmmirror 呢？关于这个问题我到 <a href="https://github.com/nodejs/corepack/issues">corepack 的 issue 列表中去查是否已有类似的问题</a></p>
+<p>还真发现有人在讨论该问题，并已有人提交了 <code>PR</code> 并被合并了。</p>
+<p><a href="https://github.com/nodejs/corepack/issues/92">问题讨论</a> , <a href="https://github.com/nodejs/corepack/issues/66">问题讨论</a></p>
+<p><a href="https://github.com/nodejs/corepack/pull/186">PR</a></p>
+<p><a href="https://github.com/nodejs/corepack/pull/186/files">对比</a></p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>通过对比不难发现，<strong>新加入了一个系统环境变量 <code>COREPACK_NPM_REGISTRY</code></strong>, 通过这个环境变量就可以为 <code>corepack</code> 制定 <code>mirror</code>，后续的就回到了 <code>yarn</code> 和 <code>pnpm</code> 自己的配置文件上了。</p>
+<p><img data-src="/1.png" alt="readme"></p>
+<p><img data-src="/2.png" alt="impl"></p>
+<p><img data-src="/3.png" alt="env"></p>
+<p>设置之后就可以正常使用 <code>pnpm</code> 和 <code>yarn</code> 了。</p>
+]]></content>
+      <categories>
+        <category>corepack</category>
+        <category>pnpm</category>
+        <category>yarn</category>
+        <category>nodejs</category>
+      </categories>
+      <tags>
+        <tag>corpack无法正常使用</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>corepack 设置 npmmirror 出现无法 302 的提示</title>
+    <url>/2024/01/29/2024/01/29/corepack%E8%AE%BE%E7%BD%AEnpmmirror%E5%87%BA%E7%8E%B0%E6%97%A0%E6%B3%95302%E7%9A%84%E6%8F%90%E7%A4%BA/</url>
+    <content><![CDATA[<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>corepack 设置 npmmirror 出现无法 302 的提示</p>
+<span id="more"></span>
+<p>接上篇对 <code>corepack</code> 配置 <code>npmmirror</code> 为 <code>https://registry.npmmirror.com</code> 后，对 pnpm 进行设备更新时 <code>corepack use pnpm@latest</code> 出现如下错误</p>
+<figure class="highlight powershell"><table><tbody><tr><td class="code"><pre><span class="line">Internal Error: Server answered with HTTP <span class="number">302</span> when performing the request to https://registry.npmmirror.com/pnpm/-/pnpm<span class="literal">-8</span>.<span class="number">15.0</span>.tgz; <span class="keyword">for</span> troubleshooting help, see https://github.com/nodejs/corepack<span class="comment">#troubleshooting</span></span><br><span class="line">    at ClientRequest.&lt;anonymous&gt; (C:\Users\xxxx\AppData\Roaming\nvm\v20.<span class="number">11.0</span>\node_modules\corepack\dist\lib\corepack.cjs:<span class="number">42192</span>:<span class="number">21</span>)</span><br><span class="line">    at Object.onceWrapper (node:events:<span class="number">633</span>:<span class="number">26</span>)</span><br><span class="line">    at ClientRequest.emit (node:events:<span class="number">518</span>:<span class="number">28</span>)</span><br><span class="line">    at HTTPParser.parserOnIncomingClient (node:_http_client:<span class="number">693</span>:<span class="number">27</span>)</span><br><span class="line">    at HTTPParser.parserOnHeadersComplete (node:_http_common:<span class="number">119</span>:<span class="number">17</span>)</span><br><span class="line">    at TLSSocket.socketOnData (node:_http_client:<span class="number">535</span>:<span class="number">22</span>)</span><br><span class="line">    at TLSSocket.emit (node:events:<span class="number">518</span>:<span class="number">28</span>)</span><br><span class="line">    at addChunk (node:internal/streams/readable:<span class="number">559</span>:<span class="number">12</span>)</span><br><span class="line">    at readableAddChunkPushByteMode (node:internal/streams/readable:<span class="number">510</span>:<span class="number">3</span>)</span><br><span class="line">    at Readable.push (node:internal/streams/readable:<span class="number">390</span>:<span class="number">5</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>直接在浏览器点开这个链接 <a href="https://registry.npmmirror.com/pnpm/-/pnpm-8.15.0.tgz">https://registry.npmmirror.com/pnpm/-/pnpm-8.15.0.tgz</a>, 会发现云端返回 302 后跳转到了 cdn 链接 [<a href="https://cdn.npmmirror.com/packages/pnpm/8.15.0/pnpm-8.15.0.tgz]">https://cdn.npmmirror.com/packages/pnpm/8.15.0/pnpm-8.15.0.tgz]</a></p>
+<p>但 <code>corepack</code> 内部将大于 300 的 code 全部定义为错误</p>
+<figure class="highlight javascript"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">fetchUrlStream</span>(<span class="params">url, options = {}</span>) {</span><br><span class="line">  <span class="keyword">if</span> (process.<span class="property">env</span>.<span class="property">COREPACK_ENABLE_NETWORK</span> === <span class="string">`0`</span>)</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">UsageError</span>(<span class="string">`Network access disabled by the environment; can't reach <span class="subst">${url}</span>`</span>);</span><br><span class="line">  <span class="keyword">const</span> { <span class="attr">default</span>: https } = <span class="keyword">await</span> <span class="keyword">import</span>(<span class="string">"https"</span>);</span><br><span class="line">  <span class="keyword">const</span> { <span class="title class_">ProxyAgent</span> } = <span class="keyword">await</span> <span class="title class_">Promise</span>.<span class="title function_">resolve</span>().<span class="title function_">then</span>(<span class="function">() =&gt;</span> <span class="title function_">__toESM</span>(require_dist12()));</span><br><span class="line">  <span class="keyword">const</span> proxyAgent = <span class="keyword">new</span> <span class="title class_">ProxyAgent</span>();</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> {</span><br><span class="line">    <span class="keyword">const</span> request = https.<span class="title function_">get</span>(url, { ...options, <span class="attr">agent</span>: proxyAgent }, <span class="function">(<span class="params">response</span>) =&gt;</span> {</span><br><span class="line">      <span class="keyword">const</span> statusCode = response.<span class="property">statusCode</span>;</span><br><span class="line">      <span class="keyword">if</span> (statusCode != <span class="literal">null</span> &amp;&amp; statusCode &gt;= <span class="number">200</span> &amp;&amp; statusCode &lt; <span class="number">300</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">resolve</span>(response);</span><br><span class="line">      <span class="keyword">return</span> <span class="title function_">reject</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">`Server answered with HTTP <span class="subst">${statusCode}</span> when performing the request to <span class="subst">${url}</span>; for troubleshooting help, see https://github.com/nodejs/corepack#troubleshooting`</span>));</span><br><span class="line">    });</span><br><span class="line">    request.<span class="title function_">on</span>(<span class="string">`error`</span>, <span class="function">(<span class="params">err</span>) =&gt;</span> {</span><br><span class="line">      <span class="title function_">reject</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">`Error when performing the request to <span class="subst">${url}</span>; for troubleshooting help, see https://github.com/nodejs/corepack#troubleshooting`</span>));</span><br><span class="line">    });</span><br><span class="line">  });</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>还是老样子去 github 上看看是否已有类似的 issue 和 PR，经过一番搜索，找到如下的讨论</p>
+<p><a href="https://github.com/nodejs/corepack/pull/306">add http redirect support #306</a></p>
+<p>发现在 #302 已经解决，找到 302<br><a href="https://github.com/nodejs/corepack/issues/302">install from npmmirror.com failed (302 redirect) #302</a></p>
+<p>在 23 年 12 月 29 日，有人已提交 PR 修复 <a href="https://github.com/nodejs/corepack/pull/341">feat: Support redirections #341</a></p>
+<p>我们来看看修复类容 (PR 文件变更)(<a href="https://github.com/nodejs/corepack/pull/341/files">https://github.com/nodejs/corepack/pull/341/files</a>)</p>
+<p>变更也很简单，当 <code>code</code> 符合定义时，讲取出 <code>header.location</code> 进行第二次访问</p>
+<figure class="highlight javascript"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> ([<span class="number">301</span>, <span class="number">302</span>, <span class="number">307</span>, <span class="number">308</span>].<span class="title function_">includes</span>(statusCode <span class="keyword">as</span> number) &amp;&amp; response.<span class="property">headers</span>.<span class="property">location</span>)</span><br><span class="line">  <span class="keyword">return</span> <span class="title function_">createRequest</span>(response.<span class="property">headers</span>.<span class="property">location</span> <span class="keyword">as</span> string);</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>那我们要做的就很简单，升级到 <code>v0.24.0</code> 及以上。简单的升级办法是下载 <code>release</code> 里面版本符合的包，替换整个 <code>C:\Users\xxxx\AppData\Roaming\nvm\v20.11.0\node_modules\corepack</code> 目录即可</p>
+]]></content>
+      <categories>
+        <category>corepack</category>
+        <category>pnpm</category>
+        <category>yarn</category>
+        <category>nodejs</category>
+      </categories>
+      <tags>
+        <tag>corpack无法正常使用</tag>
+      </tags>
+  </entry>
+</search>
