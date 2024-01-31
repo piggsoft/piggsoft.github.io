@@ -15,7 +15,11 @@ categories:
   - [Nodejs, yarn]
 ---
 
-Corepack使用问题之无法访问registry.npmjs.org
+本文主要分享我再使用`corepack`安装`pnpm`或者`yarn`的时候出现无法连接到`registry.npmjs.org`的问题。
+
+其过程中有翻阅`yarn`和`pnpm`的官方文档，也有翻阅`corepack`本地的源代码，以及在各自的github issue，stackoverflow中查找类似问题。
+
+最后终于找到了答案，现将答案分享出现给后续碰到相同问题的同学一起使用。
 
 <!--more-->
 ## 起始
