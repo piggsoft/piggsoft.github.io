@@ -9,11 +9,10 @@ keyword:
 - corepack enable后,pnpm无法使用
 - corepack enable后,yarn无法使用
 tags: corpack无法正常使用
-categories: 
-- corepack
-- pnpm
-- yarn 
-- nodejs
+categories:
+  - [Nodejs, Corepack]
+  - [Nodejs, pnpm]
+  - [Nodejs, yarn]
 ---
 
 Corepack使用问题之无法访问registry.npmjs.org

@@ -6,10 +6,9 @@ keyword:
 tags:
 - corpack无法正常使用
 categories:
-- corepack
-- pnpm
-- yarn 
-- nodejs
+  - [Nodejs, Corepack]
+  - [Nodejs, pnpm]
+  - [Nodejs, yarn]
 ---
 
 ## 分析

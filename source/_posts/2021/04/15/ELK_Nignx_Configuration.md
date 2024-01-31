@@ -3,7 +3,8 @@ title: ELK_Nignx_Configuration
 date: 2021-04-15 15:02:09
 keyword: ELK Nignx Configuration
 tags: nginx elk ELK
-categories: ELK
+categories:
+  - [服务端, 开源组件, ELK]
 ---
 
 使用ELK对nginx日志进行收集，并分析

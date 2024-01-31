@@ -3,7 +3,8 @@ title: 依托github搭建博客
 date: 2021-04-12 22:45:11 
 keyword: github pages hexo next actions gittalk
 tags: github pages hexo next actions gittalk
-categories: 建站 博客
+categories:
+  - [教程, 建站, 博客]
 ---
 
 依托于github来创建属于个人的博客，并开启评论，以及使用自定义域名访问。

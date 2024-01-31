@@ -5,7 +5,8 @@ keyword:
    - Java
    - switch
 tags: Java基础
-categories: Java基础
+categories:
+  - [Java, Java基础]
 ---
 
 Java中switch的用法你掌握了吗?我们一起来温故知新吧！

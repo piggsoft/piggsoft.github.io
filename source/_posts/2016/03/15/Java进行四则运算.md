@@ -4,7 +4,7 @@ date: 2016-03-15
 keyword: 
 - 四则运算
 categories:
-- Java
+- [Java, Java基础]
 tags:
 - Java
 - Math

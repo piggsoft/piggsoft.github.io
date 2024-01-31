@@ -9,7 +9,8 @@ date: 2017-06-10 18:40:20
 tags:
 - 定时器
 - cron
-categories: 工具
+categories: 
+  - [IT, 工具]
 ---
 
 使用linux的定时器，在服务器上面定时执行某些任务，比如时间同步，比如Hexo的定时更新和生成
