@@ -36,7 +36,7 @@ dependencies:
     specifier: ^2.0.0
     version: 2.0.0
   hexo-renderer-marked:
-    specifier: ^6.0.0
+    specifier: ^6.2.0
     version: 6.2.0
   hexo-renderer-stylus:
     specifier: ^3.0.0
