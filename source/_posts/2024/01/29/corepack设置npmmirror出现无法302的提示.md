@@ -12,10 +12,15 @@ categories:
 - nodejs
 ---
 
-## 分析
-corepack设置npmmirror出现无法302的提示
+在上篇对`corepack`的`npmmirror`修改后，corepack的安装能够正常的进行了。
+
+在其他的mirror可以正常的情况下，尝试了`https://registry.npmmirror.com`,发现这个mirror内容会有302跳转，但corepack当前设置禁止302，导致这个mirror无法使用。
+
+本文就是我对探究无法解决这个问题的分享。
 
 <!--more-->
+
+## 分析
 接上篇对`corepack`配置`npmmirror`为`https://registry.npmmirror.com`后,对pnpm进行设备更新时`corepack use pnpm@latest` 出现如下错误
 ```powershell
 Internal Error: Server answered with HTTP 302 when performing the request to https://registry.npmmirror.com/pnpm/-/pnpm-8.15.0.tgz; for troubleshooting help, see https://github.com/nodejs/corepack#troubleshooting
