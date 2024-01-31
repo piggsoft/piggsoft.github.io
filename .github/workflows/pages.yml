@@ -20,24 +20,34 @@ jobs:
     #  with:
     #    repository: theme-next/hexo-theme-next
     #    path: themes/next
-    - name: Setup Node.js environment
-      uses: actions/setup-node@v2.1.5
+    - name: Install Node.js
+      uses: actions/setup-node@v3
       with:
-        node-version: 12.x
-    # Caching dependencies to speed up workflows. (GitHub will remove any cache entries that have not been accessed in over 7 days.)
-    - name: Cache node modules
-      uses: actions/cache@v1
-      id: cache
+        node-version: 16
+
+    - uses: pnpm/action-setup@v2
+      name: Install pnpm
       with:
-        path: node_modules
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        version: 8
+        run_install: false
+
+    - name: Get pnpm store directory
+      shell: bash
+      run: |
+        echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+    - uses: actions/cache@v3
+      name: Setup pnpm cache
+      with:
+        path: ${{ env.STORE_PATH }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
         restore-keys: |
-          ${{ runner.os }}-node-
-    - name: Install Dependencies
-      if: steps.cache.outputs.cache-hit != 'true'
-      run: npm ci
+          ${{ runner.os }}-pnpm-store-
+
+    - name: Install dependencies
+      run: pnpm install
     - name: Build
-      run: npm run build
+      run: pnpm run build
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3.7.3
       with:
