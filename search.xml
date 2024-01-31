@@ -34,6 +34,7 @@
 ]]></content>
       <categories>
         <category>Java</category>
+        <category>Java基础</category>
       </categories>
       <tags>
         <tag>Java</tag>
@@ -184,8 +185,8 @@
       </tags>
   </entry>
   <entry>
-    <title>跟着独钓翁一起学习 spring-boot (一)</title>
-    <url>/2017/01/03/%E8%B7%9F%E7%9D%80%E7%8B%AC%E9%92%93%E7%BF%81%E4%B8%80%E8%B5%B7%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/</url>
+    <title>学习 spring-boot (一)</title>
+    <url>/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/</url>
     <content><![CDATA[<h2 id="相关背景"><a href="#相关背景" class="headerlink" title="相关背景"></a>相关背景</h2><p><a href="http://projects.spring.io/spring-boot/">Spring Boot</a> 是由 Pivotal 团队提供的全新框架，其设计目的是用来简化新 Spring 应用的初始搭建以及开发过程。该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。通过这种方式，Boot 致力于在蓬勃发展的快速应用开发领域（rapid application development）成为领导者。</p>
 <span id="more"></span>
 
@@ -194,9 +195,9 @@
 <p>在追求开发体验的提升方面，Spring Boot，甚至可以说整个 Spring 生态系统都使用到了 Groovy 编程语言。Boot 所提供的众多便捷功能，都是借助于 Groovy 强大的 MetaObject 协议、可插拔的 AST 转换过程以及内置的依赖解决方案引擎所实现的。在其核心的编译模型之中，Boot 使用 Groovy 来构建工程文件，所以它可以使用通用的导入和样板方法（如类的 main 方法）对类所生成的字节码进行装饰（decorate）。这样使用 Boot 编写的应用就能保持非常简洁，却依然可以提供众多的功能</p>
 <h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><ul>
 <li>访问 <a href="http://start.spring.io/">Spring Initializr</a></li>
-<li> 选择构建方式 Maven，Spring Boot 版本<br>  <img data-src="/2017/01/03/%E8%B7%9F%E7%9D%80%E7%8B%AC%E9%92%93%E7%BF%81%E4%B8%80%E8%B5%B7%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/1.png"></li>
-<li>填写 group，artifact<br>  <img data-src="/2017/01/03/%E8%B7%9F%E7%9D%80%E7%8B%AC%E9%92%93%E7%BF%81%E4%B8%80%E8%B5%B7%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/2.png"></li>
-<li>选择所需依赖，如果不记得依赖的名称，可以点击 <code>Switch to the full version.</code><br>  <img data-src="/2017/01/03/%E8%B7%9F%E7%9D%80%E7%8B%AC%E9%92%93%E7%BF%81%E4%B8%80%E8%B5%B7%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-1.png"><br>  <img data-src="/2017/01/03/%E8%B7%9F%E7%9D%80%E7%8B%AC%E9%92%93%E7%BF%81%E4%B8%80%E8%B5%B7%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-2.png"></li>
+<li> 选择构建方式 Maven，Spring Boot 版本<br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/1.png"></li>
+<li>填写 group，artifact<br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/2.png"></li>
+<li>选择所需依赖，如果不记得依赖的名称，可以点击 <code>Switch to the full version.</code><br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-1.png"><br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-2.png"></li>
 <li>点击 <code>Generate Project</code>， 进行下载。</li>
 </ul>
 <h2 id="配置运行"><a href="#配置运行" class="headerlink" title="配置运行"></a>配置运行</h2><ul>
@@ -207,7 +208,8 @@
 </ul>
 ]]></content>
       <categories>
-        <category>IT</category>
+        <category>Java</category>
+        <category>Spring Boot</category>
       </categories>
       <tags>
         <tag>Java Spring Spring-Boot</tag>
@@ -264,6 +266,7 @@
 </ol>
 ]]></content>
       <categories>
+        <category>IT</category>
         <category>工具</category>
       </categories>
       <tags>
@@ -449,6 +452,7 @@
 </ol>
 ]]></content>
       <categories>
+        <category>IT</category>
         <category>安全</category>
       </categories>
       <tags>
@@ -631,6 +635,7 @@
 </ol>
 ]]></content>
       <categories>
+        <category>IT</category>
         <category>安全</category>
       </categories>
       <tags>
@@ -721,6 +726,7 @@
 <p>HTTPS 报文中的任何东西都被加密，包括所有报头和荷载。除了可能的选择密文攻击（参见限制小节）之外，一个攻击者所能知道的只有在两者之间有一连接这一事实。</p>
 ]]></content>
       <categories>
+        <category>IT</category>
         <category>安全</category>
       </categories>
       <tags>
@@ -741,28 +747,6 @@
         <tag>翻译</tag>
         <tag>Spring</tag>
         <tag>Spring boot 教程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ELK_Nignx_Configuration</title>
-    <url>/2021/04/15/ELK_Nignx_Configuration/</url>
-    <content><![CDATA[<p>使用 ELK 对 nginx 日志进行收集，并分析</p>
-<span id="more"></span>
-
-<h2 id="使用ELK对nginx日志进行收集，并分析"><a href="#使用ELK对nginx日志进行收集，并分析" class="headerlink" title="使用ELK对nginx日志进行收集，并分析"></a>使用 ELK 对 nginx 日志进行收集，并分析</h2><h2 id="Filebeat配置"><a href="#Filebeat配置" class="headerlink" title="Filebeat配置"></a>Filebeat 配置</h2><figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">###################### Filebeat Configuration Example #########################</span><br><span class="line"></span><br><span class="line"># This file is an example configuration file highlighting only the most common</span><br><span class="line"># options. The filebeat.reference.yml file from the same directory contains all the</span><br><span class="line"># supported options with more comments. You can use it as a reference.</span><br><span class="line">#</span><br><span class="line"># You can find the full configuration reference here:</span><br><span class="line"># https://www.elastic.co/guide/en/beats/filebeat/6.7/filebeat-input-log.html</span><br><span class="line"></span><br><span class="line"># For more available modules and options, please see the filebeat.reference.yml sample</span><br><span class="line"># configuration file.</span><br><span class="line">#=========================== Filebeat inputs =============================</span><br><span class="line">#</span><br><span class="line">filebeat.inputs:</span><br><span class="line">- type: log</span><br><span class="line">  enabled: true</span><br><span class="line">  paths:</span><br><span class="line">  # 日志存储目录，path配置参考https://www.elastic.co/guide/en/beats/filebeat/6.7/filebeat-input-log.html#input-paths</span><br><span class="line">    #- /usr/local/nginx/logs/access.cn.log</span><br><span class="line">    - /usr/local/nginx-1.17.9/logs/access.log</span><br><span class="line">    #- /opt/webapp/filebeat-6.7.0-linux-x86_64/local.log</span><br><span class="line">  #  - /data/logs/server2/*.log</span><br><span class="line">  fields:</span><br><span class="line">  # 该字段用于标记服务来源，为了和容器云保持一致，字段定义为kubernetes.namespace，对应的值根据实际用途定义</span><br><span class="line">    namespace: nginx-log</span><br><span class="line">  fields_under_root: true</span><br><span class="line">  # 可多行读取，需根据多行的起始标识来配置pattern，改多行读取配置为apache日志的配置</span><br><span class="line">  #multiline.pattern: '^\['</span><br><span class="line">  #multiline.negate: true</span><br><span class="line">  #multiline.match: after</span><br><span class="line"></span><br><span class="line">#----------------------------- Logstash output --------------------------------</span><br><span class="line">output.logstash:</span><br><span class="line">  # The Logstash hosts</span><br><span class="line">  hosts: ["elk-logstash-1.elk-bj02-4ufsdz.svc.bjb.ipaas.cn", "elk-logstash.elk-bj02-4ufsdz.svc.bjb.ipaas.cn"]</span><br><span class="line">  worker: 4</span><br><span class="line">  bulk_max_size: 2048</span><br><span class="line"></span><br><span class="line">#============================== Xpack Monitoring ===============================</span><br><span class="line">#xpack.monitoring.enabled: true</span><br><span class="line">#xpack.monitoring:</span><br><span class="line">#  enabled: true</span><br><span class="line">#  elasticsearch:</span><br><span class="line">#    hosts: [""]</span><br></pre></td></tr></tbody></table></figure>
-
-<h2 id="Logstash配置"><a href="#Logstash配置" class="headerlink" title="Logstash配置"></a>Logstash 配置</h2><figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">input {</span><br><span class="line">  beats {</span><br><span class="line">    port =&gt; 5044</span><br><span class="line">  }</span><br><span class="line">}</span><br><span class="line">filter{</span><br><span class="line">    grok {</span><br><span class="line">      # match =&gt; { "message" =&gt; ["%{IPORHOST:[nginx][access][remote_ip]} - %{DATA:[nginx][access][user_name]} \[%{HTTPDATE:[nginx][access][time]}\] \"%{WORD:[nginx][access][method]} %{URIPATH:[nginx][access][path]}(?:%{URIPARAM:[nginx][access][params]})? HTTP/%{NUMBER:[nginx][access][http_version]:float}\" %{DATA:[nginx][access][http_host]} %{NUMBER:[nginx][access][response_code]:int} %{NUMBER:[nginx][access][body_sent][bytes]:int} \"%{DATA:[nginx][access][scheme]}\" \"%{DATA:[nginx][access][referrer]}\" \"%{DATA:[nginx][access][agent]}\" \"%{DATA:[nginx][access][forwarded]}\" %{NUMBER:[nginx][access][request_time]:float} %{NUMBER:[nginx][access][response_time]:float} %{HOSTPORT:[nginx][access][upstream]}"] }</span><br><span class="line">       match =&gt; { "message" =&gt; [</span><br><span class="line">         "%{IPORHOST:[nginx][access][remote_ip]} - %{DATA:[nginx][access][user_name]} \[%{HTTPDATE:[nginx][access][time]}\] \"%{WORD:[nginx][access][method]} %{URIPATH:[nginx][access][path]}(?:%{CUSTOMER_URIPARAM:[nginx][access][params]})? HTTP/%{NUMBER:[nginx][access][http_version]:float}\" %{DATA:[nginx][access][http_host]} %{NUMBER:[nginx][access][response_code]:int} %{NUMBER:[nginx][access][body_sent][bytes]:int} \"%{DATA:[nginx][access][scheme]}\" \"%{DATA:[nginx][access][referrer]}\" \"%{DATA:[nginx][access][agent]}\" \"%{DATA:[nginx][access][forwarded]}\" %{NUMBER:[nginx][access][request_time]:float} %{NUMBER:[nginx][access][response_time]:float}(, )?%{NUMBER:[nginx][access][upstream_switch_time]:float}? %{HOSTPORT:[nginx][access][upstream]}(, %{HOSTPORT:[nginx][access][upstreamSwitch]})?",</span><br><span class="line">        "%{IPORHOST:[nginx][access][remote_ip]} - %{DATA:[nginx][access][user_name]} \[%{HTTPDATE:[nginx][access][time]}\] \"%{WORD:[nginx][access][method]} %{URIPATH:[nginx][access][path]}(?:%{CUSTOMER_URIPARAM:[nginx][access][params]})? HTTP/%{NUMBER:[nginx][access][http_version]:float}\" %{DATA:[nginx][access][http_host]} %{NUMBER:[nginx][access][response_code]:int} %{NUMBER:[nginx][access][body_sent][bytes]:int} \"%{DATA:[nginx][access][scheme]}\" \"%{DATA:[nginx][access][referrer]}\" \"%{DATA:[nginx][access][agent]}\" \"%{DATA:[nginx][access][forwarded]}\" %{NUMBER:[nginx][access][request_time]:float}"</span><br><span class="line">       ] }</span><br><span class="line">       pattern_definitions =&gt; {</span><br><span class="line">         "CUSTOMER_URIPARAM" =&gt; "\?[A-Za-z0-9$.+!*'|(){},~@#%&amp;/=:;_?\-\[\]&lt;&gt;\\]*"</span><br><span class="line">       }</span><br><span class="line">       remove_field =&gt; "message"</span><br><span class="line">     }</span><br><span class="line">     kv {</span><br><span class="line">      source =&gt; "[nginx][access][params]" # 默认是message，我们这里只需要解析上面grok抽取出来的request字段</span><br><span class="line">      target =&gt; "[nginx][access][paramsJson]"</span><br><span class="line">      field_split =&gt; "&amp;?"</span><br><span class="line">      value_split =&gt; "="</span><br><span class="line">      include_keys =&gt; [ "openId", "openid"]</span><br><span class="line">    }</span><br><span class="line">    urldecode {</span><br><span class="line">      all_fields =&gt; true</span><br><span class="line">    }</span><br><span class="line">     mutate {</span><br><span class="line">        add_field =&gt; { "read_timestamp" =&gt; "%{@timestamp}" }</span><br><span class="line">      }</span><br><span class="line">     date {</span><br><span class="line">          match =&gt; [ "[nginx][access][time]", "dd/MMM/YYYY:HH:mm:ss Z" ]</span><br><span class="line">        }</span><br><span class="line">    geoip {</span><br><span class="line">      source =&gt; "[nginx][access][forwarded]"</span><br><span class="line">      #target =&gt; "[nginx][access][geoip]"</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line">output{</span><br><span class="line">  elasticsearch{</span><br><span class="line">    # 添加对应集群的地址</span><br><span class="line">    hosts =&gt; ["es-host"]</span><br><span class="line">    index =&gt; "nginx-log-%{+yyyy.MM.dd}"</span><br><span class="line">  }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-<blockquote>
-<p><a href="https://github.com/logstash-plugins/logstash-patterns-core/blob/master/patterns/legacy/grok-patterns">参考</a></p>
-</blockquote>
-<h2 id="ES配置"><a href="#ES配置" class="headerlink" title="ES配置"></a>ES 配置</h2><p>需要在 es 中创建相应的索引</p>
-<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">PUT /_template/template_nginx?include_type_name=true</span><br><span class="line">{</span><br><span class="line">  "order" : 0,</span><br><span class="line">  "version" : 10001,</span><br><span class="line">  "index_patterns" : [</span><br><span class="line">    "nginx-log-*"</span><br><span class="line">  ],</span><br><span class="line">  "settings" : {</span><br><span class="line">    "index" : {</span><br><span class="line">    "number_of_shards": "5",</span><br><span class="line">    "number_of_replicas": "1",</span><br><span class="line">    "refresh_interval" : "5s"</span><br><span class="line">    }</span><br><span class="line">  },</span><br><span class="line">  "mappings" : {</span><br><span class="line">    "_default_" : {</span><br><span class="line">      "dynamic_templates" : [</span><br><span class="line">        {</span><br><span class="line">          "message_field" : {</span><br><span class="line">            "path_match" : "message",</span><br><span class="line">            "mapping" : {</span><br><span class="line">              "norms" : false,</span><br><span class="line">              "type" : "text"</span><br><span class="line">            },</span><br><span class="line">            "match_mapping_type" : "string"</span><br><span class="line">          }</span><br><span class="line">        },</span><br><span class="line">        {</span><br><span class="line">          "string_fields" : {</span><br><span class="line">            "mapping" : {</span><br><span class="line">              "norms" : false,</span><br><span class="line">              "type" : "text",</span><br><span class="line">              "analyzer": "ik_max_word",</span><br><span class="line">              "fields" : {</span><br><span class="line">                "keyword" : {</span><br><span class="line">                  "ignore_above" : 256,</span><br><span class="line">                  "type" : "keyword"</span><br><span class="line">                }</span><br><span class="line">              }</span><br><span class="line">            },</span><br><span class="line">            "match_mapping_type" : "string",</span><br><span class="line">            "match" : "*"</span><br><span class="line">          }</span><br><span class="line">        }</span><br><span class="line">      ]</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-]]></content>
-      <categories>
-        <category>ELK</category>
-      </categories>
-      <tags>
-        <tag>nginx elk ELK</tag>
       </tags>
   </entry>
   <entry>
@@ -819,10 +803,36 @@
 </ol>
 ]]></content>
       <categories>
-        <category>建站 博客</category>
+        <category>教程</category>
+        <category>建站</category>
+        <category>博客</category>
       </categories>
       <tags>
         <tag>github pages hexo next actions gittalk</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ELK_Nignx_Configuration</title>
+    <url>/2021/04/15/ELK_Nignx_Configuration/</url>
+    <content><![CDATA[<p>使用 ELK 对 nginx 日志进行收集，并分析</p>
+<span id="more"></span>
+
+<h2 id="使用ELK对nginx日志进行收集，并分析"><a href="#使用ELK对nginx日志进行收集，并分析" class="headerlink" title="使用ELK对nginx日志进行收集，并分析"></a>使用 ELK 对 nginx 日志进行收集，并分析</h2><h2 id="Filebeat配置"><a href="#Filebeat配置" class="headerlink" title="Filebeat配置"></a>Filebeat 配置</h2><figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">###################### Filebeat Configuration Example #########################</span><br><span class="line"></span><br><span class="line"># This file is an example configuration file highlighting only the most common</span><br><span class="line"># options. The filebeat.reference.yml file from the same directory contains all the</span><br><span class="line"># supported options with more comments. You can use it as a reference.</span><br><span class="line">#</span><br><span class="line"># You can find the full configuration reference here:</span><br><span class="line"># https://www.elastic.co/guide/en/beats/filebeat/6.7/filebeat-input-log.html</span><br><span class="line"></span><br><span class="line"># For more available modules and options, please see the filebeat.reference.yml sample</span><br><span class="line"># configuration file.</span><br><span class="line">#=========================== Filebeat inputs =============================</span><br><span class="line">#</span><br><span class="line">filebeat.inputs:</span><br><span class="line">- type: log</span><br><span class="line">  enabled: true</span><br><span class="line">  paths:</span><br><span class="line">  # 日志存储目录，path配置参考https://www.elastic.co/guide/en/beats/filebeat/6.7/filebeat-input-log.html#input-paths</span><br><span class="line">    #- /usr/local/nginx/logs/access.cn.log</span><br><span class="line">    - /usr/local/nginx-1.17.9/logs/access.log</span><br><span class="line">    #- /opt/webapp/filebeat-6.7.0-linux-x86_64/local.log</span><br><span class="line">  #  - /data/logs/server2/*.log</span><br><span class="line">  fields:</span><br><span class="line">  # 该字段用于标记服务来源，为了和容器云保持一致，字段定义为kubernetes.namespace，对应的值根据实际用途定义</span><br><span class="line">    namespace: nginx-log</span><br><span class="line">  fields_under_root: true</span><br><span class="line">  # 可多行读取，需根据多行的起始标识来配置pattern，改多行读取配置为apache日志的配置</span><br><span class="line">  #multiline.pattern: '^\['</span><br><span class="line">  #multiline.negate: true</span><br><span class="line">  #multiline.match: after</span><br><span class="line"></span><br><span class="line">#----------------------------- Logstash output --------------------------------</span><br><span class="line">output.logstash:</span><br><span class="line">  # The Logstash hosts</span><br><span class="line">  hosts: ["elk-logstash-1.elk-bj02-4ufsdz.svc.bjb.ipaas.cn", "elk-logstash.elk-bj02-4ufsdz.svc.bjb.ipaas.cn"]</span><br><span class="line">  worker: 4</span><br><span class="line">  bulk_max_size: 2048</span><br><span class="line"></span><br><span class="line">#============================== Xpack Monitoring ===============================</span><br><span class="line">#xpack.monitoring.enabled: true</span><br><span class="line">#xpack.monitoring:</span><br><span class="line">#  enabled: true</span><br><span class="line">#  elasticsearch:</span><br><span class="line">#    hosts: [""]</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="Logstash配置"><a href="#Logstash配置" class="headerlink" title="Logstash配置"></a>Logstash 配置</h2><figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">input {</span><br><span class="line">  beats {</span><br><span class="line">    port =&gt; 5044</span><br><span class="line">  }</span><br><span class="line">}</span><br><span class="line">filter{</span><br><span class="line">    grok {</span><br><span class="line">      # match =&gt; { "message" =&gt; ["%{IPORHOST:[nginx][access][remote_ip]} - %{DATA:[nginx][access][user_name]} \[%{HTTPDATE:[nginx][access][time]}\] \"%{WORD:[nginx][access][method]} %{URIPATH:[nginx][access][path]}(?:%{URIPARAM:[nginx][access][params]})? HTTP/%{NUMBER:[nginx][access][http_version]:float}\" %{DATA:[nginx][access][http_host]} %{NUMBER:[nginx][access][response_code]:int} %{NUMBER:[nginx][access][body_sent][bytes]:int} \"%{DATA:[nginx][access][scheme]}\" \"%{DATA:[nginx][access][referrer]}\" \"%{DATA:[nginx][access][agent]}\" \"%{DATA:[nginx][access][forwarded]}\" %{NUMBER:[nginx][access][request_time]:float} %{NUMBER:[nginx][access][response_time]:float} %{HOSTPORT:[nginx][access][upstream]}"] }</span><br><span class="line">       match =&gt; { "message" =&gt; [</span><br><span class="line">         "%{IPORHOST:[nginx][access][remote_ip]} - %{DATA:[nginx][access][user_name]} \[%{HTTPDATE:[nginx][access][time]}\] \"%{WORD:[nginx][access][method]} %{URIPATH:[nginx][access][path]}(?:%{CUSTOMER_URIPARAM:[nginx][access][params]})? HTTP/%{NUMBER:[nginx][access][http_version]:float}\" %{DATA:[nginx][access][http_host]} %{NUMBER:[nginx][access][response_code]:int} %{NUMBER:[nginx][access][body_sent][bytes]:int} \"%{DATA:[nginx][access][scheme]}\" \"%{DATA:[nginx][access][referrer]}\" \"%{DATA:[nginx][access][agent]}\" \"%{DATA:[nginx][access][forwarded]}\" %{NUMBER:[nginx][access][request_time]:float} %{NUMBER:[nginx][access][response_time]:float}(, )?%{NUMBER:[nginx][access][upstream_switch_time]:float}? %{HOSTPORT:[nginx][access][upstream]}(, %{HOSTPORT:[nginx][access][upstreamSwitch]})?",</span><br><span class="line">        "%{IPORHOST:[nginx][access][remote_ip]} - %{DATA:[nginx][access][user_name]} \[%{HTTPDATE:[nginx][access][time]}\] \"%{WORD:[nginx][access][method]} %{URIPATH:[nginx][access][path]}(?:%{CUSTOMER_URIPARAM:[nginx][access][params]})? HTTP/%{NUMBER:[nginx][access][http_version]:float}\" %{DATA:[nginx][access][http_host]} %{NUMBER:[nginx][access][response_code]:int} %{NUMBER:[nginx][access][body_sent][bytes]:int} \"%{DATA:[nginx][access][scheme]}\" \"%{DATA:[nginx][access][referrer]}\" \"%{DATA:[nginx][access][agent]}\" \"%{DATA:[nginx][access][forwarded]}\" %{NUMBER:[nginx][access][request_time]:float}"</span><br><span class="line">       ] }</span><br><span class="line">       pattern_definitions =&gt; {</span><br><span class="line">         "CUSTOMER_URIPARAM" =&gt; "\?[A-Za-z0-9$.+!*'|(){},~@#%&amp;/=:;_?\-\[\]&lt;&gt;\\]*"</span><br><span class="line">       }</span><br><span class="line">       remove_field =&gt; "message"</span><br><span class="line">     }</span><br><span class="line">     kv {</span><br><span class="line">      source =&gt; "[nginx][access][params]" # 默认是message，我们这里只需要解析上面grok抽取出来的request字段</span><br><span class="line">      target =&gt; "[nginx][access][paramsJson]"</span><br><span class="line">      field_split =&gt; "&amp;?"</span><br><span class="line">      value_split =&gt; "="</span><br><span class="line">      include_keys =&gt; [ "openId", "openid"]</span><br><span class="line">    }</span><br><span class="line">    urldecode {</span><br><span class="line">      all_fields =&gt; true</span><br><span class="line">    }</span><br><span class="line">     mutate {</span><br><span class="line">        add_field =&gt; { "read_timestamp" =&gt; "%{@timestamp}" }</span><br><span class="line">      }</span><br><span class="line">     date {</span><br><span class="line">          match =&gt; [ "[nginx][access][time]", "dd/MMM/YYYY:HH:mm:ss Z" ]</span><br><span class="line">        }</span><br><span class="line">    geoip {</span><br><span class="line">      source =&gt; "[nginx][access][forwarded]"</span><br><span class="line">      #target =&gt; "[nginx][access][geoip]"</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line">output{</span><br><span class="line">  elasticsearch{</span><br><span class="line">    # 添加对应集群的地址</span><br><span class="line">    hosts =&gt; ["es-host"]</span><br><span class="line">    index =&gt; "nginx-log-%{+yyyy.MM.dd}"</span><br><span class="line">  }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<blockquote>
+<p><a href="https://github.com/logstash-plugins/logstash-patterns-core/blob/master/patterns/legacy/grok-patterns">参考</a></p>
+</blockquote>
+<h2 id="ES配置"><a href="#ES配置" class="headerlink" title="ES配置"></a>ES 配置</h2><p>需要在 es 中创建相应的索引</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">PUT /_template/template_nginx?include_type_name=true</span><br><span class="line">{</span><br><span class="line">  "order" : 0,</span><br><span class="line">  "version" : 10001,</span><br><span class="line">  "index_patterns" : [</span><br><span class="line">    "nginx-log-*"</span><br><span class="line">  ],</span><br><span class="line">  "settings" : {</span><br><span class="line">    "index" : {</span><br><span class="line">    "number_of_shards": "5",</span><br><span class="line">    "number_of_replicas": "1",</span><br><span class="line">    "refresh_interval" : "5s"</span><br><span class="line">    }</span><br><span class="line">  },</span><br><span class="line">  "mappings" : {</span><br><span class="line">    "_default_" : {</span><br><span class="line">      "dynamic_templates" : [</span><br><span class="line">        {</span><br><span class="line">          "message_field" : {</span><br><span class="line">            "path_match" : "message",</span><br><span class="line">            "mapping" : {</span><br><span class="line">              "norms" : false,</span><br><span class="line">              "type" : "text"</span><br><span class="line">            },</span><br><span class="line">            "match_mapping_type" : "string"</span><br><span class="line">          }</span><br><span class="line">        },</span><br><span class="line">        {</span><br><span class="line">          "string_fields" : {</span><br><span class="line">            "mapping" : {</span><br><span class="line">              "norms" : false,</span><br><span class="line">              "type" : "text",</span><br><span class="line">              "analyzer": "ik_max_word",</span><br><span class="line">              "fields" : {</span><br><span class="line">                "keyword" : {</span><br><span class="line">                  "ignore_above" : 256,</span><br><span class="line">                  "type" : "keyword"</span><br><span class="line">                }</span><br><span class="line">              }</span><br><span class="line">            },</span><br><span class="line">            "match_mapping_type" : "string",</span><br><span class="line">            "match" : "*"</span><br><span class="line">          }</span><br><span class="line">        }</span><br><span class="line">      ]</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+]]></content>
+      <categories>
+        <category>服务端</category>
+        <category>开源组件</category>
+        <category>ELK</category>
+      </categories>
+      <tags>
+        <tag>nginx elk ELK</tag>
       </tags>
   </entry>
   <entry>
@@ -857,6 +867,7 @@
 <h3 id="case中定义变量"><a href="#case中定义变量" class="headerlink" title="case中定义变量"></a><code>case</code> 中定义变量</h3><p><code>case</code> 分支中如果想要定义变量，必须用 “{}” 将分支内容给包含进去，否则，不能定义变量。<br>如：</p>
 <figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">case</span> <span class="number">1</span> :</span><br><span class="line">    {</span><br><span class="line">        <span class="type">int</span> <span class="variable">num</span> <span class="operator">=</span> <span class="number">0</span> ;</span><br><span class="line">        System.out.println(num);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    }  </span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>]]></content>
       <categories>
+        <category>Java</category>
         <category>Java基础</category>
       </categories>
       <tags>
@@ -866,11 +877,13 @@
   <entry>
     <title>每周知识点介绍 - 权限系统实现方案</title>
     <url>/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/</url>
-    <content><![CDATA[<p>  Hello, 大家好，我是小毛驴。欢迎大家来到每周知识点介绍栏目。本周我将带领大家一起来了解下业内较为成熟的权限系统设计方案，包含 <code>ACL</code>,  <code>DAL</code>, <code>MAC</code>, <code>RBAC</code>, <code>ABAC</code>。<br>  通过本文的介绍，大家可以了解一些关于权限系统的概念，方案，还有一些在方案选型上的建议。好了，废话不多说，我们进入正题吧。</p>
+    <content><![CDATA[<p>Hello, 大家好，我是小毛驴。欢迎大家来到每周知识点介绍栏目。本周我将带领大家一起来了解下业内较为成熟的权限系统设计方案，包含 <code>ACL</code>,  <code>DAL</code>, <code>MAC</code>, <code>RBAC</code>, <code>ABAC</code>。</p>
+<p>通过本文的介绍，大家可以了解一些关于权限系统的概念，方案，还有一些在方案选型上的建议。好了，废话不多说，我们进入正题吧。</p>
 <span id="more"></span>
 
-<h2 id="什么是权限控制"><a href="#什么是权限控制" class="headerlink" title="什么是权限控制"></a>什么是权限控制</h2><p>  在现实场景中有些操作只能由某个特定的人或特定岗位来完成，例如对外的公章，只能由老板来在确认后使用，或者你的请假条，将由你的直属上线来进行审批。<br>  将这些 “权限要求” 搬到信息化系统之后，就要求我们的信息化系统也能进行相应的权限控制，保证某些资源，操作只能由特定的人员，岗位来访问，操作。</p>
-<h2 id="权限管理模式有哪些"><a href="#权限管理模式有哪些" class="headerlink" title="权限管理模式有哪些"></a>权限管理模式有哪些</h2><p>  在 IT 届长时间的演化后，将一些权限系统设计的思路抽象化，形成了一些模式，这些模式就是：</p>
+<h2 id="什么是权限控制"><a href="#什么是权限控制" class="headerlink" title="什么是权限控制"></a>什么是权限控制</h2><p>在现实场景中有些操作只能由某个特定的人或特定岗位来完成，例如对外的公章，只能由老板来在确认后使用，或者你的请假条，将由你的直属上线来进行审批。</p>
+<p>将这些 “权限要求” 搬到信息化系统之后，就要求我们的信息化系统也能进行相应的权限控制，保证某些资源，操作只能由特定的人员，岗位来访问，操作。</p>
+<h2 id="权限管理模式有哪些"><a href="#权限管理模式有哪些" class="headerlink" title="权限管理模式有哪些"></a>权限管理模式有哪些</h2><p>在 IT 届长时间的演化后，将一些权限系统设计的思路抽象化，形成了一些模式，这些模式就是：</p>
 <p><img data-src="/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/timeline.png" alt="权限方案发展历史"></p>
 <ul>
 <li><code>ACL</code></li>
@@ -879,7 +892,7 @@
 <li><code>RBAC</code></li>
 <li><code>ABAC</code></li>
 </ul>
-<p>  重要名称解释</p>
+<p>重要名称解释</p>
 <ul>
 <li><code>Subject</code> 实体，可指代人，群组等</li>
 <li><code>Object</code> 对象，需要权限才能操作的对象，有时也会用 <code>Resources</code> 资源替代</li>
@@ -1028,8 +1041,8 @@
 <li><p>AWS</p>
 <figure class="highlight json"><table><tbody><tr><td class="code"><pre><span class="line"><span class="punctuation">{</span></span><br><span class="line"><span class="attr">"Version"</span><span class="punctuation">:</span> <span class="string">"2012-10-17"</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">"Statement"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">{</span></span><br><span class="line">        <span class="attr">"Effect"</span><span class="punctuation">:</span> <span class="string">"Allow"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">"Action"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">            <span class="string">"ec2:TerminateInstances"</span></span><br><span class="line">        <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">"Resource"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">            <span class="string">"*"</span></span><br><span class="line">        <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">{</span></span><br><span class="line">        <span class="attr">"Effect"</span><span class="punctuation">:</span> <span class="string">"Deny"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">"Action"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">            <span class="string">"ec2:TerminateInstances"</span></span><br><span class="line">        <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">"Condition"</span><span class="punctuation">:</span> <span class="punctuation">{</span><span class="attr">"NotIpAddress"</span><span class="punctuation">:</span> <span class="punctuation">{</span><span class="attr">"aws:SourceIp"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">            <span class="string">"192.0.2.0/24"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="string">"203.0.113.0/24"</span></span><br><span class="line">            <span class="punctuation">]</span><span class="punctuation">}</span><span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">"Resource"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">            <span class="string">"arn:aws:ec2:&lt;REGION&gt;:&lt;ACCOUNTNUMBER&gt;:instance/*"</span></span><br><span class="line">        <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">}</span></span><br><span class="line"><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">}</span></span><br></pre></td></tr></tbody></table></figure></li>
 </ul>
-<h4 id="ABAC协议变种PBAC-Policy-Based-Access-Control-基于策略的访问控制"><a href="#ABAC协议变种PBAC-Policy-Based-Access-Control-基于策略的访问控制" class="headerlink" title="ABAC协议变种PBAC: Policy-Based Access Control 基于策略的访问控制"></a>ABAC 协议变种 <code>PBAC: Policy-Based Access Control</code> 基于策略的访问控制</h4><p>  和 ABAC 的区别，ABAC 使用一些 XML 的标准，但 PBAC 并未进行明确的规则限制，更加灵活一些。具体可以<a href="https://en.wikipedia.org/wiki/Attribute-based_access_control">查阅这里</a>。</p>
-<h4 id="ABAC协议变种CBAC-Context-based-access-control-基于声明的访问控制"><a href="#ABAC协议变种CBAC-Context-based-access-control-基于声明的访问控制" class="headerlink" title="ABAC协议变种CBAC: Context-based access control 基于声明的访问控制"></a>ABAC 协议变种 <code>CBAC: Context-based access control</code> 基于声明的访问控制</h4><p>  这是微软在 ABAC 基础的改版协议，具体可以<a href="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-azod/e600249e-247b-469c-8979-e0c578adfbe6">查阅这里</a>。</p>
+<h4 id="ABAC协议变种PBAC-Policy-Based-Access-Control-基于策略的访问控制"><a href="#ABAC协议变种PBAC-Policy-Based-Access-Control-基于策略的访问控制" class="headerlink" title="ABAC协议变种PBAC: Policy-Based Access Control 基于策略的访问控制"></a>ABAC 协议变种 <code>PBAC: Policy-Based Access Control</code> 基于策略的访问控制</h4><p>和 ABAC 的区别，ABAC 使用一些 XML 的标准，但 PBAC 并未进行明确的规则限制，更加灵活一些。具体可以<a href="https://en.wikipedia.org/wiki/Attribute-based_access_control">查阅这里</a>。</p>
+<h4 id="ABAC协议变种CBAC-Context-based-access-control-基于声明的访问控制"><a href="#ABAC协议变种CBAC-Context-based-access-control-基于声明的访问控制" class="headerlink" title="ABAC协议变种CBAC: Context-based access control 基于声明的访问控制"></a>ABAC 协议变种 <code>CBAC: Context-based access control</code> 基于声明的访问控制</h4><p>这是微软在 ABAC 基础的改版协议，具体可以<a href="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-azod/e600249e-247b-469c-8979-e0c578adfbe6">查阅这里</a>。</p>
 <h2 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h2><table>
 <thead>
 <tr>
@@ -1069,7 +1082,7 @@
 <td>国内不多</td>
 </tr>
 </tbody></table>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>  虽说随着时间的前景，权限管理的模式不断的在推陈出新，新模式的灵活性也越来越强，但也相应的带来了一些复杂性。在实际的生产过程中需要根据项目的实际需求来抉择使用哪一种模式。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>虽说随着时间的前景，权限管理的模式不断的在推陈出新，新模式的灵活性也越来越强，但也相应的带来了一些复杂性。在实际的生产过程中需要根据项目的实际需求来抉择使用哪一种模式。</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
 <li><a href="https://zhuanlan.zhihu.com/p/70548562">https://zhuanlan.zhihu.com/p/70548562</a></li>
 <li><a href="https://dzone.com/articles/acl-rbac-abac-pbac-radac-and-a-dash-of-cbac">https://dzone.com/articles/acl-rbac-abac-pbac-radac-and-a-dash-of-cbac</a></li>
@@ -1080,7 +1093,7 @@
 </ul>
 ]]></content>
       <categories>
-        <category>每周知识点介绍</category>
+        <category>知识点分享</category>
       </categories>
       <tags>
         <tag>权限</tag>
@@ -1091,60 +1104,51 @@
   <entry>
     <title>每周知识点介绍 - 权限验证流程 - 身份认证、授权、鉴权、权限验证</title>
     <url>/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81%E6%B5%81%E7%A8%8B-%E8%AE%A4%E8%AF%81%E3%80%81%E6%8E%88%E6%9D%83%E3%80%81%E9%89%B4%E6%9D%83%E3%80%81%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81/</url>
-    <content><![CDATA[<p>  Hello, 大家好，我是小毛驴。欢迎大家来到每周知识点介绍栏目。本次我将带领大家一起来了解下权限系统的核心流程（概念）有哪些（见下述列表），我们在设计权限系统或者和权限系统连接时需要注意哪些。  </p>
+    <content><![CDATA[<p>Hello, 大家好，我是小毛驴。欢迎大家来到每周知识点介绍栏目。本次我将带领大家一起来了解下权限系统的核心流程（概念）有哪些（见下述列表），我们在设计权限系统或者和权限系统连接时需要注意哪些。  </p>
 <ul>
 <li>身份认证</li>
 <li>授权</li>
 <li>鉴权</li>
 <li>权限验证</li>
 </ul>
-<p>  通过本文的介绍，也期望能在大家未来的开发和设计上起到一些积极的作用。言归正传，我们开始进入正题吧。  </p>
+<p>通过本文的介绍，也期望能在大家未来的开发和设计上起到一些积极的作用。言归正传，我们开始进入正题吧。  </p>
 <span id="more"></span>
 
-<p>  让我们来设想一个场景，你是一个酒店的前台人员，有一位顾客昨晚在你们酒店预订了一间房，今天按时到达。你先验证这位顾客的身份，登记后给他发放一张房卡，顾客拿着这种房卡即可搭乘电梯和打开他自己的房门。  </p>
-<p>  就在这个场景中，我们就经历了身份认证，授权，鉴权，权限验证的过程，具体的对应关系我们在下面展开。  </p>
-<h2 id="身份认证是什么？"><a href="#身份认证是什么？" class="headerlink" title="身份认证是什么？"></a>身份认证是什么？</h2><p>  身份认证是一种确认某人是某人的安全实践，听着有些虚幻就好像。但在我们系统中一般就是验证你的密码和我们存储你的密码是否一致。当前身份认证还有其他的更安全的手段，我们这里先只讨论最简单的实现。  </p>
-<p>  在我们上面酒店的例子中，我们要求顾客给我们验证码或者身份证，就是为了对顾客进行身份认证。</p>
+<p>让我们来设想一个场景，你是一个酒店的前台人员，有一位顾客昨晚在你们酒店预订了一间房，今天按时到达。你先验证这位顾客的身份，登记后给他发放一张房卡，顾客拿着这种房卡即可搭乘电梯和打开他自己的房门。  </p>
+<p>就在这个场景中，我们就经历了身份认证，授权，鉴权，权限验证的过程，具体的对应关系我们在下面展开。  </p>
+<h2 id="身份认证是什么？"><a href="#身份认证是什么？" class="headerlink" title="身份认证是什么？"></a>身份认证是什么？</h2><p>身份认证是一种确认某人是某人的安全实践，听着有些虚幻就好像。但在我们系统中一般就是验证你的密码和我们存储你的密码是否一致。当前身份认证还有其他的更安全的手段，我们这里先只讨论最简单的实现。  </p>
+<p>在我们上面酒店的例子中，我们要求顾客给我们验证码或者身份证，就是为了对顾客进行身份认证。</p>
 <blockquote>
 <p>身份认证手段：手机短信验证，密码验证，动态口令验证，第三方验证（Oauth2）等等</p>
 </blockquote>
-<h2 id="授权是什么？"><a href="#授权是什么？" class="headerlink" title="授权是什么？"></a>授权是什么？</h2><p>  授权是指确定想每个用户手何种访问权限的过程，即在验证了你是我的用户之后，确定你在我这里有哪些权限。避免如果每次访问都进行用户认证时，加大了用户敏感信息泄露的可能。<br>  在酒店的例子中，就是根据你预订的房间情况给你开通不同的权限，房间权限，电梯权限，早餐权限等。<br>  然后将这种权限用令牌的形式发放给你，也就是将权限授予给了你。在酒店中就是将房卡和早餐券发放给你。</p>
+<h2 id="授权是什么？"><a href="#授权是什么？" class="headerlink" title="授权是什么？"></a>授权是什么？</h2><p>授权是指确定想每个用户手何种访问权限的过程，即在验证了你是我的用户之后，确定你在我这里有哪些权限。避免如果每次访问都进行用户认证时，加大了用户敏感信息泄露的可能。</p>
+<p>在酒店的例子中，就是根据你预订的房间情况给你开通不同的权限，房间权限，电梯权限，早餐权限等。</p>
+<p>然后将这种权限用令牌的形式发放给你，也就是将权限授予给了你。在酒店中就是将房卡和早餐券发放给你。</p>
 <blockquote>
 <p>在我们的 Web 服务中，这个立牌就是登录完成后返回的 Cookie 中包含的 sessionId，Token，JWT-Token，Oauth2-Token 等</p>
 </blockquote>
-<h2 id="鉴权是什么？"><a href="#鉴权是什么？" class="headerlink" title="鉴权是什么？"></a>鉴权是什么？</h2><p>  鉴权在很多时候都会和权限验证混合在一起，我们尝试将他剥开分离来说明。鉴权和授权是匹配的，上一步的时候我们给用户下发的权限凭证，这一步我们要确认这个凭证是我们下发的，不是伪造的。  </p>
-<p>  在酒店的例子中，我们在电梯中权限来做过不太像的比喻，电梯作为基础的鉴权者，对所有的凭证来进行鉴权，是酒店下发的凭证才能乘坐电梯，其他的全部拒绝。</p>
+<h2 id="鉴权是什么？"><a href="#鉴权是什么？" class="headerlink" title="鉴权是什么？"></a>鉴权是什么？</h2><p>鉴权在很多时候都会和权限验证混合在一起，我们尝试将他剥开分离来说明。鉴权和授权是匹配的，上一步的时候我们给用户下发的权限凭证，这一步我们要确认这个凭证是我们下发的，不是伪造的。  </p>
+<p>在酒店的例子中，我们在电梯中权限来做过不太像的比喻，电梯作为基础的鉴权者，对所有的凭证来进行鉴权，是酒店下发的凭证才能乘坐电梯，其他的全部拒绝。</p>
 <blockquote>
 <p>注：虽然这里面已经涉及到权限认证了，但我们先模糊这个过程。另外那种电梯限制刷卡后只能到底自己楼层的例子也暂时不关注。</p>
 </blockquote>
-<h2 id="权限验证是什么？"><a href="#权限验证是什么？" class="headerlink" title="权限验证是什么？"></a>权限验证是什么？</h2><p>  权限验证就比较好理解了，我这个接口，这个操作需要什么权限，你的凭证代表的权限集里是否有这个权限，有就通过，没有就拒绝，这个过程就是权限验证。<br>  在酒店中的例子就是，你的卡在刷你的房间时是可以刷开的，刷别人的房门是没有任何响应的。<br>  在我们系统实现时，权限验证就和我们<a href="//2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/">权限模型</a>极其相关了。</p>
+<h2 id="权限验证是什么？"><a href="#权限验证是什么？" class="headerlink" title="权限验证是什么？"></a>权限验证是什么？</h2><p>权限验证就比较好理解了，我这个接口，这个操作需要什么权限，你的凭证代表的权限集里是否有这个权限，有就通过，没有就拒绝，这个过程就是权限验证。</p>
+<p>在酒店中的例子就是，你的卡在刷你的房间时是可以刷开的，刷别人的房门是没有任何响应的。</p>
+<p>在我们系统实现时，权限验证就和我们<a href="//2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/">权限模型</a>极其相关了。</p>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><img data-src="/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81%E6%B5%81%E7%A8%8B-%E8%AE%A4%E8%AF%81%E3%80%81%E6%8E%88%E6%9D%83%E3%80%81%E9%89%B4%E6%9D%83%E3%80%81%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81/%E6%9D%83%E9%99%90%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B.svg" alt="权限认证流程"></p>
-<p>  正如我们在图中见到的流程，整体权限的验证流程大概分为上述四部。<br>  但在实际实现的过程中这四部会合并两步。身份认证和授权合并在一起，鉴权和权限认证合并一起，这样既方便了设计和编码，也方便了用户操作。合并的例子我们可以看看 Spring Security 的架构图。</p>
+<p>正如我们在图中见到的流程，整体权限的验证流程大概分为上述四部。</p>
+<p>但在实际实现的过程中这四部会合并两步。身份认证和授权合并在一起，鉴权和权限认证合并一起，这样既方便了设计和编码，也方便了用户操作。合并的例子我们可以看看 Spring Security 的架构图。</p>
 <p><img data-src="/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81%E6%B5%81%E7%A8%8B-%E8%AE%A4%E8%AF%81%E3%80%81%E6%8E%88%E6%9D%83%E3%80%81%E9%89%B4%E6%9D%83%E3%80%81%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81/spring-security.png"></p>
-<p>  将这张图中我们可以清晰的看到，Spring Security 将身份认证（LDAP、OpenID）和授权结合在一起，而将鉴权和权限验证结合在一起。形成了整个 Spring Security 的生态。</p>
+<p>将这张图中我们可以清晰的看到，Spring Security 将身份认证（LDAP、OpenID）和授权结合在一起，而将鉴权和权限验证结合在一起。形成了整个 Spring Security 的生态。</p>
 ]]></content>
       <categories>
-        <category>每周知识点介绍</category>
+        <category>知识点分享</category>
       </categories>
       <tags>
         <tag>认证</tag>
         <tag>授权</tag>
         <tag>鉴权</tag>
         <tag>权限验证</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ioGame 学习 (一)- 初识</title>
-    <url>/2024/01/03/ioGame%E5%AD%A6%E4%B9%A0(%E4%B8%80)-%E5%88%9D%E8%AF%86/</url>
-    <content><![CDATA[<p>   从今天开始学习游戏的网络游戏服务器框架《ioGame》。</p>
-<span id="more"></span>]]></content>
-      <categories>
-        <category>游戏服务端学习</category>
-      </categories>
-      <tags>
-        <tag>学习</tag>
-        <tag>游戏</tag>
-        <tag>服务端</tag>
       </tags>
   </entry>
   <entry>
@@ -1180,10 +1184,10 @@
 <p>设置之后就可以正常使用 <code>pnpm</code> 和 <code>yarn</code> 了。</p>
 ]]></content>
       <categories>
-        <category>corepack</category>
+        <category>Nodejs</category>
+        <category>Corepack</category>
         <category>pnpm</category>
         <category>yarn</category>
-        <category>nodejs</category>
       </categories>
       <tags>
         <tag>corpack无法正常使用</tag>
@@ -1215,13 +1219,31 @@
 <h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>那我们要做的就很简单，升级到 <code>v0.24.0</code> 及以上。简单的升级办法是下载 <code>release</code> 里面版本符合的包，替换整个 <code>C:\Users\xxxx\AppData\Roaming\nvm\v20.11.0\node_modules\corepack</code> 目录即可</p>
 ]]></content>
       <categories>
-        <category>corepack</category>
+        <category>Nodejs</category>
+        <category>Corepack</category>
         <category>pnpm</category>
         <category>yarn</category>
-        <category>nodejs</category>
       </categories>
       <tags>
         <tag>corpack无法正常使用</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SpringBoot 添加 url 版本控制注解 ApiVersion</title>
+    <url>/2024/01/31/SpringBoot%E6%B7%BB%E5%8A%A0url%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E6%B3%A8%E8%A7%A3ApiVersion/</url>
+    <content><![CDATA[<p>作为服务端研发，在设计一个接口的时候，为了保证后续业务的新增和修改，会有各种的扩展性设计，其中关于 URL 的通用扩展设计是在 path 中加入版本。<br>例如: <code>https://domain.com/api/{version}/path</code> 。这种设计方便后续对接口升级时，只需要简单的升级版本号就可以了。</p>
+<p>在有多个版本号之后，我们如何在 Spring Boot 中优雅的根据版本号进行不同的逻辑处理呢，本篇文章会介绍我正在使用的一种比较优雅的方法在 Spring Boot 中来处理版本号。</p>
+<span id="more"></span>
+
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2>]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Spring Boot</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>Spring Boot</tag>
+        <tag>ApiVersion</tag>
       </tags>
   </entry>
 </search>
