@@ -8,7 +8,7 @@
 
 <ul>
 <li>按照正常流程配置好 VPN</li>
-<li> 在 vpn 连接属性–&gt; 网络–&gt;Internet 协议版本 4–&gt; 属性–&gt; 高级–&gt; 去掉《在远程网络上使用默认网关》；这样做让所有连接都走本地网络连接，不走 vpn。<br><img data-src="/1.jpg"><br><img data-src="/2.jpg"></li>
+<li> 在 vpn 连接属性–&gt; 网络–&gt;Internet 协议版本 4–&gt; 属性–&gt; 高级–&gt; 去掉《在远程网络上使用默认网关》；这样做让所有连接都走本地网络连接，不走 vpn。<br><img data-src="/2015/05/12/2015/05/13/Windows%E6%8C%87%E5%AE%9A%E9%83%A8%E5%88%86IP%E8%B5%B0VPN%E9%80%9A%E9%81%93/1.jpg"><br><img data-src="/2015/05/12/2015/05/13/Windows%E6%8C%87%E5%AE%9A%E9%83%A8%E5%88%86IP%E8%B5%B0VPN%E9%80%9A%E9%81%93/2.jpg"></li>
 <li>连接 vpn，获取 vpn 分配的 ip<br>  输入命令：  <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">&gt;ipconfig</span></span><br></pre></td></tr></tbody></table></figure>
   结果如下：  <figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">PPP 适配器 FUIOU VPN 连接: </span><br><span class="line">连接特定的 DNS 后缀 . . . . . . . : </span><br><span class="line">IPv4 地址 . . . . . . . . . . . . : 192.168.18.101 </span><br><span class="line">子网掩码 . . . . . . . . . . . . : 255.255.255.255 </span><br><span class="line">默认网关. . . . . . . . . . . . . : </span><br></pre></td></tr></tbody></table></figure></li>
 <li>添加 route 解析  <figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">route add -p 192.168.8.22 mask 255.255.255.255 192.168.18.101 metric 2 </span><br></pre></td></tr></tbody></table></figure>
@@ -50,7 +50,7 @@
 </ul>
 <span id="more"></span>
 
-<h2 id="TCP协议模型"><a href="#TCP协议模型" class="headerlink" title="TCP协议模型"></a>TCP 协议模型</h2><p><img data-src="/1.png"></p>
+<h2 id="TCP协议模型"><a href="#TCP协议模型" class="headerlink" title="TCP协议模型"></a>TCP 协议模型</h2><p><img data-src="/2017/01/03/2017/01/03/TCP%E9%80%9A%E8%AE%AF%E8%AF%A6%E8%A7%A3%E5%8F%8A%E5%AE%9E%E6%88%98/1.png"></p>
 <h3 id="IP和端口"><a href="#IP和端口" class="headerlink" title="IP和端口"></a>IP 和端口</h3><p>解决了文章最开始提到的定位的问题。<br>IP 在互联网中能唯一标识一台计算机，是每一台计算机的唯一标识（身份证）；网络编程是和远程计算机的通信，所以必须先能定位到远程计算机；IP 帮助解决此问题；一台计算机中可能有很多进程，具体和哪一个进程进行通信，这就得靠端口来识别；
 &nbsp;</p>
 <h3 id="TCP和UDP协议"><a href="#TCP和UDP协议" class="headerlink" title="TCP和UDP协议"></a>TCP 和 UDP 协议</h3><ul>
@@ -80,7 +80,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="TCP状态机"><a href="#TCP状态机" class="headerlink" title="TCP状态机"></a>TCP 状态机</h2><p><img data-src="/2.jpg"> </p>
+<h2 id="TCP状态机"><a href="#TCP状态机" class="headerlink" title="TCP状态机"></a>TCP 状态机</h2><p><img data-src="/2017/01/03/2017/01/03/TCP%E9%80%9A%E8%AE%AF%E8%AF%A6%E8%A7%A3%E5%8F%8A%E5%AE%9E%E6%88%98/2.jpg"> </p>
 <h3 id="TCP状态图"><a href="#TCP状态图" class="headerlink" title="TCP状态图"></a>TCP 状态图</h3><ul>
 <li><p>连接建立</p>
 <ul>
@@ -95,7 +95,7 @@
 <li>客户端 A 发送一个 FIN，用来关闭客户 A 到服务器 B 的数据传送（报文段 4）。</li>
 <li>服务器 B 收到这个 FIN，它发回一个 ACK，确认序号为收到的序号加 1（报文段 5）。和 SYN 一样，一个 FIN 将占用一个序号。</li>
 <li>服务器 B 关闭与客户端 A 的连接，发送一个 FIN 给客户端 A（报文段 6）。</li>
-<li>客户端 A 发回 ACK 报文确认，并将确认序号设置为收到序号加 1（报文段 7）。<br>附上另一张图：<br><img data-src="/3.png"></li>
+<li>客户端 A 发回 ACK 报文确认，并将确认序号设置为收到序号加 1（报文段 7）。<br>附上另一张图：<br><img data-src="/2017/01/03/2017/01/03/TCP%E9%80%9A%E8%AE%AF%E8%AF%A6%E8%A7%A3%E5%8F%8A%E5%AE%9E%E6%88%98/3.png"></li>
 </ul>
 </li>
 </ul>
@@ -194,9 +194,9 @@
 <p>在追求开发体验的提升方面，Spring Boot，甚至可以说整个 Spring 生态系统都使用到了 Groovy 编程语言。Boot 所提供的众多便捷功能，都是借助于 Groovy 强大的 MetaObject 协议、可插拔的 AST 转换过程以及内置的依赖解决方案引擎所实现的。在其核心的编译模型之中，Boot 使用 Groovy 来构建工程文件，所以它可以使用通用的导入和样板方法（如类的 main 方法）对类所生成的字节码进行装饰（decorate）。这样使用 Boot 编写的应用就能保持非常简洁，却依然可以提供众多的功能</p>
 <h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><ul>
 <li>访问 <a href="http://start.spring.io/">Spring Initializr</a></li>
-<li> 选择构建方式 Maven，Spring Boot 版本<br>  <img data-src="/1.png"></li>
-<li>填写 group，artifact<br>  <img data-src="/2.png"></li>
-<li>选择所需依赖，如果不记得依赖的名称，可以点击 <code>Switch to the full version.</code><br>  <img data-src="/3-1.png"><br>  <img data-src="/3-2.png"></li>
+<li> 选择构建方式 Maven，Spring Boot 版本<br>  <img data-src="/2017/01/03/2017/01/03/%E8%B7%9F%E7%9D%80%E7%8B%AC%E9%92%93%E7%BF%81%E4%B8%80%E8%B5%B7%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/1.png"></li>
+<li>填写 group，artifact<br>  <img data-src="/2017/01/03/2017/01/03/%E8%B7%9F%E7%9D%80%E7%8B%AC%E9%92%93%E7%BF%81%E4%B8%80%E8%B5%B7%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/2.png"></li>
+<li>选择所需依赖，如果不记得依赖的名称，可以点击 <code>Switch to the full version.</code><br>  <img data-src="/2017/01/03/2017/01/03/%E8%B7%9F%E7%9D%80%E7%8B%AC%E9%92%93%E7%BF%81%E4%B8%80%E8%B5%B7%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-1.png"><br>  <img data-src="/2017/01/03/2017/01/03/%E8%B7%9F%E7%9D%80%E7%8B%AC%E9%92%93%E7%BF%81%E4%B8%80%E8%B5%B7%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-2.png"></li>
 <li>点击 <code>Generate Project</code>， 进行下载。</li>
 </ul>
 <h2 id="配置运行"><a href="#配置运行" class="headerlink" title="配置运行"></a>配置运行</h2><ul>
@@ -429,7 +429,7 @@
 <p>被制定的法规实有不同，将公开密钥基础建设的机制转换成商务操作有实际上的问题，远比许多先驱者所想的缓慢。</p>
 <p>21 世纪的前几年才慢慢发觉，密码工程没那么容易被设计与实践，某些存在的标准某方面甚至是不合宜的。</p>
 <p>公开密钥基础建设的厂商发现了一个市场，但并非九零年代中期所预想的那个市场，这个市场发展得缓慢而且以不同的方式前进。公开密钥基础建设并未解决所期待的问题，某些厂商甚至退出市场。公开密钥基础建设最成功的地方是在政府部门，目前最大的公开密钥基础建设是美国防卫信息系统局 （Defense Information Systems Agency，DISA）的共同访问卡（Common access Cards）方案。</p>
-<h1 id="PKI组成"><a href="#PKI组成" class="headerlink" title="PKI组成"></a>PKI 组成</h1><p><img data-src="/450px-Public-Key-Infrastructure.svg.png" alt="pki组成"></p>
+<h1 id="PKI组成"><a href="#PKI组成" class="headerlink" title="PKI组成"></a>PKI 组成</h1><p><img data-src="/2018/07/10/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%B8%80)-PKI%E4%BB%8B%E7%BB%8D/450px-Public-Key-Infrastructure.svg.png" alt="pki组成"></p>
 <ol>
 <li><em>Certificate Authority(CA)</em> 证书颁发机构 (or 系统)，CA 是 PKI 的基础，它管理着证书的整个生命周期，其作用包括：发放证书，规定证书有效期，废弃不良信用证书。</li>
 <li><em>Registration Authority(RA)</em> 证书注册，登记机构 (or 系统)，RA 提供一个用户和 CA 之前的桥梁，用户通过 RA 进行证书的申请，RA 获取用户的身份信息并确认用户的信息，向 CA 提出证书申请。它接受用户的注册申请，审查用户的申请资格，并决定是否同意 CA 给其签发数字证书。注册机构并不给用户签发证书，而只是对用户进行资格审查。因此，RA 可以设置在直接面对客户的业务部门，如银行的营业部、机构认识部门等。当然，对于一个规模较小的 PKI 应用系统来说，可把注册管理的职能由认证中心 CA 来完成，而不设立独立运行的 RA。但这并不是取消了 PKI 的注册功能，而只是将其作为 CA 的一项功能而已。PKI 国际标准推荐由一个独立的 RA 来完成注册管理的任务，可以增强应用系统的安全。<blockquote>
@@ -671,7 +671,7 @@
 <li> Length：表示消息长度字节数</li>
 <li> Content：与消息相关的参数</li>
 </ol>
-<p><img data-src="/%E5%9B%BE%E7%89%871.png" alt="握手协议数据格式"></p>
+<p><img data-src="/2018/07/11/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%871.png" alt="握手协议数据格式"></p>
 <h4 id="握手协议流程"><a href="#握手协议流程" class="headerlink" title="握手协议流程"></a>握手协议流程</h4><p>握手协议分为 4 个阶段</p>
 <ol>
 <li>建立安全能力</li>
@@ -679,7 +679,7 @@
 <li>客户机鉴别与密钥交换</li>
 <li>完成</li>
 </ol>
-<p><img data-src="/%E5%9B%BE%E7%89%872.png" alt="握手协议流程"></p>
+<p><img data-src="/2018/07/11/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%872.png" alt="握手协议流程"></p>
 <h5 id="阶段1：建立安全能力"><a href="#阶段1：建立安全能力" class="headerlink" title="阶段1：建立安全能力"></a>阶段 1：建立安全能力</h5><p>SSL 握手的第一阶段启动逻辑连接，建立这个连接的安全能力。首先客户机向服务器发出 client hello 消息并等待服务器响应，随后服务器向客户机返回 server hello 消息，对 client hello 消息中的信息进行确认。<br>ClientHello 客户发送 CilentHello 信息，包含如下内容：</p>
 <ol>
 <li>客户端可以支持的 SSL 最高版本号</li>
@@ -696,7 +696,7 @@
 <li> 从客户端的密码套件列表中选择的一个加密算法</li>
 <li>从客户端的压缩方法的列表中选择的压缩方法</li>
 </ol>
-<p><img data-src="/%E5%9B%BE%E7%89%873.png" alt="建立安全能力"></p>
+<p><img data-src="/2018/07/11/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%873.png" alt="建立安全能力"></p>
 <h5 id="阶段2：服务器鉴别和密钥交换"><a href="#阶段2：服务器鉴别和密钥交换" class="headerlink" title="阶段2：服务器鉴别和密钥交换"></a>阶段 2：服务器鉴别和密钥交换</h5><p>服务器启动 SSL 握手第 2 阶段，是本阶段所有消息的唯一发送方，客户机是所有消息的唯一接收方。该阶段分为 4 步：</p>
 <ol>
 <li>证书：服务器将数字证书和到根 CA 整个链发给客户端，使客户端能用服务器证书中的服务器公钥认证服务器。</li>
@@ -704,9 +704,9 @@
 <li>证书请求（可选）：服务端可能会要求客户自身进行验证。</li>
 <li>服务器握手完成：第二阶段的结束，第三阶段开始的信号</li>
 </ol>
-<p><img data-src="/%E5%9B%BE%E7%89%873.png" alt="服务器鉴别和密钥交换"></p>
+<p><img data-src="/2018/07/11/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%873.png" alt="服务器鉴别和密钥交换"></p>
 <blockquote>
-<p>服务器密钥交换：1 和 2 是基于密钥交换方法的。SSL 中密钥交换算法有 6 种：无效（没有密钥交换）、RSA、匿名 Diffie-Hellman、暂时 Diffie-Hellman、固定 Diffie-Hellman、Fortezza。<br>在阶段 1 过程客户端与服务端协商的过程中已经确定使哪种密钥交换算法。<br>如果协商过程中确定使用 RSA 交换密钥，那么过程如下图：<br><img data-src="/%E5%9B%BE%E7%89%875.jpg" alt="服务器密钥交换"></p>
+<p>服务器密钥交换：1 和 2 是基于密钥交换方法的。SSL 中密钥交换算法有 6 种：无效（没有密钥交换）、RSA、匿名 Diffie-Hellman、暂时 Diffie-Hellman、固定 Diffie-Hellman、Fortezza。<br>在阶段 1 过程客户端与服务端协商的过程中已经确定使哪种密钥交换算法。<br>如果协商过程中确定使用 RSA 交换密钥，那么过程如下图：<br><img data-src="/2018/07/11/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%875.jpg" alt="服务器密钥交换"></p>
 </blockquote>
 <h5 id="阶段3：客户机鉴别和密钥交换"><a href="#阶段3：客户机鉴别和密钥交换" class="headerlink" title="阶段3：客户机鉴别和密钥交换"></a>阶段 3：客户机鉴别和密钥交换</h5><p>客户机启动 SSL 握手第 3 阶段，是本阶段所有消息的唯一发送方，服务器是所有消息的唯一接收方。该阶段分为 3 步：</p>
 <ol>
@@ -714,9 +714,9 @@
 <li>客户机密钥交换（Pre-master-secret）：这里客户端将预备主密钥发送给服务端，注意这里会使用服务端的公钥进行加密。</li>
 <li>证书验证（可选），对预备秘密和随机数进行签名，证明拥有（1）证书的公钥。（服务器端请求了客户端证书才会有此步骤）</li>
 </ol>
-<p><img data-src="/%E5%9B%BE%E7%89%876.png" alt="客户机鉴别和密钥交换"></p>
+<p><img data-src="/2018/07/11/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%876.png" alt="客户机鉴别和密钥交换"></p>
 <h4 id="阶段4：完成"><a href="#阶段4：完成" class="headerlink" title="阶段4：完成"></a>阶段 4：完成</h4><p>握手完成后，客户端和服务器端后面的信息使用主密钥进行对称加 / 解密</p>
-<p><img data-src="/%E5%9B%BE%E7%89%877.png" alt="完成"></p>
+<p><img data-src="/2018/07/11/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%877.png" alt="完成"></p>
 <h1 id="Https"><a href="#Https" class="headerlink" title="Https"></a>Https</h1><p>HTTP 协议和安全协议同属于应用层（OSI 模型的最高层），具体来讲，安全协议工作在 HTTP 之下，运输层之上：安全协议向运行 HTTP 的进程提供一个类似于 TCP 的 Socket，供进程向其中注入报文，安全协议将报文加密并注入运输层 Socket；或是从运输层获取加密报文，解密后交给对应的进程。严格地讲，HTTPS 并不是一个单独的协议，而是对工作在一加密连接（TLS 或 SSL）上的常规 HTTP 协议的称呼。</p>
 <p>HTTPS 报文中的任何东西都被加密，包括所有报头和荷载。除了可能的选择密文攻击（参见限制小节）之外，一个攻击者所能知道的只有在两者之间有一连接这一事实。</p>
 ]]></content>
@@ -760,7 +760,7 @@
 <h1 id="依托github搭建博客"><a href="#依托github搭建博客" class="headerlink" title="依托github搭建博客"></a>依托 github 搭建博客</h1><h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><ol>
 <li><p>新建一个名为 <code>xxx.github.io</code> 的仓库，其中 <code>xxx</code> 为你登录后 <code>https://github.com/xxx</code> 显示的用户名</p>
 </li>
-<li><p>对仓库进行配置，配置如下<br> <img data-src="/githubpages.png" alt="githubpages"></p>
+<li><p>对仓库进行配置，配置如下<br> <img data-src="/2021/04/12/2021/04/12/%E4%BE%9D%E6%89%98github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/githubpages.png" alt="githubpages"></p>
 </li>
 <li><p>安装 hexo</p>
 <figure class="highlight js"><table><tbody><tr><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br></pre></td></tr></tbody></table></figure>
@@ -787,7 +787,7 @@
 </li>
 <li><p>在本地创建部署公私钥 <code>ssh-keygen -t rsa -b 4096 -C "your_email@example.com"</code></p>
 </li>
-<li><p>将公私钥填入到 <code>github</code> 中，并确认私钥的名称，假设私钥名称为 <code>GENERATE</code><br><img data-src="/public_key.png" alt="public_key"><br><img data-src="/secret.png" alt="secret"></p>
+<li><p>将公私钥填入到 <code>github</code> 中，并确认私钥的名称，假设私钥名称为 <code>GENERATE</code><br><img data-src="/2021/04/12/2021/04/12/%E4%BE%9D%E6%89%98github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/public_key.png" alt="public_key"><br><img data-src="/2021/04/12/2021/04/12/%E4%BE%9D%E6%89%98github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/secret.png" alt="secret"></p>
 </li>
 <li><p>在 <code>github</code> 上创建流水线文件<code>.github/workflows/pages.yml</code>, 内容为</p>
 <figure class="highlight yml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">Pages</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line"><span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">source</span>  <span class="comment"># default branch</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line"><span class="attr">build:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">A</span> <span class="string">job</span> <span class="string">to</span> <span class="string">deploy</span> <span class="string">blog.</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span></span><br><span class="line">    <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line">    <span class="attr">with:</span></span><br><span class="line">        <span class="attr">submodules:</span> <span class="literal">true</span> <span class="comment"># Checkout private submodules(themes or something else).</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span> <span class="string">tools</span> <span class="string">repo</span></span><br><span class="line">    <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line">    <span class="attr">with:</span></span><br><span class="line">        <span class="attr">repository:</span> <span class="string">theme-next/hexo-theme-next</span></span><br><span class="line">        <span class="attr">path:</span> <span class="string">themes/next</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Setup</span> <span class="string">Node.js</span> <span class="string">environment</span></span><br><span class="line">    <span class="attr">uses:</span> <span class="string">actions/setup-node@v2.1.5</span></span><br><span class="line">    <span class="attr">with:</span></span><br><span class="line">        <span class="attr">node-version:</span> <span class="number">12.</span><span class="string">x</span></span><br><span class="line">    <span class="comment"># Caching dependencies to speed up workflows. (GitHub will remove any cache entries that have not been accessed in over 7 days.)</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Cache</span> <span class="string">node</span> <span class="string">modules</span></span><br><span class="line">    <span class="attr">uses:</span> <span class="string">actions/cache@v1</span></span><br><span class="line">    <span class="attr">id:</span> <span class="string">cache</span></span><br><span class="line">    <span class="attr">with:</span></span><br><span class="line">        <span class="attr">path:</span> <span class="string">node_modules</span></span><br><span class="line">        <span class="attr">key:</span> <span class="string">${{</span> <span class="string">runner.os</span> <span class="string">}}-node-${{</span> <span class="string">hashFiles('**/package-lock.json')</span> <span class="string">}}</span></span><br><span class="line">        <span class="attr">restore-keys:</span> <span class="string">|</span></span><br><span class="line"><span class="string">        ${{ runner.os }}-node-</span></span><br><span class="line"><span class="string"></span>    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">Dependencies</span></span><br><span class="line">    <span class="attr">if:</span> <span class="string">steps.cache.outputs.cache-hit</span> <span class="type">!=</span> <span class="string">'true'</span></span><br><span class="line">    <span class="attr">run:</span> <span class="string">npm</span> <span class="string">ci</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Build</span></span><br><span class="line">    <span class="attr">run:</span> <span class="string">npm</span> <span class="string">run</span> <span class="string">build</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Deploy</span></span><br><span class="line">    <span class="attr">uses:</span> <span class="string">peaceiris/actions-gh-pages@v3.7.3</span></span><br><span class="line">    <span class="attr">with:</span></span><br><span class="line">        <span class="attr">deploy_key:</span> <span class="string">${{</span> <span class="string">secrets.GENERATE</span> <span class="string">}}</span></span><br><span class="line">        <span class="comment">#github_token: ${{ secrets.GENERATE }}</span></span><br><span class="line">        <span class="attr">publish_dir:</span> <span class="string">./public</span></span><br><span class="line">        <span class="attr">publish_branch:</span> <span class="string">master</span></span><br><span class="line">    <span class="comment"># Deploy hexo blog website.</span></span><br><span class="line">    <span class="comment">#- name: Deploy</span></span><br><span class="line">    <span class="comment">#  id: deploy</span></span><br><span class="line">    <span class="comment"># uses: sma11black/hexo-action@v1.0.3</span></span><br><span class="line">    <span class="comment">#with:</span></span><br><span class="line">    <span class="comment"># deploy_key: ${{ secrets.GENERATE }}</span></span><br><span class="line">        <span class="comment">#user_name: piggsoft  # (or delete this input setting to use bot account)</span></span><br><span class="line">        <span class="comment">#user_email: piggsoft@163.com  # (or delete this input setting to use bot account)</span></span><br><span class="line">        <span class="comment">#commit_msg: ${{ github.event.head_commit.message }}  # (or delete this input setting to use hexo default settings)</span></span><br><span class="line">        <span class="comment">#publish_dir: ./public</span></span><br><span class="line">        <span class="comment">#publish_branch: master  # deploying branch</span></span><br><span class="line">    <span class="comment"># Use the output from the `deploy` step(use for test action)</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Get</span> <span class="string">the</span> <span class="string">output</span></span><br><span class="line">    <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">        echo "${{ steps.deploy.outputs.notify }}"</span></span><br><span class="line"><span class="string"></span></span><br></pre></td></tr></tbody></table></figure>
@@ -871,7 +871,7 @@
 
 <h2 id="什么是权限控制"><a href="#什么是权限控制" class="headerlink" title="什么是权限控制"></a>什么是权限控制</h2><p>  在现实场景中有些操作只能由某个特定的人或特定岗位来完成，例如对外的公章，只能由老板来在确认后使用，或者你的请假条，将由你的直属上线来进行审批。<br>  将这些 “权限要求” 搬到信息化系统之后，就要求我们的信息化系统也能进行相应的权限控制，保证某些资源，操作只能由特定的人员，岗位来访问，操作。</p>
 <h2 id="权限管理模式有哪些"><a href="#权限管理模式有哪些" class="headerlink" title="权限管理模式有哪些"></a>权限管理模式有哪些</h2><p>  在 IT 届长时间的演化后，将一些权限系统设计的思路抽象化，形成了一些模式，这些模式就是：</p>
-<p><img data-src="/timeline.png" alt="权限方案发展历史"></p>
+<p><img data-src="/2022/03/26/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/timeline.png" alt="权限方案发展历史"></p>
 <ul>
 <li><code>ACL</code></li>
 <li><code>DAC</code></li>
@@ -899,7 +899,7 @@
 <li><p>张三现在可以创建文档了。</p>
 </li>
 </ol>
-<h3 id="DAC-Discretionary-Access-Control-自主访问控制"><a href="#DAC-Discretionary-Access-Control-自主访问控制" class="headerlink" title="DAC: Discretionary Access Control 自主访问控制"></a><code>DAC: Discretionary Access Control</code> 自主访问控制</h3><p><img data-src="/DAC.jpg" alt="DAC"></p>
+<h3 id="DAC-Discretionary-Access-Control-自主访问控制"><a href="#DAC-Discretionary-Access-Control-自主访问控制" class="headerlink" title="DAC: Discretionary Access Control 自主访问控制"></a><code>DAC: Discretionary Access Control</code> 自主访问控制</h3><p><img data-src="/2022/03/26/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/DAC.jpg" alt="DAC"></p>
 <blockquote>
 <p>DAC 是 ACL 的一种实现，强调灵活性。纯粹的 ACL，权限由中心管理员统一分配，缺乏灵活性。为了加强灵活性，在 ACL 的基础上，DAC 模型将授权的权力下放，允许拥有权限的用户，可以自主地将权限授予其他用户。<br>比如，在纯粹 ACL 模型下，每次新人培训，人事总监都要通知 IT 部，将培训文档的访问权限授予新人。在 DAC 模型下，人事总监只需将文档的访问权限授予人事专员。之后，每次新人培训，由人事专员将文档的访问权限授予不同的新人。</p>
 </blockquote>
@@ -937,7 +937,7 @@
 <li><p>张三现在可以创建文档了。</p>
 </li>
 </ol>
-<h3 id="RBAC-Role-Based-Access-Control-基于角色的访问控制"><a href="#RBAC-Role-Based-Access-Control-基于角色的访问控制" class="headerlink" title="RBAC: Role-Based Access Control 基于角色的访问控制"></a><code>RBAC: Role-Based Access Control</code> 基于角色的访问控制</h3><p><img data-src="/RBAC.jpg" alt="RBAC"></p>
+<h3 id="RBAC-Role-Based-Access-Control-基于角色的访问控制"><a href="#RBAC-Role-Based-Access-Control-基于角色的访问控制" class="headerlink" title="RBAC: Role-Based Access Control 基于角色的访问控制"></a><code>RBAC: Role-Based Access Control</code> 基于角色的访问控制</h3><p><img data-src="/2022/03/26/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/RBAC.jpg" alt="RBAC"></p>
 <h4 id="定义-3"><a href="#定义-3" class="headerlink" title="定义"></a>定义</h4><ul>
 <li><code>Subject</code> 拥有一个<code>角色</code> , 这个<code>角色</code>拥有对 <code>Object</code> 进行 <code>Action</code> 的 <code>Permission</code></li>
 <li>具体的权限设计可以实现 <code>MAC</code> 或者 <code>DAC</code></li>
@@ -985,7 +985,7 @@
 <li><p>王五现在可以读取，创建，修改，删除文档了</p>
 </li>
 </ol>
-<h3 id="ABAC-Attribute-Based-Access-Control-基于属性的访问控制"><a href="#ABAC-Attribute-Based-Access-Control-基于属性的访问控制" class="headerlink" title="ABAC: Attribute-Based Access Control 基于属性的访问控制"></a><code>ABAC: Attribute-Based Access Control</code> 基于属性的访问控制</h3><p><img data-src="/ABAC.jpg" alt="ABAC"></p>
+<h3 id="ABAC-Attribute-Based-Access-Control-基于属性的访问控制"><a href="#ABAC-Attribute-Based-Access-Control-基于属性的访问控制" class="headerlink" title="ABAC: Attribute-Based Access Control 基于属性的访问控制"></a><code>ABAC: Attribute-Based Access Control</code> 基于属性的访问控制</h3><p><img data-src="/2022/03/26/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/ABAC.jpg" alt="ABAC"></p>
 <h4 id="定义-4"><a href="#定义-4" class="headerlink" title="定义"></a>定义</h4><ul>
 <li>拥有 xx 属性的 <code>Subject</code> 在 xx 环境属性 <code>Environment</code> 的约束下可以对 xxx 的 <code>Object</code> 进行 Action</li>
 <li> 概念:<ul>
@@ -1118,9 +1118,9 @@
 <p>注：虽然这里面已经涉及到权限认证了，但我们先模糊这个过程。另外那种电梯限制刷卡后只能到底自己楼层的例子也暂时不关注。</p>
 </blockquote>
 <h2 id="权限验证是什么？"><a href="#权限验证是什么？" class="headerlink" title="权限验证是什么？"></a>权限验证是什么？</h2><p>  权限验证就比较好理解了，我这个接口，这个操作需要什么权限，你的凭证代表的权限集里是否有这个权限，有就通过，没有就拒绝，这个过程就是权限验证。<br>  在酒店中的例子就是，你的卡在刷你的房间时是可以刷开的，刷别人的房门是没有任何响应的。<br>  在我们系统实现时，权限验证就和我们<a href="//2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E7%B3%BB%E7%BB%9F%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/">权限模型</a>极其相关了。</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><img data-src="/%E6%9D%83%E9%99%90%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B.svg" alt="权限认证流程"></p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><img data-src="/2022/03/26/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81%E6%B5%81%E7%A8%8B-%E8%AE%A4%E8%AF%81%E3%80%81%E6%8E%88%E6%9D%83%E3%80%81%E9%89%B4%E6%9D%83%E3%80%81%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81/%E6%9D%83%E9%99%90%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B.svg" alt="权限认证流程"></p>
 <p>  正如我们在图中见到的流程，整体权限的验证流程大概分为上述四部。<br>  但在实际实现的过程中这四部会合并两步。身份认证和授权合并在一起，鉴权和权限认证合并一起，这样既方便了设计和编码，也方便了用户操作。合并的例子我们可以看看 Spring Security 的架构图。</p>
-<p><img data-src="/spring-security.png"></p>
+<p><img data-src="/2022/03/26/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81%E6%B5%81%E7%A8%8B-%E8%AE%A4%E8%AF%81%E3%80%81%E6%8E%88%E6%9D%83%E3%80%81%E9%89%B4%E6%9D%83%E3%80%81%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81/spring-security.png"></p>
 <p>  将这张图中我们可以清晰的看到，Spring Security 将身份认证（LDAP、OpenID）和授权结合在一起，而将鉴权和权限验证结合在一起。形成了整个 Spring Security 的生态。</p>
 ]]></content>
       <categories>
@@ -1172,9 +1172,9 @@
 <p><a href="https://github.com/nodejs/corepack/pull/186">PR</a></p>
 <p><a href="https://github.com/nodejs/corepack/pull/186/files">对比</a></p>
 <h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>通过对比不难发现，<strong>新加入了一个系统环境变量 <code>COREPACK_NPM_REGISTRY</code></strong>, 通过这个环境变量就可以为 <code>corepack</code> 制定 <code>mirror</code>，后续的就回到了 <code>yarn</code> 和 <code>pnpm</code> 自己的配置文件上了。</p>
-<p><img data-src="/1.png" alt="readme"></p>
-<p><img data-src="/2.png" alt="impl"></p>
-<p><img data-src="/3.png" alt="env"></p>
+<p><img data-src="/2024/01/29/2024/01/29/Corepack%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E4%B9%8B%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AEregistry-npmjs-org/1.png" alt="readme"></p>
+<p><img data-src="/2024/01/29/2024/01/29/Corepack%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E4%B9%8B%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AEregistry-npmjs-org/2.png" alt="impl"></p>
+<p><img data-src="/2024/01/29/2024/01/29/Corepack%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E4%B9%8B%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AEregistry-npmjs-org/3.png" alt="env"></p>
 <p>设置之后就可以正常使用 <code>pnpm</code> 和 <code>yarn</code> 了。</p>
 ]]></content>
       <categories>
