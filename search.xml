@@ -42,37 +42,6 @@
       </tags>
   </entry>
   <entry>
-    <title>学习 spring-boot (一)</title>
-    <url>/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/</url>
-    <content><![CDATA[<h2 id="相关背景"><a href="#相关背景" class="headerlink" title="相关背景"></a>相关背景</h2><p><a href="http://projects.spring.io/spring-boot/">Spring Boot</a> 是由 Pivotal 团队提供的全新框架，其设计目的是用来简化新 Spring 应用的初始搭建以及开发过程。该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。通过这种方式，Boot 致力于在蓬勃发展的快速应用开发领域（rapid application development）成为领导者。</p>
-<span id="more"></span>
-
-<p>多年以来，Spring IO 平台饱受非议的一点就是大量的 XML 配置以及复杂的依赖管理。在去年的 SpringOne 2GX 会议上，Pivotal 的 CTO Adrian Colyer 回应了这些批评，并且特别提到该平台将来的目标之一就是实现免 XML 配置的开发体验。Boot 所实现的功能超出了这个任务的描述，开发人员不仅不再需要编写 XML，而且在一些场景中甚至不需要编写繁琐的 import 语句。在对外公开的 beta 版本刚刚发布之时，Boot 描述了如何使用该框架在 140 个字符内实现可运行的 web 应用，从而获得了极大的关注度，该样例发表在 tweet 上。</p>
-<p>然而，Spring Boot 并不是要成为 Spring IO 平台里面众多 “Foundation” 层项目的替代者。Spring Boot 的目标不在于为已解决的问题域提供新的解决方案，而是为平台带来另一种开发体验，从而简化对这些已有技术的使用。对于已经熟悉 Spring 生态系统的开发人员来说，Boot 是一个很理想的选择，不过对于采用 Spring 技术的新人来说，Boot 提供一种更简洁的方式来使用这些技术。</p>
-<p>在追求开发体验的提升方面，Spring Boot，甚至可以说整个 Spring 生态系统都使用到了 Groovy 编程语言。Boot 所提供的众多便捷功能，都是借助于 Groovy 强大的 MetaObject 协议、可插拔的 AST 转换过程以及内置的依赖解决方案引擎所实现的。在其核心的编译模型之中，Boot 使用 Groovy 来构建工程文件，所以它可以使用通用的导入和样板方法（如类的 main 方法）对类所生成的字节码进行装饰（decorate）。这样使用 Boot 编写的应用就能保持非常简洁，却依然可以提供众多的功能</p>
-<h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><ul>
-<li>访问 <a href="http://start.spring.io/">Spring Initializr</a></li>
-<li> 选择构建方式 Maven，Spring Boot 版本<br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/1.png"></li>
-<li>填写 group，artifact<br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/2.png"></li>
-<li>选择所需依赖，如果不记得依赖的名称，可以点击 <code>Switch to the full version.</code><br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-1.png"><br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-2.png"></li>
-<li>点击 <code>Generate Project</code>， 进行下载。</li>
-</ul>
-<h2 id="配置运行"><a href="#配置运行" class="headerlink" title="配置运行"></a>配置运行</h2><ul>
-<li>接下压缩包，用你熟悉的 ide 打开项目</li>
-<li>删除 <code>mvnw</code>，<code>mvnw.cmd</code> 文件和 <code>.mvn</code> 目录</li>
-<li>编写一个 Controller<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HomeController</span> {</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping("/")</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">hello</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> IOException {</span><br><span class="line">        response.getWriter().write(<span class="string">"Hello World"</span>);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></li>
-<li>运行 <code>XXApplication</code> 的 <code>main</code> 方法，访问 <a href="http://localhost:8080/">http://localhost:8080</a>，观看到 Hello World，即代表成功。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>Spring Boot</category>
-      </categories>
-      <tags>
-        <tag>Java Spring Spring-Boot</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>TCP 通讯详解及实战</title>
     <url>/2017/01/03/TCP%E9%80%9A%E8%AE%AF%E8%AF%A6%E8%A7%A3%E5%8F%8A%E5%AE%9E%E6%88%98/</url>
     <content><![CDATA[<p>日常开发，测试过程中，特别是在压力测试过程中，用 <code>netstat -nat</code> 查看，发现客户端出现大量 <code>SYN_SENT</code> 状态，服务端出现大量 <code>SYN_RCVD</code> 状态连接，下面我们一起看下</p>
@@ -213,6 +182,37 @@
       </categories>
       <tags>
         <tag>TCP IP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>学习 spring-boot (一)</title>
+    <url>/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/</url>
+    <content><![CDATA[<h2 id="相关背景"><a href="#相关背景" class="headerlink" title="相关背景"></a>相关背景</h2><p><a href="http://projects.spring.io/spring-boot/">Spring Boot</a> 是由 Pivotal 团队提供的全新框架，其设计目的是用来简化新 Spring 应用的初始搭建以及开发过程。该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。通过这种方式，Boot 致力于在蓬勃发展的快速应用开发领域（rapid application development）成为领导者。</p>
+<span id="more"></span>
+
+<p>多年以来，Spring IO 平台饱受非议的一点就是大量的 XML 配置以及复杂的依赖管理。在去年的 SpringOne 2GX 会议上，Pivotal 的 CTO Adrian Colyer 回应了这些批评，并且特别提到该平台将来的目标之一就是实现免 XML 配置的开发体验。Boot 所实现的功能超出了这个任务的描述，开发人员不仅不再需要编写 XML，而且在一些场景中甚至不需要编写繁琐的 import 语句。在对外公开的 beta 版本刚刚发布之时，Boot 描述了如何使用该框架在 140 个字符内实现可运行的 web 应用，从而获得了极大的关注度，该样例发表在 tweet 上。</p>
+<p>然而，Spring Boot 并不是要成为 Spring IO 平台里面众多 “Foundation” 层项目的替代者。Spring Boot 的目标不在于为已解决的问题域提供新的解决方案，而是为平台带来另一种开发体验，从而简化对这些已有技术的使用。对于已经熟悉 Spring 生态系统的开发人员来说，Boot 是一个很理想的选择，不过对于采用 Spring 技术的新人来说，Boot 提供一种更简洁的方式来使用这些技术。</p>
+<p>在追求开发体验的提升方面，Spring Boot，甚至可以说整个 Spring 生态系统都使用到了 Groovy 编程语言。Boot 所提供的众多便捷功能，都是借助于 Groovy 强大的 MetaObject 协议、可插拔的 AST 转换过程以及内置的依赖解决方案引擎所实现的。在其核心的编译模型之中，Boot 使用 Groovy 来构建工程文件，所以它可以使用通用的导入和样板方法（如类的 main 方法）对类所生成的字节码进行装饰（decorate）。这样使用 Boot 编写的应用就能保持非常简洁，却依然可以提供众多的功能</p>
+<h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><ul>
+<li>访问 <a href="http://start.spring.io/">Spring Initializr</a></li>
+<li> 选择构建方式 Maven，Spring Boot 版本<br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/1.png"></li>
+<li>填写 group，artifact<br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/2.png"></li>
+<li>选择所需依赖，如果不记得依赖的名称，可以点击 <code>Switch to the full version.</code><br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-1.png"><br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-2.png"></li>
+<li>点击 <code>Generate Project</code>， 进行下载。</li>
+</ul>
+<h2 id="配置运行"><a href="#配置运行" class="headerlink" title="配置运行"></a>配置运行</h2><ul>
+<li>接下压缩包，用你熟悉的 ide 打开项目</li>
+<li>删除 <code>mvnw</code>，<code>mvnw.cmd</code> 文件和 <code>.mvn</code> 目录</li>
+<li>编写一个 Controller<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HomeController</span> {</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping("/")</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">hello</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> IOException {</span><br><span class="line">        response.getWriter().write(<span class="string">"Hello World"</span>);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></li>
+<li>运行 <code>XXApplication</code> 的 <code>main</code> 方法，访问 <a href="http://localhost:8080/">http://localhost:8080</a>，观看到 Hello World，即代表成功。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Spring Boot</category>
+      </categories>
+      <tags>
+        <tag>Java Spring Spring-Boot</tag>
       </tags>
   </entry>
   <entry>
@@ -462,6 +462,97 @@
       </tags>
   </entry>
   <entry>
+    <title>PKI 体系（二）-Https &amp; 双端认证</title>
+    <url>/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/</url>
+    <content><![CDATA[<p>超文本传输安全协议（英语：Hypertext Transfer Protocol Secure，缩写：HTTPS，常称为 HTTP over TLS，HTTP over SSL 或 HTTP Secure）是一种透过计算机网络进行安全通信的传输协议。HTTPS 经由 HTTP 进行通信，但利用 SSL/TLS 来加密数据包。HTTPS 开发的主要目的，是提供对网站服务器的身份认证，保护交换数据的隐私与完整性。这个协议由网景公司（Netscape）在 1994 年首次提出，随后扩展到互联网上。</p>
+<p>Https 协议默认支持双向认证，只是一般浏览器 - 服务器架构下不会进行开启。</p>
+<span id="more"></span>
+
+<h1 id="SSL-TLS协议"><a href="#SSL-TLS协议" class="headerlink" title="SSL/TLS协议"></a>SSL/TLS 协议</h1><p>传输层安全性协议（英语：Transport Layer Security，缩写作 TLS），及其前身安全套接层（Secure Sockets Layer，缩写作 SSL）是一种安全协议，目的是为互联网通信，提供安全及数据完整性保障。网景公司（Netscape）在 1994 年推出首版网页浏览器，网景导航者时，推出 HTTPS 协议，以 SSL 进行加密，这是 SSL 的起源。IETF 将 SSL 进行标准化，1999 年公布第一版 TLS 标准文件。随后又公布 RFC 5246 （2008 年 8 月）与 RFC 6176 （2011 年 3 月）。在浏览器、电子邮件、即时通信、VoIP、网络传真等应用程序中，广泛支持这个协议。主要的网站，如 Google、Facebook 等也以这个协议来创建安全连接，发送数据。目前已成为互联网上保密通信的工业标准。</p>
+<p>SSL 包含记录层（Record Layer）和传输层，记录层协议确定传输层数据的封装格式。传输层安全协议使用 X.509 认证，之后利用非对称加密演算来对通信方做身份认证，之后交换对称密钥作为会话密钥（Session key）。这个会谈密钥是用来将通信两方交换的数据做加密，保证两个应用间通信的保密性和可靠性，使客户与服务器应用之间的通信不被攻击者窃听。</p>
+<p>TLS 协议采用 C/S 架构模型，用于在两个应用程序间透过网络创建起安全的连接，防止在交换数据时受到窃听及篡改。</p>
+<p>TLS 协议的优势是与高层的应用层协议（如 HTTP、FTP、Telnet 等）无耦合。应用层协议能透明地运行在 TLS 协议之上，由 TLS 协议进行创建加密通道需要的协商和认证。应用层协议传送的数据在通过 TLS 协议时都会被加密，从而保证通信的私密性。</p>
+<p>TLS 协议是可选的，必须配置客户端和服务器才能使用。主要有两种方式实现这一目标：一个是使用统一的 TLS 协议通信端口（例如：用于 HTTPS 的端口 443）；另一个是客户端请求服务器连接到 TLS 时使用特定的协议机制（例如：邮件、新闻协议和 STARTTLS）。一旦客户端和服务器都同意使用 TLS 协议，他们通过使用一个握手过程协商出一个有状态的连接以传输数据 [1]。通过握手，客户端和服务器协商各种参数用于创建安全连接：</p>
+<pre><code>* 当客户端连接到支持TLS协议的服务器要求创建安全连接并列出了受支持的密码组合（加密密码算法和加密哈希函数），握手开始。
+* 服务器从该列表中决定加密和散列函数，并通知客户端。
+* 服务器发回其数字证书，此证书通常包含服务器的名称、受信任的证书颁发机构（CA）和服务器的公钥。
+* 客户端确认其颁发的证书的有效性。
+* 为了生成会话密钥用于安全连接，客户端使用服务器的公钥加密随机生成的密钥，并将其发送到服务器，只有服务器才能使用自己的私钥解密。
+* 利用随机数，双方生成用于加密和解密的对称密钥。这就是TLS协议的握手，握手完毕后的连接是安全的，直到连接（被）关闭。如果上述任何一个步骤失败，TLS握手过程就会失败，并且断开所有的连接。
+</code></pre>
+<h1 id="SSL-TLS原理"><a href="#SSL-TLS原理" class="headerlink" title="SSL&amp;TLS原理"></a>SSL&amp;TLS 原理</h1><h2 id="协议组成"><a href="#协议组成" class="headerlink" title="协议组成"></a>协议组成</h2><p>协议分为三个部分</p>
+<ul>
+<li>握手协议（Handshake protocol）</li>
+<li>记录协议（Record protocol）</li>
+<li>警报协议（Alert protocol）</li>
+</ul>
+<h3 id="握手协议"><a href="#握手协议" class="headerlink" title="握手协议"></a>握手协议</h3><p>握手协议是客户机和服务器用 SSL 连接通信时使用的第一个子协议，握手协议包括客户机与服务器之间的一系列消息。SSL 中最复杂的协议就是握手协议。该协议允许服务器和客户机相互验证，协商加密和 MAC 算法以及保密密钥，用来保护在 SSL 记录中发送的数据。握手协议是在应用程序的数据传输之前使用的。</p>
+<h4 id="握手协议数据格式"><a href="#握手协议数据格式" class="headerlink" title="握手协议数据格式"></a>握手协议数据格式</h4><p>每个握手协议包含以下 3 个字段</p>
+<ol>
+<li>Type：表示 10 种消息类型之一</li>
+<li> Length：表示消息长度字节数</li>
+<li> Content：与消息相关的参数</li>
+</ol>
+<p><img data-src="/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%871.png" alt="握手协议数据格式"></p>
+<h4 id="握手协议流程"><a href="#握手协议流程" class="headerlink" title="握手协议流程"></a>握手协议流程</h4><p>握手协议分为 4 个阶段</p>
+<ol>
+<li>建立安全能力</li>
+<li>服务器鉴别与密钥交换</li>
+<li>客户机鉴别与密钥交换</li>
+<li>完成</li>
+</ol>
+<p><img data-src="/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%872.png" alt="握手协议流程"></p>
+<h5 id="阶段1：建立安全能力"><a href="#阶段1：建立安全能力" class="headerlink" title="阶段1：建立安全能力"></a>阶段 1：建立安全能力</h5><p>SSL 握手的第一阶段启动逻辑连接，建立这个连接的安全能力。首先客户机向服务器发出 client hello 消息并等待服务器响应，随后服务器向客户机返回 server hello 消息，对 client hello 消息中的信息进行确认。<br>ClientHello 客户发送 CilentHello 信息，包含如下内容：</p>
+<ol>
+<li>客户端可以支持的 SSL 最高版本号</li>
+<li>一个用于生成主秘密的 32 字节的随机数。（等会介绍主秘密是什么）</li>
+<li>一个确定会话的会话 ID。</li>
+<li>一个客户端支持的加密算法列表。</li>
+<li>一个客户端可以可以支持的压缩算法列表</li>
+</ol>
+<p>ServerHello 服务器用 ServerHello 信息应答客户，包括下列内容：</p>
+<ol>
+<li>一个 SSL 版本号。取客户端支持的最高版本号和服务端支持的最高版本号中的较低者。</li>
+<li>一个用于生成主秘密的 32 字节的随机数。（客户端一个、服务端一个）</li>
+<li>会话 ID</li>
+<li> 从客户端的密码套件列表中选择的一个加密算法</li>
+<li>从客户端的压缩方法的列表中选择的压缩方法</li>
+</ol>
+<p><img data-src="/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%873.png" alt="建立安全能力"></p>
+<h5 id="阶段2：服务器鉴别和密钥交换"><a href="#阶段2：服务器鉴别和密钥交换" class="headerlink" title="阶段2：服务器鉴别和密钥交换"></a>阶段 2：服务器鉴别和密钥交换</h5><p>服务器启动 SSL 握手第 2 阶段，是本阶段所有消息的唯一发送方，客户机是所有消息的唯一接收方。该阶段分为 4 步：</p>
+<ol>
+<li>证书：服务器将数字证书和到根 CA 整个链发给客户端，使客户端能用服务器证书中的服务器公钥认证服务器。</li>
+<li>服务器密钥交换（可选）：这里视密钥交换算法而定</li>
+<li>证书请求（可选）：服务端可能会要求客户自身进行验证。</li>
+<li>服务器握手完成：第二阶段的结束，第三阶段开始的信号</li>
+</ol>
+<p><img data-src="/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%873.png" alt="服务器鉴别和密钥交换"></p>
+<blockquote>
+<p>服务器密钥交换：1 和 2 是基于密钥交换方法的。SSL 中密钥交换算法有 6 种：无效（没有密钥交换）、RSA、匿名 Diffie-Hellman、暂时 Diffie-Hellman、固定 Diffie-Hellman、Fortezza。<br>在阶段 1 过程客户端与服务端协商的过程中已经确定使哪种密钥交换算法。<br>如果协商过程中确定使用 RSA 交换密钥，那么过程如下图：<br><img data-src="/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%875.jpg" alt="服务器密钥交换"></p>
+</blockquote>
+<h5 id="阶段3：客户机鉴别和密钥交换"><a href="#阶段3：客户机鉴别和密钥交换" class="headerlink" title="阶段3：客户机鉴别和密钥交换"></a>阶段 3：客户机鉴别和密钥交换</h5><p>客户机启动 SSL 握手第 3 阶段，是本阶段所有消息的唯一发送方，服务器是所有消息的唯一接收方。该阶段分为 3 步：</p>
+<ol>
+<li>证书（可选）：为了对服务器证明自身，客户要发送一个证书信息，这是可选的，在 Tomcat 中可以配置强制客户端证书认证。（服务器端请求了客户端证书才会有此步骤）</li>
+<li>客户机密钥交换（Pre-master-secret）：这里客户端将预备主密钥发送给服务端，注意这里会使用服务端的公钥进行加密。</li>
+<li>证书验证（可选），对预备秘密和随机数进行签名，证明拥有（1）证书的公钥。（服务器端请求了客户端证书才会有此步骤）</li>
+</ol>
+<p><img data-src="/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%876.png" alt="客户机鉴别和密钥交换"></p>
+<h4 id="阶段4：完成"><a href="#阶段4：完成" class="headerlink" title="阶段4：完成"></a>阶段 4：完成</h4><p>握手完成后，客户端和服务器端后面的信息使用主密钥进行对称加 / 解密</p>
+<p><img data-src="/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%877.png" alt="完成"></p>
+<h1 id="Https"><a href="#Https" class="headerlink" title="Https"></a>Https</h1><p>HTTP 协议和安全协议同属于应用层（OSI 模型的最高层），具体来讲，安全协议工作在 HTTP 之下，运输层之上：安全协议向运行 HTTP 的进程提供一个类似于 TCP 的 Socket，供进程向其中注入报文，安全协议将报文加密并注入运输层 Socket；或是从运输层获取加密报文，解密后交给对应的进程。严格地讲，HTTPS 并不是一个单独的协议，而是对工作在一加密连接（TLS 或 SSL）上的常规 HTTP 协议的称呼。</p>
+<p>HTTPS 报文中的任何东西都被加密，包括所有报头和荷载。除了可能的选择密文攻击（参见限制小节）之外，一个攻击者所能知道的只有在两者之间有一连接这一事实。</p>
+]]></content>
+      <categories>
+        <category>IT</category>
+        <category>安全</category>
+      </categories>
+      <tags>
+        <tag>PKI</tag>
+        <tag>EJBCA</tag>
+        <tag>安全</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>PKI 体系（三）-EJBCA 安装</title>
     <url>/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%B8%89)-EJBCA%E5%AE%89%E8%A3%85/</url>
     <content><![CDATA[<p>EJBCA 是一个全功能的 CA 系统软件，它基于 J2EE 技术，并提供了一个强大的、高性能并基于组件的 CA。EJBCA 兼具灵活性和平台独立性，能够独立使用，也能和任何 J2EE 应用程序集成。</p>
@@ -633,97 +724,6 @@
 </blockquote>
 </li>
 </ol>
-]]></content>
-      <categories>
-        <category>IT</category>
-        <category>安全</category>
-      </categories>
-      <tags>
-        <tag>PKI</tag>
-        <tag>EJBCA</tag>
-        <tag>安全</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>PKI 体系（二）-Https &amp; 双端认证</title>
-    <url>/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/</url>
-    <content><![CDATA[<p>超文本传输安全协议（英语：Hypertext Transfer Protocol Secure，缩写：HTTPS，常称为 HTTP over TLS，HTTP over SSL 或 HTTP Secure）是一种透过计算机网络进行安全通信的传输协议。HTTPS 经由 HTTP 进行通信，但利用 SSL/TLS 来加密数据包。HTTPS 开发的主要目的，是提供对网站服务器的身份认证，保护交换数据的隐私与完整性。这个协议由网景公司（Netscape）在 1994 年首次提出，随后扩展到互联网上。</p>
-<p>Https 协议默认支持双向认证，只是一般浏览器 - 服务器架构下不会进行开启。</p>
-<span id="more"></span>
-
-<h1 id="SSL-TLS协议"><a href="#SSL-TLS协议" class="headerlink" title="SSL/TLS协议"></a>SSL/TLS 协议</h1><p>传输层安全性协议（英语：Transport Layer Security，缩写作 TLS），及其前身安全套接层（Secure Sockets Layer，缩写作 SSL）是一种安全协议，目的是为互联网通信，提供安全及数据完整性保障。网景公司（Netscape）在 1994 年推出首版网页浏览器，网景导航者时，推出 HTTPS 协议，以 SSL 进行加密，这是 SSL 的起源。IETF 将 SSL 进行标准化，1999 年公布第一版 TLS 标准文件。随后又公布 RFC 5246 （2008 年 8 月）与 RFC 6176 （2011 年 3 月）。在浏览器、电子邮件、即时通信、VoIP、网络传真等应用程序中，广泛支持这个协议。主要的网站，如 Google、Facebook 等也以这个协议来创建安全连接，发送数据。目前已成为互联网上保密通信的工业标准。</p>
-<p>SSL 包含记录层（Record Layer）和传输层，记录层协议确定传输层数据的封装格式。传输层安全协议使用 X.509 认证，之后利用非对称加密演算来对通信方做身份认证，之后交换对称密钥作为会话密钥（Session key）。这个会谈密钥是用来将通信两方交换的数据做加密，保证两个应用间通信的保密性和可靠性，使客户与服务器应用之间的通信不被攻击者窃听。</p>
-<p>TLS 协议采用 C/S 架构模型，用于在两个应用程序间透过网络创建起安全的连接，防止在交换数据时受到窃听及篡改。</p>
-<p>TLS 协议的优势是与高层的应用层协议（如 HTTP、FTP、Telnet 等）无耦合。应用层协议能透明地运行在 TLS 协议之上，由 TLS 协议进行创建加密通道需要的协商和认证。应用层协议传送的数据在通过 TLS 协议时都会被加密，从而保证通信的私密性。</p>
-<p>TLS 协议是可选的，必须配置客户端和服务器才能使用。主要有两种方式实现这一目标：一个是使用统一的 TLS 协议通信端口（例如：用于 HTTPS 的端口 443）；另一个是客户端请求服务器连接到 TLS 时使用特定的协议机制（例如：邮件、新闻协议和 STARTTLS）。一旦客户端和服务器都同意使用 TLS 协议，他们通过使用一个握手过程协商出一个有状态的连接以传输数据 [1]。通过握手，客户端和服务器协商各种参数用于创建安全连接：</p>
-<pre><code>* 当客户端连接到支持TLS协议的服务器要求创建安全连接并列出了受支持的密码组合（加密密码算法和加密哈希函数），握手开始。
-* 服务器从该列表中决定加密和散列函数，并通知客户端。
-* 服务器发回其数字证书，此证书通常包含服务器的名称、受信任的证书颁发机构（CA）和服务器的公钥。
-* 客户端确认其颁发的证书的有效性。
-* 为了生成会话密钥用于安全连接，客户端使用服务器的公钥加密随机生成的密钥，并将其发送到服务器，只有服务器才能使用自己的私钥解密。
-* 利用随机数，双方生成用于加密和解密的对称密钥。这就是TLS协议的握手，握手完毕后的连接是安全的，直到连接（被）关闭。如果上述任何一个步骤失败，TLS握手过程就会失败，并且断开所有的连接。
-</code></pre>
-<h1 id="SSL-TLS原理"><a href="#SSL-TLS原理" class="headerlink" title="SSL&amp;TLS原理"></a>SSL&amp;TLS 原理</h1><h2 id="协议组成"><a href="#协议组成" class="headerlink" title="协议组成"></a>协议组成</h2><p>协议分为三个部分</p>
-<ul>
-<li>握手协议（Handshake protocol）</li>
-<li>记录协议（Record protocol）</li>
-<li>警报协议（Alert protocol）</li>
-</ul>
-<h3 id="握手协议"><a href="#握手协议" class="headerlink" title="握手协议"></a>握手协议</h3><p>握手协议是客户机和服务器用 SSL 连接通信时使用的第一个子协议，握手协议包括客户机与服务器之间的一系列消息。SSL 中最复杂的协议就是握手协议。该协议允许服务器和客户机相互验证，协商加密和 MAC 算法以及保密密钥，用来保护在 SSL 记录中发送的数据。握手协议是在应用程序的数据传输之前使用的。</p>
-<h4 id="握手协议数据格式"><a href="#握手协议数据格式" class="headerlink" title="握手协议数据格式"></a>握手协议数据格式</h4><p>每个握手协议包含以下 3 个字段</p>
-<ol>
-<li>Type：表示 10 种消息类型之一</li>
-<li> Length：表示消息长度字节数</li>
-<li> Content：与消息相关的参数</li>
-</ol>
-<p><img data-src="/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%871.png" alt="握手协议数据格式"></p>
-<h4 id="握手协议流程"><a href="#握手协议流程" class="headerlink" title="握手协议流程"></a>握手协议流程</h4><p>握手协议分为 4 个阶段</p>
-<ol>
-<li>建立安全能力</li>
-<li>服务器鉴别与密钥交换</li>
-<li>客户机鉴别与密钥交换</li>
-<li>完成</li>
-</ol>
-<p><img data-src="/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%872.png" alt="握手协议流程"></p>
-<h5 id="阶段1：建立安全能力"><a href="#阶段1：建立安全能力" class="headerlink" title="阶段1：建立安全能力"></a>阶段 1：建立安全能力</h5><p>SSL 握手的第一阶段启动逻辑连接，建立这个连接的安全能力。首先客户机向服务器发出 client hello 消息并等待服务器响应，随后服务器向客户机返回 server hello 消息，对 client hello 消息中的信息进行确认。<br>ClientHello 客户发送 CilentHello 信息，包含如下内容：</p>
-<ol>
-<li>客户端可以支持的 SSL 最高版本号</li>
-<li>一个用于生成主秘密的 32 字节的随机数。（等会介绍主秘密是什么）</li>
-<li>一个确定会话的会话 ID。</li>
-<li>一个客户端支持的加密算法列表。</li>
-<li>一个客户端可以可以支持的压缩算法列表</li>
-</ol>
-<p>ServerHello 服务器用 ServerHello 信息应答客户，包括下列内容：</p>
-<ol>
-<li>一个 SSL 版本号。取客户端支持的最高版本号和服务端支持的最高版本号中的较低者。</li>
-<li>一个用于生成主秘密的 32 字节的随机数。（客户端一个、服务端一个）</li>
-<li>会话 ID</li>
-<li> 从客户端的密码套件列表中选择的一个加密算法</li>
-<li>从客户端的压缩方法的列表中选择的压缩方法</li>
-</ol>
-<p><img data-src="/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%873.png" alt="建立安全能力"></p>
-<h5 id="阶段2：服务器鉴别和密钥交换"><a href="#阶段2：服务器鉴别和密钥交换" class="headerlink" title="阶段2：服务器鉴别和密钥交换"></a>阶段 2：服务器鉴别和密钥交换</h5><p>服务器启动 SSL 握手第 2 阶段，是本阶段所有消息的唯一发送方，客户机是所有消息的唯一接收方。该阶段分为 4 步：</p>
-<ol>
-<li>证书：服务器将数字证书和到根 CA 整个链发给客户端，使客户端能用服务器证书中的服务器公钥认证服务器。</li>
-<li>服务器密钥交换（可选）：这里视密钥交换算法而定</li>
-<li>证书请求（可选）：服务端可能会要求客户自身进行验证。</li>
-<li>服务器握手完成：第二阶段的结束，第三阶段开始的信号</li>
-</ol>
-<p><img data-src="/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%873.png" alt="服务器鉴别和密钥交换"></p>
-<blockquote>
-<p>服务器密钥交换：1 和 2 是基于密钥交换方法的。SSL 中密钥交换算法有 6 种：无效（没有密钥交换）、RSA、匿名 Diffie-Hellman、暂时 Diffie-Hellman、固定 Diffie-Hellman、Fortezza。<br>在阶段 1 过程客户端与服务端协商的过程中已经确定使哪种密钥交换算法。<br>如果协商过程中确定使用 RSA 交换密钥，那么过程如下图：<br><img data-src="/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%875.jpg" alt="服务器密钥交换"></p>
-</blockquote>
-<h5 id="阶段3：客户机鉴别和密钥交换"><a href="#阶段3：客户机鉴别和密钥交换" class="headerlink" title="阶段3：客户机鉴别和密钥交换"></a>阶段 3：客户机鉴别和密钥交换</h5><p>客户机启动 SSL 握手第 3 阶段，是本阶段所有消息的唯一发送方，服务器是所有消息的唯一接收方。该阶段分为 3 步：</p>
-<ol>
-<li>证书（可选）：为了对服务器证明自身，客户要发送一个证书信息，这是可选的，在 Tomcat 中可以配置强制客户端证书认证。（服务器端请求了客户端证书才会有此步骤）</li>
-<li>客户机密钥交换（Pre-master-secret）：这里客户端将预备主密钥发送给服务端，注意这里会使用服务端的公钥进行加密。</li>
-<li>证书验证（可选），对预备秘密和随机数进行签名，证明拥有（1）证书的公钥。（服务器端请求了客户端证书才会有此步骤）</li>
-</ol>
-<p><img data-src="/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%876.png" alt="客户机鉴别和密钥交换"></p>
-<h4 id="阶段4：完成"><a href="#阶段4：完成" class="headerlink" title="阶段4：完成"></a>阶段 4：完成</h4><p>握手完成后，客户端和服务器端后面的信息使用主密钥进行对称加 / 解密</p>
-<p><img data-src="/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%877.png" alt="完成"></p>
-<h1 id="Https"><a href="#Https" class="headerlink" title="Https"></a>Https</h1><p>HTTP 协议和安全协议同属于应用层（OSI 模型的最高层），具体来讲，安全协议工作在 HTTP 之下，运输层之上：安全协议向运行 HTTP 的进程提供一个类似于 TCP 的 Socket，供进程向其中注入报文，安全协议将报文加密并注入运输层 Socket；或是从运输层获取加密报文，解密后交给对应的进程。严格地讲，HTTPS 并不是一个单独的协议，而是对工作在一加密连接（TLS 或 SSL）上的常规 HTTP 协议的称呼。</p>
-<p>HTTPS 报文中的任何东西都被加密，包括所有报头和荷载。除了可能的选择密文攻击（参见限制小节）之外，一个攻击者所能知道的只有在两者之间有一连接这一事实。</p>
 ]]></content>
       <categories>
         <category>IT</category>
@@ -1278,6 +1278,42 @@
         <tag>Java</tag>
         <tag>Spring Boot</tag>
         <tag>ApiVersion</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Asciidoc 的 Idea 插件版本输出 pdf 乱码</title>
+    <url>/2024/02/01/Asciidoc%E7%9A%84Idea%E6%8F%92%E4%BB%B6%E7%89%88%E6%9C%AC%E8%BE%93%E5%87%BApdf%E4%B9%B1%E7%A0%81/</url>
+    <content><![CDATA[<p>最近正在研究 Asciidoc 这款生成文档的工具，其代码风格和 markdown 类似，最大的区别就是其有配套的默认工具来识别相应的结构目录，并根据目录结构来生成 html, doc, pdf。</p>
+<p>语法简单，工具操作简单，可以解决现在 markdown 碰到的部分问题，且还支持 Antora 这样的更加灵活的工具，使得文档或者技术书籍的写作变得更加的简单。</p>
+<p>今天这篇文章主要来解决使用过程中碰到的问题：非拉丁语系文字在生成 pdf 时，会变成乱码。</p>
+<span id="more"></span>
+
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>官方在文档中其实已经给出了问题的原因和解决方案，原因就是因为字体兼容性，在导出时使用的默认字体不兼容非拉丁语系文字。</p>
+<p>那么解决方案也很明确了，更换导出时的字体，使用兼容本地文字的字体，保证导出时显示正常。</p>
+<p>下面是官方文档和 Idea 插件文档中的解释</p>
+<ul>
+<li><a href="https://docs.asciidoctor.org/pdf-converter/latest/theme/font-support/#support-for-non-latin-languages">support-for-non-latin-languages</a></li>
+<li><a href="https://intellij-asciidoc-plugin.ahus1.de/docs/users-guide/features/advanced/pdf-non-latin-languages">Creating PDFs for non-latin languages and extra fonts</a></li>
+<li><a href="https://github.com/asciidoctor/asciidoctor-intellij-plugin/blob/4858f780f2c0630697643d0d53e5bcd6abd2db9b/doc/users-guide/modules/ROOT/pages/features/advanced/pdf-non-latin-languages.adoc#L52">pdf-non-latin-languages</a></li>
+</ul>
+<p>Idea 插件文档中提到了一个文件<code>.asciidoctorconfig</code>, 这个文件是给 <code>asciidoctor</code> 使用，也就是导出时使用的。</p>
+<p>并且也给出了下载地址 <a href="https://github.com/minjiex/kaigen-gothic/tree/master/dist/CN">KaiGenGothicCN 字体下载</a></p>
+<p>下载完成后形成如下目录</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">├──document</span><br><span class="line">│&nbsp;&nbsp;├──config</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;├──fonts</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──KaiGenGothicCN-Bold.ttf</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──KaiGenGothicCN-ExtraLight.ttf</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──KaiGenGothicCN-Heavy.ttf</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──KaiGenGothicCN-Light.ttf</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──KaiGenGothicCN-Medium.ttf</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──KaiGenGothicCN-Normal.ttf</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──KaiGenGothicCN-Regular.ttf</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;├──themes</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──zh_CN-theme.yml</span><br><span class="line">--.asciidoctorconfig</span><br></pre></td></tr></tbody></table></figure>
+
+<p><code>.asciidoctorconfig</code> 类容如下</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">:pdf-fontsdir: {asciidoctorconfigdir}/config/fonts</span><br><span class="line">:pdf-themesdir: {asciidoctorconfigdir}/config/themes</span><br><span class="line">:pdf-theme: zh_CN</span><br></pre></td></tr></tbody></table></figure>
+
+<p><code>zh_CN-theme.yml</code> 类容如下</p>
+<figure class="highlight yml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># default theme at https://github.com/asciidoctor/asciidoctor-pdf/blob/master/data/themes/default-theme.yml</span></span><br><span class="line"><span class="comment">#https://intellij-asciidoc-plugin.ahus1.de/docs/users-guide/features/advanced/pdf-non-latin-languages</span></span><br><span class="line"><span class="attr">extends:</span> <span class="string">default</span></span><br><span class="line"><span class="attr">font:</span></span><br><span class="line">  <span class="attr">fallbacks:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">kaigen-gothic-cn</span></span><br><span class="line">  <span class="attr">catalog:</span></span><br><span class="line">    <span class="comment"># These are the KaiGen Gothic CN fonts, download them from</span></span><br><span class="line">    <span class="comment"># https://github.com/minjiex/kaigen-gothic/tree/master/dist/CN</span></span><br><span class="line">    <span class="attr">kaigen-gothic-cn:</span></span><br><span class="line">      <span class="attr">normal:</span> <span class="string">KaiGenGothicCN-Regular.ttf</span></span><br><span class="line">      <span class="attr">bold:</span> <span class="string">KaiGenGothicCN-Bold.ttf</span></span><br><span class="line">      <span class="attr">italic:</span> <span class="string">KaiGenGothicCN-Regular.ttf</span></span><br><span class="line">      <span class="attr">bold_italic:</span> <span class="string">KaiGenGothicCN-Bold.ttf</span></span><br><span class="line"><span class="attr">base:</span></span><br><span class="line">  <span class="attr">font_family:</span> <span class="string">kaigen-gothic-cn</span></span><br></pre></td></tr></tbody></table></figure>]]></content>
+      <categories>
+        <category>文档</category>
+        <category>Asciidoc</category>
+      </categories>
+      <tags>
+        <tag>文档</tag>
+        <tag>Asciidoc</tag>
+        <tag>Idea Intellij</tag>
       </tags>
   </entry>
 </search>
