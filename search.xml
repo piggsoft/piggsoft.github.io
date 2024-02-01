@@ -275,49 +275,6 @@
       </tags>
   </entry>
   <entry>
-    <title>PKI 体系（一）--PKI 介绍</title>
-    <url>/2018/07/10/PKI%E4%BD%93%E7%B3%BB(%E4%B8%80)-PKI%E4%BB%8B%E7%BB%8D/</url>
-    <content><![CDATA[<p>公开密钥基础建设（英语：Public Key Infrastructure，缩写：PKI），又称公开密钥基础架构、公钥基础建设、公钥基础设施、公开密码匙基础建设或公钥基础架构，是一组由硬件、软件、参与者、管理政策与流程组成的基础架构，其目的在于创造、管理、分配、使用、存储以及撤销数字证书。</p>
-<p>密码学上，公开密钥基础建设借着数字证书认证机构 (Certificate Authority，CA) 将用户的个人身份跟公开密钥链接在一起。对每个证书中心用户的身份必须是唯一的。链接关系通过注册和发布过程创建，取决于担保级别，链接关系可能由 CA 的各种软件或在人为监督下完成。PKI 的确定链接关系的这一角色称为注册管理中心（Registration Authority，RA）。RA 确保公开密钥和个人身份链接，可以防抵赖。</p>
-<p>可信赖的第三者（Trusted third party，TTP）也常被用来指证书中心。PKI 有时被错误地拿来代表公开密钥密码学或公开密钥算法。</p>
-<span id="more"></span>
-
-<h1 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h1><p>1976 年 Whitfield Diffie、Martin Hellman|Hellman、Ron Rivest、Adi Shamir 和 Leonard Adleman 等人相继公布了安全密钥交换与非对称密钥算法后，整个通信方式为之改变。随着高速电子数字通信的发展，用户对安全通信的需求越来越强。</p>
-<p>密码协议在这种诉求下逐渐发展，造就新的密码原型。全球互联网发明与扩散后，认证与安全通信的需求也更加严苛。光商务理由便足以解释一切。时在网景工作的 Taher ElGamal 等人发展出传输安全层协议，包含了密钥创建、服务器认证等。公开密钥基础建设的架构因此浮现。</p>
-<p>厂商和企业家察觉了其后的广大市场，开始设立新公司并启动法律认知与保护。美国律师协会项目发行了一份对公开密钥基础建设操作的可预见法律观点的详尽分析，随后，多个美国州政府与其他国家的司法单位开始制定相关法规。消费者团体等则提出对隐私、访问、可靠性的质疑，也被列入司法的考虑中。</p>
-<p>被制定的法规实有不同，将公开密钥基础建设的机制转换成商务操作有实际上的问题，远比许多先驱者所想的缓慢。</p>
-<p>21 世纪的前几年才慢慢发觉，密码工程没那么容易被设计与实践，某些存在的标准某方面甚至是不合宜的。</p>
-<p>公开密钥基础建设的厂商发现了一个市场，但并非九零年代中期所预想的那个市场，这个市场发展得缓慢而且以不同的方式前进。公开密钥基础建设并未解决所期待的问题，某些厂商甚至退出市场。公开密钥基础建设最成功的地方是在政府部门，目前最大的公开密钥基础建设是美国防卫信息系统局 （Defense Information Systems Agency，DISA）的共同访问卡（Common access Cards）方案。</p>
-<h1 id="PKI组成"><a href="#PKI组成" class="headerlink" title="PKI组成"></a>PKI 组成</h1><p><img data-src="/2018/07/10/PKI%E4%BD%93%E7%B3%BB(%E4%B8%80)-PKI%E4%BB%8B%E7%BB%8D/450px-Public-Key-Infrastructure.svg.png" alt="pki组成"></p>
-<ol>
-<li><em>Certificate Authority(CA)</em> 证书颁发机构 (or 系统)，CA 是 PKI 的基础，它管理着证书的整个生命周期，其作用包括：发放证书，规定证书有效期，废弃不良信用证书。</li>
-<li><em>Registration Authority(RA)</em> 证书注册，登记机构 (or 系统)，RA 提供一个用户和 CA 之前的桥梁，用户通过 RA 进行证书的申请，RA 获取用户的身份信息并确认用户的信息，向 CA 提出证书申请。它接受用户的注册申请，审查用户的申请资格，并决定是否同意 CA 给其签发数字证书。注册机构并不给用户签发证书，而只是对用户进行资格审查。因此，RA 可以设置在直接面对客户的业务部门，如银行的营业部、机构认识部门等。当然，对于一个规模较小的 PKI 应用系统来说，可把注册管理的职能由认证中心 CA 来完成，而不设立独立运行的 RA。但这并不是取消了 PKI 的注册功能，而只是将其作为 CA 的一项功能而已。PKI 国际标准推荐由一个独立的 RA 来完成注册管理的任务，可以增强应用系统的安全。<blockquote>
-<p>这里的用户是指将要申请证书的客户，可以是个人，集团或团体，政府机构等。</p>
-</blockquote>
-</li>
-<li><em>Validation Authority(VA)</em> 证书验证机构 (or 系统)。在 PKI 中，VA 是一个实体，它根据 X.509 标准和 RFC 5280（第 69 页）中描述的机制提供用于验证数字证书有效性的服务。<blockquote>
-<p>VA 一般由第三方来提供，PKI 对 VA 没有强制要求，可以是 Nginx， Tomcat 等。</p>
-</blockquote>
-</li>
-<li><em>证书存储</em> - 证书和私钥存储位置</li>
-<li><em>证书管理中心</em> - 管理证书的申请，下发，存储</li>
-<li><em>机构可信度</em> -PKI 系统就本身的证书进行说明，其目的是允许外部分析 PKI 的可信度。</li>
-</ol>
-<h1 id="PKI认证方法"><a href="#PKI认证方法" class="headerlink" title="PKI认证方法"></a>PKI 认证方法</h1><ol>
-<li>认证机构</li>
-</ol>
-]]></content>
-      <categories>
-        <category>IT</category>
-        <category>安全</category>
-      </categories>
-      <tags>
-        <tag>PKI</tag>
-        <tag>EJBCA</tag>
-        <tag>安全</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>常用文档目录整理</title>
     <url>/2017/06/10/%E5%B8%B8%E7%94%A8%E6%96%87%E6%A1%A3%E7%9B%AE%E5%BD%95%E6%95%B4%E7%90%86/</url>
     <content><![CDATA[<p> &nbsp;<br>本目录旨在集合各个优秀 IT 书籍 &amp; API 翻译 &amp; 官方 Docs 翻译。<br>这个仓库不产出书籍，只是将网上流传着的书籍 &amp; 书籍翻译集合在一起，供大家检索学习。<br>在此先感谢那些为我们提供书籍和书籍翻译的作者，因为有他们，我们才能更好学习，了解，使用技术。<br>下面的列表将按字母的升序排列  </p>
@@ -459,6 +416,49 @@
       </categories>
       <tags>
         <tag>Java Document</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PKI 体系（一）--PKI 介绍</title>
+    <url>/2018/07/10/PKI%E4%BD%93%E7%B3%BB(%E4%B8%80)-PKI%E4%BB%8B%E7%BB%8D/</url>
+    <content><![CDATA[<p>公开密钥基础建设（英语：Public Key Infrastructure，缩写：PKI），又称公开密钥基础架构、公钥基础建设、公钥基础设施、公开密码匙基础建设或公钥基础架构，是一组由硬件、软件、参与者、管理政策与流程组成的基础架构，其目的在于创造、管理、分配、使用、存储以及撤销数字证书。</p>
+<p>密码学上，公开密钥基础建设借着数字证书认证机构 (Certificate Authority，CA) 将用户的个人身份跟公开密钥链接在一起。对每个证书中心用户的身份必须是唯一的。链接关系通过注册和发布过程创建，取决于担保级别，链接关系可能由 CA 的各种软件或在人为监督下完成。PKI 的确定链接关系的这一角色称为注册管理中心（Registration Authority，RA）。RA 确保公开密钥和个人身份链接，可以防抵赖。</p>
+<p>可信赖的第三者（Trusted third party，TTP）也常被用来指证书中心。PKI 有时被错误地拿来代表公开密钥密码学或公开密钥算法。</p>
+<span id="more"></span>
+
+<h1 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h1><p>1976 年 Whitfield Diffie、Martin Hellman|Hellman、Ron Rivest、Adi Shamir 和 Leonard Adleman 等人相继公布了安全密钥交换与非对称密钥算法后，整个通信方式为之改变。随着高速电子数字通信的发展，用户对安全通信的需求越来越强。</p>
+<p>密码协议在这种诉求下逐渐发展，造就新的密码原型。全球互联网发明与扩散后，认证与安全通信的需求也更加严苛。光商务理由便足以解释一切。时在网景工作的 Taher ElGamal 等人发展出传输安全层协议，包含了密钥创建、服务器认证等。公开密钥基础建设的架构因此浮现。</p>
+<p>厂商和企业家察觉了其后的广大市场，开始设立新公司并启动法律认知与保护。美国律师协会项目发行了一份对公开密钥基础建设操作的可预见法律观点的详尽分析，随后，多个美国州政府与其他国家的司法单位开始制定相关法规。消费者团体等则提出对隐私、访问、可靠性的质疑，也被列入司法的考虑中。</p>
+<p>被制定的法规实有不同，将公开密钥基础建设的机制转换成商务操作有实际上的问题，远比许多先驱者所想的缓慢。</p>
+<p>21 世纪的前几年才慢慢发觉，密码工程没那么容易被设计与实践，某些存在的标准某方面甚至是不合宜的。</p>
+<p>公开密钥基础建设的厂商发现了一个市场，但并非九零年代中期所预想的那个市场，这个市场发展得缓慢而且以不同的方式前进。公开密钥基础建设并未解决所期待的问题，某些厂商甚至退出市场。公开密钥基础建设最成功的地方是在政府部门，目前最大的公开密钥基础建设是美国防卫信息系统局 （Defense Information Systems Agency，DISA）的共同访问卡（Common access Cards）方案。</p>
+<h1 id="PKI组成"><a href="#PKI组成" class="headerlink" title="PKI组成"></a>PKI 组成</h1><p><img data-src="/2018/07/10/PKI%E4%BD%93%E7%B3%BB(%E4%B8%80)-PKI%E4%BB%8B%E7%BB%8D/450px-Public-Key-Infrastructure.svg.png" alt="pki组成"></p>
+<ol>
+<li><em>Certificate Authority(CA)</em> 证书颁发机构 (or 系统)，CA 是 PKI 的基础，它管理着证书的整个生命周期，其作用包括：发放证书，规定证书有效期，废弃不良信用证书。</li>
+<li><em>Registration Authority(RA)</em> 证书注册，登记机构 (or 系统)，RA 提供一个用户和 CA 之前的桥梁，用户通过 RA 进行证书的申请，RA 获取用户的身份信息并确认用户的信息，向 CA 提出证书申请。它接受用户的注册申请，审查用户的申请资格，并决定是否同意 CA 给其签发数字证书。注册机构并不给用户签发证书，而只是对用户进行资格审查。因此，RA 可以设置在直接面对客户的业务部门，如银行的营业部、机构认识部门等。当然，对于一个规模较小的 PKI 应用系统来说，可把注册管理的职能由认证中心 CA 来完成，而不设立独立运行的 RA。但这并不是取消了 PKI 的注册功能，而只是将其作为 CA 的一项功能而已。PKI 国际标准推荐由一个独立的 RA 来完成注册管理的任务，可以增强应用系统的安全。<blockquote>
+<p>这里的用户是指将要申请证书的客户，可以是个人，集团或团体，政府机构等。</p>
+</blockquote>
+</li>
+<li><em>Validation Authority(VA)</em> 证书验证机构 (or 系统)。在 PKI 中，VA 是一个实体，它根据 X.509 标准和 RFC 5280（第 69 页）中描述的机制提供用于验证数字证书有效性的服务。<blockquote>
+<p>VA 一般由第三方来提供，PKI 对 VA 没有强制要求，可以是 Nginx， Tomcat 等。</p>
+</blockquote>
+</li>
+<li><em>证书存储</em> - 证书和私钥存储位置</li>
+<li><em>证书管理中心</em> - 管理证书的申请，下发，存储</li>
+<li><em>机构可信度</em> -PKI 系统就本身的证书进行说明，其目的是允许外部分析 PKI 的可信度。</li>
+</ol>
+<h1 id="PKI认证方法"><a href="#PKI认证方法" class="headerlink" title="PKI认证方法"></a>PKI 认证方法</h1><ol>
+<li>认证机构</li>
+</ol>
+]]></content>
+      <categories>
+        <category>IT</category>
+        <category>安全</category>
+      </categories>
+      <tags>
+        <tag>PKI</tag>
+        <tag>EJBCA</tag>
+        <tag>安全</tag>
       </tags>
   </entry>
   <entry>
