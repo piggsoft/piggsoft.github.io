@@ -788,11 +788,11 @@ growingio_analytics: # <project_id>
 
 # Cloudflare Web Analytics
 # See: https://www.cloudflare.com/web-analytics/
-cloudflare_analytics: 3e9d71ae3a27492c8ec66ff66815414d
+cloudflare_analytics: 
 
 # Microsoft Clarity Analytics
 # See: https://clarity.microsoft.com/
-clarity_analytics: kuuoo34qwj # <project_id>
+clarity_analytics: # <project_id>
 
 # Matomo Analytics
 # See: https://matomo.org/
