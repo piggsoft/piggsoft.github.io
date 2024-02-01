@@ -89,6 +89,8 @@ version的值是否和注解中定义的value一致。
 
 ### 查找资料
 
+#### 方案一
+
 通过搜索引擎，查看代码，打断点debug等方法。在如下代码中有定义出`RequestMappingHandlerMapping`，这个类主要进行路径定义的匹配
 
 ```java
@@ -214,4 +216,175 @@ public RequestMappingInfo getMatchingCondition(HttpServletRequest request) {
 
 ```
 
-如果选用方案一，我们就可以直接创建一个`PatternsRequestCondition`或者`PathPatternsRequestCondition`，这样我们全路径的Condition优先级将更高
+如果选用方案一，我们就可以直接创建一个`PatternsRequestCondition`或者`PathPatternsRequestCondition`，这样我们全路径的Condition优先级将更高，那么将悠闲访问带版本号的RequestMapping，我们的目的就达到了。
+
+代码如下
+````java
+@Slf4j
+public class ApiVersionRequestMappingHandlerMapping extends RequestMappingHandlerMapping {
+
+    private ApiVersionProperties apiVersionProperties;
+    private ConditionFactory conditionFactory;
+
+
+    public ApiVersionRequestMappingHandlerMapping(ApiVersionProperties apiVersionProperties, ConditionFactory conditionFactory) {
+        this.apiVersionProperties = apiVersionProperties;
+        this.conditionFactory = conditionFactory;
+    }
+
+
+    @Override
+    protected RequestCondition<?> getCustomTypeCondition(Class<?> handlerType) {
+        ApiVersions apiVersions = AnnotationUtils.findAnnotation(handlerType, ApiVersions.class);
+        ApiVersion apiVersion = AnnotationUtils.findAnnotation(handlerType, ApiVersion.class);
+        if (apiVersions == null && apiVersion == null) {
+            return super.getCustomTypeCondition(handlerType);
+        }
+
+        RequestMapping requestMapping = AnnotatedElementUtils.findMergedAnnotation(handlerType, RequestMapping.class);
+
+        if (apiVersions != null) {
+            return createRequestCondition(requestMapping, null, apiVersions);
+        }
+
+        return createRequestCondition(requestMapping, null, apiVersion);
+    }
+
+    @Override
+    protected RequestCondition<?> getCustomMethodCondition(Method method) {
+        Class<?> methodClass = method.getDeclaringClass();
+
+        ApiVersions apiVersions = AnnotationUtils.findAnnotation(method, ApiVersions.class);
+        ApiVersion apiVersion = AnnotationUtils.findAnnotation(method, ApiVersion.class);
+        if (apiVersions == null && apiVersion == null) {
+            return super.getCustomMethodCondition(method);
+        }
+
+        RequestMapping classMapping = AnnotatedElementUtils.findMergedAnnotation(methodClass, RequestMapping.class);
+        RequestMapping methodMapping = AnnotatedElementUtils.findMergedAnnotation(method, RequestMapping.class);
+
+
+        if (apiVersions != null) {
+            return createRequestCondition(classMapping, methodMapping, apiVersions);
+        }
+
+        return createRequestCondition(classMapping, methodMapping, apiVersion);
+    }
+
+    protected RequestCondition<?> createRequestCondition(RequestMapping classMapping, RequestMapping methodMapping, ApiVersions apiVersions) {
+        return createRequestCondition(classMapping, methodMapping, apiVersions.value());
+    }
+
+    protected RequestCondition<?> createRequestCondition(RequestMapping classMapping, RequestMapping methodMapping, ApiVersion... apiVersions) {
+        if (apiVersions == null || apiVersions.length < 1) {
+            return null;
+        }
+
+
+        List<String> paths = null;
+        if (classMapping == null && methodMapping == null) {
+            return null;
+        } else if (methodMapping == null) {
+            String[] classPaths = classMapping.value();
+            paths = Stream.of(classPaths).collect(Collectors.toList());
+        } else if (classMapping == null) {
+            String[] methodPaths = methodMapping.value();
+            paths = Stream.of(methodPaths).collect(Collectors.toList());
+        } else {
+            String[] classPaths = classMapping.value();
+            String[] methodPaths = methodMapping.value();
+            paths = Arrays.stream(classPaths).flatMap(classPath -> Arrays.stream(methodPaths).map(methodPath -> classPath + methodPath)).collect(Collectors.toList());
+        }
+
+        List<String> apiVersionValues = Arrays.stream(apiVersions).map(ApiVersion::value).collect(Collectors.toList());
+
+        String[] fullPaths = paths.stream().flatMap(path -> apiVersionValues.stream().map(apiVersion -> this.replacePlaceholder(path, apiVersion))).toArray(String[]::new);
+
+        /* return new PatternsRequestCondition(fullPaths);*/
+        return conditionFactory.create(fullPaths);
+    }
+
+
+    protected String replacePlaceholder(String text, String apiVersion) {
+        if (ObjectUtils.isEmpty(text)) {
+            return text;
+        }
+        int startIndex = text.indexOf(apiVersionProperties.getQuoteLeft());
+        if (startIndex == -1) {
+            return text;
+        }
+        int endIndex = text.indexOf(apiVersionProperties.getQuoteRight());
+        if (endIndex == -1) {
+            return text;
+        }
+
+        String startString = text.substring(0, startIndex);
+        String endString = text.substring(endIndex + 1);
+
+        return startString + apiVersion + endString;
+    }
+}
+
+````
+
+配置类中进行如下配置
+
+本配置的作用是在低版本是没有`PathPatternsRequestConditionFactory`,兼容旧版本
+````java
+@ConditionalOnClass(PathPatternsRequestCondition.class)
+    @Bean
+    public PathPatternsRequestConditionFactory pathPatternsRequestCondition() {
+        return new PathPatternsRequestConditionFactory();
+    }
+
+    @ConditionalOnMissingClass("org.springframework.web.servlet.mvc.condition.PathPatternsRequestCondition")
+    @Bean
+    public PatternsRequestConditionFactory patternsRequestConditionFactory() {
+        return new PatternsRequestConditionFactory();
+    }
+
+    @Bean
+    public WebMvcRegistrations webMvcRegistrations(ApiVersionProperties apiVersionProperties, ConditionFactory conditionFactory) {
+        return new WebMvcRegistrations() {
+            @Override
+            public RequestMappingHandlerMapping getRequestMappingHandlerMapping() {
+                return new ApiVersionRequestMappingHandlerMapping(apiVersionProperties, conditionFactory);
+            }
+        };
+    }
+````
+
+接下来在Controller中我们就可以如下使用了
+````java
+@RequestMapping("/version/{version}")
+@RestController
+public class VersionController {
+
+    @RequestMapping("/test")
+    public String v1() {
+        return "v1";
+    }
+
+    @RequestMapping("/test")
+    @ApiVersion("1")
+    public String v11() {
+        return "v11";
+    }
+
+    @RequestMapping("/test")
+    @ApiVersion("2")
+    public String v2() {
+        return "v2";
+    }
+
+    @RequestMapping("/test")
+    @ApiVersion("3")
+    public String v3() {
+        throw new RuntimeException("12312312");
+    }
+
+}
+````
+
+#### 方案二
+暂时还没有好的思路，如果看的同学有较好的思路，可以在后面留言回复下。
