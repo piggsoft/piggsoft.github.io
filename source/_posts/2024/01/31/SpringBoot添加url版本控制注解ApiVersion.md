@@ -81,7 +81,7 @@ Boot中来处理版本号。
 
 ### 如何达到这个效果呢？
 
-方案一：Spring在进行路径匹配时，`/api/1.0/user`的优先级比`/api/{version}/user`
+方案一：Spring在进行路径匹配时，`/api/1.0/user` 的优先级比 `/api/{version}/user`
 高。只要我们将定义ApiVersion的RequestMapping变化一下，替换`{version}`变成全路径。
 
 方案二：在原来的路径匹配的方法后面再加个尾巴，如果有ApiVersion就进行第二次判断，判断解析的PathVariable
@@ -154,8 +154,11 @@ public RequestMatchResult match(HttpServletRequest request, String pattern) {
 }
 ```
 
-而在这个方法里面主要是调用了``的``方法，方法如下。作用是按`POST GET`，参数，header等顺序进行匹配，其中`PatternsRequestCondition`和`PathPatternsRequestCondition`是我们研究的重点。
+而在这个方法里面主要是调用了`RequestMappingInfo`的`getMatchingCondition`方法，方法如下。
+
+作用是按`POST GET`，参数，header等顺序进行匹配，其中`PatternsRequestCondition`和`PathPatternsRequestCondition`是我们研究的重点。
 `PathPatternsRequestCondition`是最新的path解析工具`PatternsRequestCondition`是老版解析，正在被废弃中。
+
 所以我们就围绕这个`RequestMappingInfo`来进行。
 ```java
 public RequestMappingInfo getMatchingCondition(HttpServletRequest request) {
@@ -329,7 +332,7 @@ public class ApiVersionRequestMappingHandlerMapping extends RequestMappingHandle
 
 配置类中进行如下配置
 
-本配置的作用是在低版本是没有`PathPatternsRequestConditionFactory`,兼容旧版本
+本配置的作用是在低版本是没有`PathPatternsRequestCondition`,兼容旧版本
 ````java
 @ConditionalOnClass(PathPatternsRequestCondition.class)
     @Bean
