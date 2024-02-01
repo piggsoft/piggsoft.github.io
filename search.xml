@@ -419,49 +419,6 @@
       </tags>
   </entry>
   <entry>
-    <title>PKI 体系（一）--PKI 介绍</title>
-    <url>/2018/07/10/PKI%E4%BD%93%E7%B3%BB(%E4%B8%80)-PKI%E4%BB%8B%E7%BB%8D/</url>
-    <content><![CDATA[<p>公开密钥基础建设（英语：Public Key Infrastructure，缩写：PKI），又称公开密钥基础架构、公钥基础建设、公钥基础设施、公开密码匙基础建设或公钥基础架构，是一组由硬件、软件、参与者、管理政策与流程组成的基础架构，其目的在于创造、管理、分配、使用、存储以及撤销数字证书。</p>
-<p>密码学上，公开密钥基础建设借着数字证书认证机构 (Certificate Authority，CA) 将用户的个人身份跟公开密钥链接在一起。对每个证书中心用户的身份必须是唯一的。链接关系通过注册和发布过程创建，取决于担保级别，链接关系可能由 CA 的各种软件或在人为监督下完成。PKI 的确定链接关系的这一角色称为注册管理中心（Registration Authority，RA）。RA 确保公开密钥和个人身份链接，可以防抵赖。</p>
-<p>可信赖的第三者（Trusted third party，TTP）也常被用来指证书中心。PKI 有时被错误地拿来代表公开密钥密码学或公开密钥算法。</p>
-<span id="more"></span>
-
-<h1 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h1><p>1976 年 Whitfield Diffie、Martin Hellman|Hellman、Ron Rivest、Adi Shamir 和 Leonard Adleman 等人相继公布了安全密钥交换与非对称密钥算法后，整个通信方式为之改变。随着高速电子数字通信的发展，用户对安全通信的需求越来越强。</p>
-<p>密码协议在这种诉求下逐渐发展，造就新的密码原型。全球互联网发明与扩散后，认证与安全通信的需求也更加严苛。光商务理由便足以解释一切。时在网景工作的 Taher ElGamal 等人发展出传输安全层协议，包含了密钥创建、服务器认证等。公开密钥基础建设的架构因此浮现。</p>
-<p>厂商和企业家察觉了其后的广大市场，开始设立新公司并启动法律认知与保护。美国律师协会项目发行了一份对公开密钥基础建设操作的可预见法律观点的详尽分析，随后，多个美国州政府与其他国家的司法单位开始制定相关法规。消费者团体等则提出对隐私、访问、可靠性的质疑，也被列入司法的考虑中。</p>
-<p>被制定的法规实有不同，将公开密钥基础建设的机制转换成商务操作有实际上的问题，远比许多先驱者所想的缓慢。</p>
-<p>21 世纪的前几年才慢慢发觉，密码工程没那么容易被设计与实践，某些存在的标准某方面甚至是不合宜的。</p>
-<p>公开密钥基础建设的厂商发现了一个市场，但并非九零年代中期所预想的那个市场，这个市场发展得缓慢而且以不同的方式前进。公开密钥基础建设并未解决所期待的问题，某些厂商甚至退出市场。公开密钥基础建设最成功的地方是在政府部门，目前最大的公开密钥基础建设是美国防卫信息系统局 （Defense Information Systems Agency，DISA）的共同访问卡（Common access Cards）方案。</p>
-<h1 id="PKI组成"><a href="#PKI组成" class="headerlink" title="PKI组成"></a>PKI 组成</h1><p><img data-src="/2018/07/10/PKI%E4%BD%93%E7%B3%BB(%E4%B8%80)-PKI%E4%BB%8B%E7%BB%8D/450px-Public-Key-Infrastructure.svg.png" alt="pki组成"></p>
-<ol>
-<li><em>Certificate Authority(CA)</em> 证书颁发机构 (or 系统)，CA 是 PKI 的基础，它管理着证书的整个生命周期，其作用包括：发放证书，规定证书有效期，废弃不良信用证书。</li>
-<li><em>Registration Authority(RA)</em> 证书注册，登记机构 (or 系统)，RA 提供一个用户和 CA 之前的桥梁，用户通过 RA 进行证书的申请，RA 获取用户的身份信息并确认用户的信息，向 CA 提出证书申请。它接受用户的注册申请，审查用户的申请资格，并决定是否同意 CA 给其签发数字证书。注册机构并不给用户签发证书，而只是对用户进行资格审查。因此，RA 可以设置在直接面对客户的业务部门，如银行的营业部、机构认识部门等。当然，对于一个规模较小的 PKI 应用系统来说，可把注册管理的职能由认证中心 CA 来完成，而不设立独立运行的 RA。但这并不是取消了 PKI 的注册功能，而只是将其作为 CA 的一项功能而已。PKI 国际标准推荐由一个独立的 RA 来完成注册管理的任务，可以增强应用系统的安全。<blockquote>
-<p>这里的用户是指将要申请证书的客户，可以是个人，集团或团体，政府机构等。</p>
-</blockquote>
-</li>
-<li><em>Validation Authority(VA)</em> 证书验证机构 (or 系统)。在 PKI 中，VA 是一个实体，它根据 X.509 标准和 RFC 5280（第 69 页）中描述的机制提供用于验证数字证书有效性的服务。<blockquote>
-<p>VA 一般由第三方来提供，PKI 对 VA 没有强制要求，可以是 Nginx， Tomcat 等。</p>
-</blockquote>
-</li>
-<li><em>证书存储</em> - 证书和私钥存储位置</li>
-<li><em>证书管理中心</em> - 管理证书的申请，下发，存储</li>
-<li><em>机构可信度</em> -PKI 系统就本身的证书进行说明，其目的是允许外部分析 PKI 的可信度。</li>
-</ol>
-<h1 id="PKI认证方法"><a href="#PKI认证方法" class="headerlink" title="PKI认证方法"></a>PKI 认证方法</h1><ol>
-<li>认证机构</li>
-</ol>
-]]></content>
-      <categories>
-        <category>IT</category>
-        <category>安全</category>
-      </categories>
-      <tags>
-        <tag>PKI</tag>
-        <tag>EJBCA</tag>
-        <tag>安全</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>PKI 体系（三）-EJBCA 安装</title>
     <url>/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%B8%89)-EJBCA%E5%AE%89%E8%A3%85/</url>
     <content><![CDATA[<p>EJBCA 是一个全功能的 CA 系统软件，它基于 J2EE 技术，并提供了一个强大的、高性能并基于组件的 CA。EJBCA 兼具灵活性和平台独立性，能够独立使用，也能和任何 J2EE 应用程序集成。</p>
@@ -632,6 +589,49 @@
 <p>注：所有的 ip 需要换成对应的 ip 或者域名</p>
 </blockquote>
 </li>
+</ol>
+]]></content>
+      <categories>
+        <category>IT</category>
+        <category>安全</category>
+      </categories>
+      <tags>
+        <tag>PKI</tag>
+        <tag>EJBCA</tag>
+        <tag>安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PKI 体系（一）--PKI 介绍</title>
+    <url>/2018/07/10/PKI%E4%BD%93%E7%B3%BB(%E4%B8%80)-PKI%E4%BB%8B%E7%BB%8D/</url>
+    <content><![CDATA[<p>公开密钥基础建设（英语：Public Key Infrastructure，缩写：PKI），又称公开密钥基础架构、公钥基础建设、公钥基础设施、公开密码匙基础建设或公钥基础架构，是一组由硬件、软件、参与者、管理政策与流程组成的基础架构，其目的在于创造、管理、分配、使用、存储以及撤销数字证书。</p>
+<p>密码学上，公开密钥基础建设借着数字证书认证机构 (Certificate Authority，CA) 将用户的个人身份跟公开密钥链接在一起。对每个证书中心用户的身份必须是唯一的。链接关系通过注册和发布过程创建，取决于担保级别，链接关系可能由 CA 的各种软件或在人为监督下完成。PKI 的确定链接关系的这一角色称为注册管理中心（Registration Authority，RA）。RA 确保公开密钥和个人身份链接，可以防抵赖。</p>
+<p>可信赖的第三者（Trusted third party，TTP）也常被用来指证书中心。PKI 有时被错误地拿来代表公开密钥密码学或公开密钥算法。</p>
+<span id="more"></span>
+
+<h1 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h1><p>1976 年 Whitfield Diffie、Martin Hellman|Hellman、Ron Rivest、Adi Shamir 和 Leonard Adleman 等人相继公布了安全密钥交换与非对称密钥算法后，整个通信方式为之改变。随着高速电子数字通信的发展，用户对安全通信的需求越来越强。</p>
+<p>密码协议在这种诉求下逐渐发展，造就新的密码原型。全球互联网发明与扩散后，认证与安全通信的需求也更加严苛。光商务理由便足以解释一切。时在网景工作的 Taher ElGamal 等人发展出传输安全层协议，包含了密钥创建、服务器认证等。公开密钥基础建设的架构因此浮现。</p>
+<p>厂商和企业家察觉了其后的广大市场，开始设立新公司并启动法律认知与保护。美国律师协会项目发行了一份对公开密钥基础建设操作的可预见法律观点的详尽分析，随后，多个美国州政府与其他国家的司法单位开始制定相关法规。消费者团体等则提出对隐私、访问、可靠性的质疑，也被列入司法的考虑中。</p>
+<p>被制定的法规实有不同，将公开密钥基础建设的机制转换成商务操作有实际上的问题，远比许多先驱者所想的缓慢。</p>
+<p>21 世纪的前几年才慢慢发觉，密码工程没那么容易被设计与实践，某些存在的标准某方面甚至是不合宜的。</p>
+<p>公开密钥基础建设的厂商发现了一个市场，但并非九零年代中期所预想的那个市场，这个市场发展得缓慢而且以不同的方式前进。公开密钥基础建设并未解决所期待的问题，某些厂商甚至退出市场。公开密钥基础建设最成功的地方是在政府部门，目前最大的公开密钥基础建设是美国防卫信息系统局 （Defense Information Systems Agency，DISA）的共同访问卡（Common access Cards）方案。</p>
+<h1 id="PKI组成"><a href="#PKI组成" class="headerlink" title="PKI组成"></a>PKI 组成</h1><p><img data-src="/2018/07/10/PKI%E4%BD%93%E7%B3%BB(%E4%B8%80)-PKI%E4%BB%8B%E7%BB%8D/450px-Public-Key-Infrastructure.svg.png" alt="pki组成"></p>
+<ol>
+<li><em>Certificate Authority(CA)</em> 证书颁发机构 (or 系统)，CA 是 PKI 的基础，它管理着证书的整个生命周期，其作用包括：发放证书，规定证书有效期，废弃不良信用证书。</li>
+<li><em>Registration Authority(RA)</em> 证书注册，登记机构 (or 系统)，RA 提供一个用户和 CA 之前的桥梁，用户通过 RA 进行证书的申请，RA 获取用户的身份信息并确认用户的信息，向 CA 提出证书申请。它接受用户的注册申请，审查用户的申请资格，并决定是否同意 CA 给其签发数字证书。注册机构并不给用户签发证书，而只是对用户进行资格审查。因此，RA 可以设置在直接面对客户的业务部门，如银行的营业部、机构认识部门等。当然，对于一个规模较小的 PKI 应用系统来说，可把注册管理的职能由认证中心 CA 来完成，而不设立独立运行的 RA。但这并不是取消了 PKI 的注册功能，而只是将其作为 CA 的一项功能而已。PKI 国际标准推荐由一个独立的 RA 来完成注册管理的任务，可以增强应用系统的安全。<blockquote>
+<p>这里的用户是指将要申请证书的客户，可以是个人，集团或团体，政府机构等。</p>
+</blockquote>
+</li>
+<li><em>Validation Authority(VA)</em> 证书验证机构 (or 系统)。在 PKI 中，VA 是一个实体，它根据 X.509 标准和 RFC 5280（第 69 页）中描述的机制提供用于验证数字证书有效性的服务。<blockquote>
+<p>VA 一般由第三方来提供，PKI 对 VA 没有强制要求，可以是 Nginx， Tomcat 等。</p>
+</blockquote>
+</li>
+<li><em>证书存储</em> - 证书和私钥存储位置</li>
+<li><em>证书管理中心</em> - 管理证书的申请，下发，存储</li>
+<li><em>机构可信度</em> -PKI 系统就本身的证书进行说明，其目的是允许外部分析 PKI 的可信度。</li>
+</ol>
+<h1 id="PKI认证方法"><a href="#PKI认证方法" class="headerlink" title="PKI认证方法"></a>PKI 认证方法</h1><ol>
+<li>认证机构</li>
 </ol>
 ]]></content>
       <categories>
@@ -1194,6 +1194,41 @@
       </tags>
   </entry>
   <entry>
+    <title>corepack 设置 npmmirror 出现无法 302 的提示</title>
+    <url>/2024/01/29/corepack%E8%AE%BE%E7%BD%AEnpmmirror%E5%87%BA%E7%8E%B0%E6%97%A0%E6%B3%95302%E7%9A%84%E6%8F%90%E7%A4%BA/</url>
+    <content><![CDATA[<p>在上篇对 <code>corepack</code> 的 <code>npmmirror</code> 修改后，corepack 的安装能够正常的进行了。</p>
+<p>在其他的 mirror 可以正常的情况下，尝试了 <code>https://registry.npmmirror.com</code>, 发现这个 mirror 内容会有 302 跳转，但 corepack 当前设置禁止 302，导致这个 mirror 无法使用。</p>
+<p>本文就是我对探究无法解决这个问题的分享。</p>
+<span id="more"></span>
+
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>接上篇对 <code>corepack</code> 配置 <code>npmmirror</code> 为 <code>https://registry.npmmirror.com</code> 后，对 pnpm 进行设备更新时 <code>corepack use pnpm@latest</code> 出现如下错误</p>
+<figure class="highlight powershell"><table><tbody><tr><td class="code"><pre><span class="line">Internal Error: Server answered with HTTP <span class="number">302</span> when performing the request to https://registry.npmmirror.com/pnpm/-/pnpm<span class="literal">-8</span>.<span class="number">15.0</span>.tgz; <span class="keyword">for</span> troubleshooting help, see https://github.com/nodejs/corepack<span class="comment">#troubleshooting</span></span><br><span class="line">    at ClientRequest.&lt;anonymous&gt; (C:\Users\xxxx\AppData\Roaming\nvm\v20.<span class="number">11.0</span>\node_modules\corepack\dist\lib\corepack.cjs:<span class="number">42192</span>:<span class="number">21</span>)</span><br><span class="line">    at Object.onceWrapper (node:events:<span class="number">633</span>:<span class="number">26</span>)</span><br><span class="line">    at ClientRequest.emit (node:events:<span class="number">518</span>:<span class="number">28</span>)</span><br><span class="line">    at HTTPParser.parserOnIncomingClient (node:_http_client:<span class="number">693</span>:<span class="number">27</span>)</span><br><span class="line">    at HTTPParser.parserOnHeadersComplete (node:_http_common:<span class="number">119</span>:<span class="number">17</span>)</span><br><span class="line">    at TLSSocket.socketOnData (node:_http_client:<span class="number">535</span>:<span class="number">22</span>)</span><br><span class="line">    at TLSSocket.emit (node:events:<span class="number">518</span>:<span class="number">28</span>)</span><br><span class="line">    at addChunk (node:internal/streams/readable:<span class="number">559</span>:<span class="number">12</span>)</span><br><span class="line">    at readableAddChunkPushByteMode (node:internal/streams/readable:<span class="number">510</span>:<span class="number">3</span>)</span><br><span class="line">    at Readable.push (node:internal/streams/readable:<span class="number">390</span>:<span class="number">5</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>直接在浏览器点开这个链接 <a href="https://registry.npmmirror.com/pnpm/-/pnpm-8.15.0.tgz">https://registry.npmmirror.com/pnpm/-/pnpm-8.15.0.tgz</a>, 会发现云端返回 302 后跳转到了 cdn 链接 [<a href="https://cdn.npmmirror.com/packages/pnpm/8.15.0/pnpm-8.15.0.tgz]">https://cdn.npmmirror.com/packages/pnpm/8.15.0/pnpm-8.15.0.tgz]</a></p>
+<p>但 <code>corepack</code> 内部将大于 300 的 code 全部定义为错误</p>
+<figure class="highlight javascript"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">fetchUrlStream</span>(<span class="params">url, options = {}</span>) {</span><br><span class="line">  <span class="keyword">if</span> (process.<span class="property">env</span>.<span class="property">COREPACK_ENABLE_NETWORK</span> === <span class="string">`0`</span>)</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">UsageError</span>(<span class="string">`Network access disabled by the environment; can't reach <span class="subst">${url}</span>`</span>);</span><br><span class="line">  <span class="keyword">const</span> { <span class="attr">default</span>: https } = <span class="keyword">await</span> <span class="keyword">import</span>(<span class="string">"https"</span>);</span><br><span class="line">  <span class="keyword">const</span> { <span class="title class_">ProxyAgent</span> } = <span class="keyword">await</span> <span class="title class_">Promise</span>.<span class="title function_">resolve</span>().<span class="title function_">then</span>(<span class="function">() =&gt;</span> <span class="title function_">__toESM</span>(require_dist12()));</span><br><span class="line">  <span class="keyword">const</span> proxyAgent = <span class="keyword">new</span> <span class="title class_">ProxyAgent</span>();</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> {</span><br><span class="line">    <span class="keyword">const</span> request = https.<span class="title function_">get</span>(url, { ...options, <span class="attr">agent</span>: proxyAgent }, <span class="function">(<span class="params">response</span>) =&gt;</span> {</span><br><span class="line">      <span class="keyword">const</span> statusCode = response.<span class="property">statusCode</span>;</span><br><span class="line">      <span class="keyword">if</span> (statusCode != <span class="literal">null</span> &amp;&amp; statusCode &gt;= <span class="number">200</span> &amp;&amp; statusCode &lt; <span class="number">300</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">resolve</span>(response);</span><br><span class="line">      <span class="keyword">return</span> <span class="title function_">reject</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">`Server answered with HTTP <span class="subst">${statusCode}</span> when performing the request to <span class="subst">${url}</span>; for troubleshooting help, see https://github.com/nodejs/corepack#troubleshooting`</span>));</span><br><span class="line">    });</span><br><span class="line">    request.<span class="title function_">on</span>(<span class="string">`error`</span>, <span class="function">(<span class="params">err</span>) =&gt;</span> {</span><br><span class="line">      <span class="title function_">reject</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">`Error when performing the request to <span class="subst">${url}</span>; for troubleshooting help, see https://github.com/nodejs/corepack#troubleshooting`</span>));</span><br><span class="line">    });</span><br><span class="line">  });</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>还是老样子去 github 上看看是否已有类似的 issue 和 PR，经过一番搜索，找到如下的讨论</p>
+<p><a href="https://github.com/nodejs/corepack/pull/306">add http redirect support #306</a></p>
+<p>发现在 #302 已经解决，找到 302<br><a href="https://github.com/nodejs/corepack/issues/302">install from npmmirror.com failed (302 redirect) #302</a></p>
+<p>在 23 年 12 月 29 日，有人已提交 PR 修复 <a href="https://github.com/nodejs/corepack/pull/341">feat: Support redirections #341</a></p>
+<p>我们来看看修复类容 (PR 文件变更)(<a href="https://github.com/nodejs/corepack/pull/341/files">https://github.com/nodejs/corepack/pull/341/files</a>)</p>
+<p>变更也很简单，当 <code>code</code> 符合定义时，讲取出 <code>header.location</code> 进行第二次访问</p>
+<figure class="highlight javascript"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> ([<span class="number">301</span>, <span class="number">302</span>, <span class="number">307</span>, <span class="number">308</span>].<span class="title function_">includes</span>(statusCode <span class="keyword">as</span> number) &amp;&amp; response.<span class="property">headers</span>.<span class="property">location</span>)</span><br><span class="line">  <span class="keyword">return</span> <span class="title function_">createRequest</span>(response.<span class="property">headers</span>.<span class="property">location</span> <span class="keyword">as</span> string);</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>那我们要做的就很简单，升级到 <code>v0.24.0</code> 及以上。简单的升级办法是下载 <code>release</code> 里面版本符合的包，替换整个 <code>C:\Users\xxxx\AppData\Roaming\nvm\v20.11.0\node_modules\corepack</code> 目录即可</p>
+]]></content>
+      <categories>
+        <category>Nodejs</category>
+        <category>Corepack</category>
+        <category>pnpm</category>
+        <category>yarn</category>
+      </categories>
+      <tags>
+        <tag>corpack无法正常使用</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SpringBoot 添加 url 版本控制注解 ApiVersion</title>
     <url>/2024/01/31/SpringBoot%E6%B7%BB%E5%8A%A0url%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E6%B3%A8%E8%A7%A3ApiVersion/</url>
     <content><![CDATA[<p>作为服务端研发，在设计一个接口的时候，为了保证后续业务的新增和修改，会有各种的扩展性设计，其中关于 URL 的通用扩展设计是在 path 中加入版本。<br>例如: <code>https://domain.com/api/{version}/path</code> 。这种设计方便后续对接口升级时，只需要简单的升级版本号就可以了。</p>
@@ -1243,41 +1278,6 @@
         <tag>Java</tag>
         <tag>Spring Boot</tag>
         <tag>ApiVersion</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>corepack 设置 npmmirror 出现无法 302 的提示</title>
-    <url>/2024/01/29/corepack%E8%AE%BE%E7%BD%AEnpmmirror%E5%87%BA%E7%8E%B0%E6%97%A0%E6%B3%95302%E7%9A%84%E6%8F%90%E7%A4%BA/</url>
-    <content><![CDATA[<p>在上篇对 <code>corepack</code> 的 <code>npmmirror</code> 修改后，corepack 的安装能够正常的进行了。</p>
-<p>在其他的 mirror 可以正常的情况下，尝试了 <code>https://registry.npmmirror.com</code>, 发现这个 mirror 内容会有 302 跳转，但 corepack 当前设置禁止 302，导致这个 mirror 无法使用。</p>
-<p>本文就是我对探究无法解决这个问题的分享。</p>
-<span id="more"></span>
-
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>接上篇对 <code>corepack</code> 配置 <code>npmmirror</code> 为 <code>https://registry.npmmirror.com</code> 后，对 pnpm 进行设备更新时 <code>corepack use pnpm@latest</code> 出现如下错误</p>
-<figure class="highlight powershell"><table><tbody><tr><td class="code"><pre><span class="line">Internal Error: Server answered with HTTP <span class="number">302</span> when performing the request to https://registry.npmmirror.com/pnpm/-/pnpm<span class="literal">-8</span>.<span class="number">15.0</span>.tgz; <span class="keyword">for</span> troubleshooting help, see https://github.com/nodejs/corepack<span class="comment">#troubleshooting</span></span><br><span class="line">    at ClientRequest.&lt;anonymous&gt; (C:\Users\xxxx\AppData\Roaming\nvm\v20.<span class="number">11.0</span>\node_modules\corepack\dist\lib\corepack.cjs:<span class="number">42192</span>:<span class="number">21</span>)</span><br><span class="line">    at Object.onceWrapper (node:events:<span class="number">633</span>:<span class="number">26</span>)</span><br><span class="line">    at ClientRequest.emit (node:events:<span class="number">518</span>:<span class="number">28</span>)</span><br><span class="line">    at HTTPParser.parserOnIncomingClient (node:_http_client:<span class="number">693</span>:<span class="number">27</span>)</span><br><span class="line">    at HTTPParser.parserOnHeadersComplete (node:_http_common:<span class="number">119</span>:<span class="number">17</span>)</span><br><span class="line">    at TLSSocket.socketOnData (node:_http_client:<span class="number">535</span>:<span class="number">22</span>)</span><br><span class="line">    at TLSSocket.emit (node:events:<span class="number">518</span>:<span class="number">28</span>)</span><br><span class="line">    at addChunk (node:internal/streams/readable:<span class="number">559</span>:<span class="number">12</span>)</span><br><span class="line">    at readableAddChunkPushByteMode (node:internal/streams/readable:<span class="number">510</span>:<span class="number">3</span>)</span><br><span class="line">    at Readable.push (node:internal/streams/readable:<span class="number">390</span>:<span class="number">5</span>)</span><br></pre></td></tr></tbody></table></figure>
-
-<p>直接在浏览器点开这个链接 <a href="https://registry.npmmirror.com/pnpm/-/pnpm-8.15.0.tgz">https://registry.npmmirror.com/pnpm/-/pnpm-8.15.0.tgz</a>, 会发现云端返回 302 后跳转到了 cdn 链接 [<a href="https://cdn.npmmirror.com/packages/pnpm/8.15.0/pnpm-8.15.0.tgz]">https://cdn.npmmirror.com/packages/pnpm/8.15.0/pnpm-8.15.0.tgz]</a></p>
-<p>但 <code>corepack</code> 内部将大于 300 的 code 全部定义为错误</p>
-<figure class="highlight javascript"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">fetchUrlStream</span>(<span class="params">url, options = {}</span>) {</span><br><span class="line">  <span class="keyword">if</span> (process.<span class="property">env</span>.<span class="property">COREPACK_ENABLE_NETWORK</span> === <span class="string">`0`</span>)</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">UsageError</span>(<span class="string">`Network access disabled by the environment; can't reach <span class="subst">${url}</span>`</span>);</span><br><span class="line">  <span class="keyword">const</span> { <span class="attr">default</span>: https } = <span class="keyword">await</span> <span class="keyword">import</span>(<span class="string">"https"</span>);</span><br><span class="line">  <span class="keyword">const</span> { <span class="title class_">ProxyAgent</span> } = <span class="keyword">await</span> <span class="title class_">Promise</span>.<span class="title function_">resolve</span>().<span class="title function_">then</span>(<span class="function">() =&gt;</span> <span class="title function_">__toESM</span>(require_dist12()));</span><br><span class="line">  <span class="keyword">const</span> proxyAgent = <span class="keyword">new</span> <span class="title class_">ProxyAgent</span>();</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> {</span><br><span class="line">    <span class="keyword">const</span> request = https.<span class="title function_">get</span>(url, { ...options, <span class="attr">agent</span>: proxyAgent }, <span class="function">(<span class="params">response</span>) =&gt;</span> {</span><br><span class="line">      <span class="keyword">const</span> statusCode = response.<span class="property">statusCode</span>;</span><br><span class="line">      <span class="keyword">if</span> (statusCode != <span class="literal">null</span> &amp;&amp; statusCode &gt;= <span class="number">200</span> &amp;&amp; statusCode &lt; <span class="number">300</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">resolve</span>(response);</span><br><span class="line">      <span class="keyword">return</span> <span class="title function_">reject</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">`Server answered with HTTP <span class="subst">${statusCode}</span> when performing the request to <span class="subst">${url}</span>; for troubleshooting help, see https://github.com/nodejs/corepack#troubleshooting`</span>));</span><br><span class="line">    });</span><br><span class="line">    request.<span class="title function_">on</span>(<span class="string">`error`</span>, <span class="function">(<span class="params">err</span>) =&gt;</span> {</span><br><span class="line">      <span class="title function_">reject</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">`Error when performing the request to <span class="subst">${url}</span>; for troubleshooting help, see https://github.com/nodejs/corepack#troubleshooting`</span>));</span><br><span class="line">    });</span><br><span class="line">  });</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
-<p>还是老样子去 github 上看看是否已有类似的 issue 和 PR，经过一番搜索，找到如下的讨论</p>
-<p><a href="https://github.com/nodejs/corepack/pull/306">add http redirect support #306</a></p>
-<p>发现在 #302 已经解决，找到 302<br><a href="https://github.com/nodejs/corepack/issues/302">install from npmmirror.com failed (302 redirect) #302</a></p>
-<p>在 23 年 12 月 29 日，有人已提交 PR 修复 <a href="https://github.com/nodejs/corepack/pull/341">feat: Support redirections #341</a></p>
-<p>我们来看看修复类容 (PR 文件变更)(<a href="https://github.com/nodejs/corepack/pull/341/files">https://github.com/nodejs/corepack/pull/341/files</a>)</p>
-<p>变更也很简单，当 <code>code</code> 符合定义时，讲取出 <code>header.location</code> 进行第二次访问</p>
-<figure class="highlight javascript"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> ([<span class="number">301</span>, <span class="number">302</span>, <span class="number">307</span>, <span class="number">308</span>].<span class="title function_">includes</span>(statusCode <span class="keyword">as</span> number) &amp;&amp; response.<span class="property">headers</span>.<span class="property">location</span>)</span><br><span class="line">  <span class="keyword">return</span> <span class="title function_">createRequest</span>(response.<span class="property">headers</span>.<span class="property">location</span> <span class="keyword">as</span> string);</span><br></pre></td></tr></tbody></table></figure>
-
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>那我们要做的就很简单，升级到 <code>v0.24.0</code> 及以上。简单的升级办法是下载 <code>release</code> 里面版本符合的包，替换整个 <code>C:\Users\xxxx\AppData\Roaming\nvm\v20.11.0\node_modules\corepack</code> 目录即可</p>
-]]></content>
-      <categories>
-        <category>Nodejs</category>
-        <category>Corepack</category>
-        <category>pnpm</category>
-        <category>yarn</category>
-      </categories>
-      <tags>
-        <tag>corpack无法正常使用</tag>
       </tags>
   </entry>
   <entry>
