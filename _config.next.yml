@@ -927,7 +927,8 @@ vendors:
   # custom_cdn_url: https://cdnjs.cloudflare.com/ajax/libs/${cdnjs_name}/${version}/${cdnjs_file}
   #custom_cdn_url: https://lib.baomitu.com/${cdnjs_name}/${version}/${cdnjs_file}
   #custom_cdn_url: https://cdn.bootcdn.net/ajax/libs/${cdnjs_name}/${version}/${cdnjs_file}
-  custom_cdn_url: https://cdn.staticfile.net/${cdnjs_name}/${version}/${cdnjs_file}
+  # new cdnjs https://cdn.onmicrosoft.cn/
+  custom_cdn_url: https://cdnjs.onmicrosoft.cn/ajax/libs/${cdnjs_name}/${version}/${cdnjs_file}
 
 # Assets
 # Accelerate delivery of static files using a CDN
