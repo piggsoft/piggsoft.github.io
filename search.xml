@@ -42,96 +42,6 @@
       </tags>
   </entry>
   <entry>
-    <title>学习 spring-boot (一)</title>
-    <url>/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/</url>
-    <content><![CDATA[<h2 id="相关背景"><a href="#相关背景" class="headerlink" title="相关背景"></a>相关背景</h2><p><a href="http://projects.spring.io/spring-boot/">Spring Boot</a> 是由 Pivotal 团队提供的全新框架，其设计目的是用来简化新 Spring 应用的初始搭建以及开发过程。该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。通过这种方式，Boot 致力于在蓬勃发展的快速应用开发领域（rapid application development）成为领导者。</p>
-<span id="more"></span>
-
-<p>多年以来，Spring IO 平台饱受非议的一点就是大量的 XML 配置以及复杂的依赖管理。在去年的 SpringOne 2GX 会议上，Pivotal 的 CTO Adrian Colyer 回应了这些批评，并且特别提到该平台将来的目标之一就是实现免 XML 配置的开发体验。Boot 所实现的功能超出了这个任务的描述，开发人员不仅不再需要编写 XML，而且在一些场景中甚至不需要编写繁琐的 import 语句。在对外公开的 beta 版本刚刚发布之时，Boot 描述了如何使用该框架在 140 个字符内实现可运行的 web 应用，从而获得了极大的关注度，该样例发表在 tweet 上。</p>
-<p>然而，Spring Boot 并不是要成为 Spring IO 平台里面众多 “Foundation” 层项目的替代者。Spring Boot 的目标不在于为已解决的问题域提供新的解决方案，而是为平台带来另一种开发体验，从而简化对这些已有技术的使用。对于已经熟悉 Spring 生态系统的开发人员来说，Boot 是一个很理想的选择，不过对于采用 Spring 技术的新人来说，Boot 提供一种更简洁的方式来使用这些技术。</p>
-<p>在追求开发体验的提升方面，Spring Boot，甚至可以说整个 Spring 生态系统都使用到了 Groovy 编程语言。Boot 所提供的众多便捷功能，都是借助于 Groovy 强大的 MetaObject 协议、可插拔的 AST 转换过程以及内置的依赖解决方案引擎所实现的。在其核心的编译模型之中，Boot 使用 Groovy 来构建工程文件，所以它可以使用通用的导入和样板方法（如类的 main 方法）对类所生成的字节码进行装饰（decorate）。这样使用 Boot 编写的应用就能保持非常简洁，却依然可以提供众多的功能</p>
-<h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><ul>
-<li>访问 <a href="http://start.spring.io/">Spring Initializr</a></li>
-<li> 选择构建方式 Maven，Spring Boot 版本<br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/1.png"></li>
-<li>填写 group，artifact<br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/2.png"></li>
-<li>选择所需依赖，如果不记得依赖的名称，可以点击 <code>Switch to the full version.</code><br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-1.png"><br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-2.png"></li>
-<li>点击 <code>Generate Project</code>， 进行下载。</li>
-</ul>
-<h2 id="配置运行"><a href="#配置运行" class="headerlink" title="配置运行"></a>配置运行</h2><ul>
-<li>接下压缩包，用你熟悉的 ide 打开项目</li>
-<li>删除 <code>mvnw</code>，<code>mvnw.cmd</code> 文件和 <code>.mvn</code> 目录</li>
-<li>编写一个 Controller<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HomeController</span> {</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping("/")</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">hello</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> IOException {</span><br><span class="line">        response.getWriter().write(<span class="string">"Hello World"</span>);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></li>
-<li>运行 <code>XXApplication</code> 的 <code>main</code> 方法，访问 <a href="http://localhost:8080/">http://localhost:8080</a>，观看到 Hello World，即代表成功。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>Spring Boot</category>
-      </categories>
-      <tags>
-        <tag>Java Spring Spring-Boot</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux 上使用定时任务 Crontab</title>
-    <url>/2017/06/10/Linux-%E4%BD%BF%E7%94%A8%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1Crontab/</url>
-    <content><![CDATA[<p>使用 linux 的定时器，在服务器上面定时执行某些任务，比如时间同步，比如 Hexo 的定时更新和生成</p>
-<span id="more"></span>
-
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="检查是否安装crontab"><a href="#检查是否安装crontab" class="headerlink" title="检查是否安装crontab"></a>检查是否安装 crontab</h2><p>在命令行中输入如下命令，观察是否安装 crontab</p>
-<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">crontab -e</span><br></pre></td></tr></tbody></table></figure>
-<h2 id="安装crontab"><a href="#安装crontab" class="headerlink" title="安装crontab"></a>安装 crontab</h2><p>如果没有安装，使用 yum 来进行安装，在命令行中输入下令命令来安装</p>
-<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">yum install vixie-cron crontabs </span><br></pre></td></tr></tbody></table></figure>
-<blockquote>
-<p>其中 vixie-cron 软件包是 cron 的主程序，crontabs 软件包是用来安装、卸装、或列举用来驱动 cron 守护进程的表格的程序。</p>
-</blockquote>
-<h2 id="启动crontab"><a href="#启动crontab" class="headerlink" title="启动crontab"></a>启动 crontab</h2><p>cron 是 linux 的内置服务，但它不自动起来，可以用以下的方法启动、关闭这个服务：</p>
-<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">service crond start //启动服务</span><br><span class="line">service crond stop //关闭服务</span><br><span class="line">service crond restart //重启服务</span><br><span class="line">service crond reload //重新载入配置</span><br><span class="line">service crond status //查看crontab服务状态</span><br></pre></td></tr></tbody></table></figure>
-
-<h2 id="加入开机启动"><a href="#加入开机启动" class="headerlink" title="加入开机启动"></a>加入开机启动</h2><p>命令行中输入如下命令，在 crond 加入开机启动</p>
-<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">chkconfig --level 35 crond on</span><br></pre></td></tr></tbody></table></figure>
-
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="cron表达式"><a href="#cron表达式" class="headerlink" title="cron表达式"></a>cron 表达式</h2><p>linux 上 cron 表达式为 5 位，分别代表 </p>
-<table>
-<thead>
-<tr>
-<th>第一位</th>
-<th>第二位</th>
-<th>第三位</th>
-<th>第四位</th>
-<th>第五位</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>分钟</td>
-<td>小时</td>
-<td>天</td>
-<td>月</td>
-<td>周</td>
-</tr>
-</tbody></table>
-<h2 id="命令使用方法"><a href="#命令使用方法" class="headerlink" title="命令使用方法"></a>命令使用方法</h2><ol>
-<li>命令行中输入 <code>crontab -e</code></li>
-<li>在弹出的文本中输入 <code>* * * * * * command</code><blockquote>
-<p>比如 <code>*/1 * * * * echo "hello world" &gt; /log/corn_test</code></p>
-</blockquote>
-</li>
-</ol>
-<h1 id="查看现有的cron配置"><a href="#查看现有的cron配置" class="headerlink" title="查看现有的cron配置"></a>查看现有的 cron 配置</h1><ol>
-<li>在命令行中输入 <code>crontab -l</code></li>
-<li>直接查看文件 <code>vim /var/spool/cron/root</code>, 其中最后的 <code>root</code> 为当前的用户名</li>
-</ol>
-]]></content>
-      <categories>
-        <category>IT</category>
-        <category>工具</category>
-      </categories>
-      <tags>
-        <tag>定时器</tag>
-        <tag>cron</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>TCP 通讯详解及实战</title>
     <url>/2017/01/03/TCP%E9%80%9A%E8%AE%AF%E8%AF%A6%E8%A7%A3%E5%8F%8A%E5%AE%9E%E6%88%98/</url>
     <content><![CDATA[<p>日常开发，测试过程中，特别是在压力测试过程中，用 <code>netstat -nat</code> 查看，发现客户端出现大量 <code>SYN_SENT</code> 状态，服务端出现大量 <code>SYN_RCVD</code> 状态连接，下面我们一起看下</p>
@@ -272,6 +182,139 @@
       </categories>
       <tags>
         <tag>TCP IP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>学习 spring-boot (一)</title>
+    <url>/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/</url>
+    <content><![CDATA[<h2 id="相关背景"><a href="#相关背景" class="headerlink" title="相关背景"></a>相关背景</h2><p><a href="http://projects.spring.io/spring-boot/">Spring Boot</a> 是由 Pivotal 团队提供的全新框架，其设计目的是用来简化新 Spring 应用的初始搭建以及开发过程。该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。通过这种方式，Boot 致力于在蓬勃发展的快速应用开发领域（rapid application development）成为领导者。</p>
+<span id="more"></span>
+
+<p>多年以来，Spring IO 平台饱受非议的一点就是大量的 XML 配置以及复杂的依赖管理。在去年的 SpringOne 2GX 会议上，Pivotal 的 CTO Adrian Colyer 回应了这些批评，并且特别提到该平台将来的目标之一就是实现免 XML 配置的开发体验。Boot 所实现的功能超出了这个任务的描述，开发人员不仅不再需要编写 XML，而且在一些场景中甚至不需要编写繁琐的 import 语句。在对外公开的 beta 版本刚刚发布之时，Boot 描述了如何使用该框架在 140 个字符内实现可运行的 web 应用，从而获得了极大的关注度，该样例发表在 tweet 上。</p>
+<p>然而，Spring Boot 并不是要成为 Spring IO 平台里面众多 “Foundation” 层项目的替代者。Spring Boot 的目标不在于为已解决的问题域提供新的解决方案，而是为平台带来另一种开发体验，从而简化对这些已有技术的使用。对于已经熟悉 Spring 生态系统的开发人员来说，Boot 是一个很理想的选择，不过对于采用 Spring 技术的新人来说，Boot 提供一种更简洁的方式来使用这些技术。</p>
+<p>在追求开发体验的提升方面，Spring Boot，甚至可以说整个 Spring 生态系统都使用到了 Groovy 编程语言。Boot 所提供的众多便捷功能，都是借助于 Groovy 强大的 MetaObject 协议、可插拔的 AST 转换过程以及内置的依赖解决方案引擎所实现的。在其核心的编译模型之中，Boot 使用 Groovy 来构建工程文件，所以它可以使用通用的导入和样板方法（如类的 main 方法）对类所生成的字节码进行装饰（decorate）。这样使用 Boot 编写的应用就能保持非常简洁，却依然可以提供众多的功能</p>
+<h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><ul>
+<li>访问 <a href="http://start.spring.io/">Spring Initializr</a></li>
+<li> 选择构建方式 Maven，Spring Boot 版本<br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/1.png"></li>
+<li>填写 group，artifact<br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/2.png"></li>
+<li>选择所需依赖，如果不记得依赖的名称，可以点击 <code>Switch to the full version.</code><br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-1.png"><br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-2.png"></li>
+<li>点击 <code>Generate Project</code>， 进行下载。</li>
+</ul>
+<h2 id="配置运行"><a href="#配置运行" class="headerlink" title="配置运行"></a>配置运行</h2><ul>
+<li>接下压缩包，用你熟悉的 ide 打开项目</li>
+<li>删除 <code>mvnw</code>，<code>mvnw.cmd</code> 文件和 <code>.mvn</code> 目录</li>
+<li>编写一个 Controller<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HomeController</span> {</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping("/")</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">hello</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> IOException {</span><br><span class="line">        response.getWriter().write(<span class="string">"Hello World"</span>);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></li>
+<li>运行 <code>XXApplication</code> 的 <code>main</code> 方法，访问 <a href="http://localhost:8080/">http://localhost:8080</a>，观看到 Hello World，即代表成功。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Spring Boot</category>
+      </categories>
+      <tags>
+        <tag>Java Spring Spring-Boot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux 上使用定时任务 Crontab</title>
+    <url>/2017/06/10/Linux-%E4%BD%BF%E7%94%A8%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1Crontab/</url>
+    <content><![CDATA[<p>使用 linux 的定时器，在服务器上面定时执行某些任务，比如时间同步，比如 Hexo 的定时更新和生成</p>
+<span id="more"></span>
+
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="检查是否安装crontab"><a href="#检查是否安装crontab" class="headerlink" title="检查是否安装crontab"></a>检查是否安装 crontab</h2><p>在命令行中输入如下命令，观察是否安装 crontab</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">crontab -e</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="安装crontab"><a href="#安装crontab" class="headerlink" title="安装crontab"></a>安装 crontab</h2><p>如果没有安装，使用 yum 来进行安装，在命令行中输入下令命令来安装</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">yum install vixie-cron crontabs </span><br></pre></td></tr></tbody></table></figure>
+<blockquote>
+<p>其中 vixie-cron 软件包是 cron 的主程序，crontabs 软件包是用来安装、卸装、或列举用来驱动 cron 守护进程的表格的程序。</p>
+</blockquote>
+<h2 id="启动crontab"><a href="#启动crontab" class="headerlink" title="启动crontab"></a>启动 crontab</h2><p>cron 是 linux 的内置服务，但它不自动起来，可以用以下的方法启动、关闭这个服务：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">service crond start //启动服务</span><br><span class="line">service crond stop //关闭服务</span><br><span class="line">service crond restart //重启服务</span><br><span class="line">service crond reload //重新载入配置</span><br><span class="line">service crond status //查看crontab服务状态</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="加入开机启动"><a href="#加入开机启动" class="headerlink" title="加入开机启动"></a>加入开机启动</h2><p>命令行中输入如下命令，在 crond 加入开机启动</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">chkconfig --level 35 crond on</span><br></pre></td></tr></tbody></table></figure>
+
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="cron表达式"><a href="#cron表达式" class="headerlink" title="cron表达式"></a>cron 表达式</h2><p>linux 上 cron 表达式为 5 位，分别代表 </p>
+<table>
+<thead>
+<tr>
+<th>第一位</th>
+<th>第二位</th>
+<th>第三位</th>
+<th>第四位</th>
+<th>第五位</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>分钟</td>
+<td>小时</td>
+<td>天</td>
+<td>月</td>
+<td>周</td>
+</tr>
+</tbody></table>
+<h2 id="命令使用方法"><a href="#命令使用方法" class="headerlink" title="命令使用方法"></a>命令使用方法</h2><ol>
+<li>命令行中输入 <code>crontab -e</code></li>
+<li>在弹出的文本中输入 <code>* * * * * * command</code><blockquote>
+<p>比如 <code>*/1 * * * * echo "hello world" &gt; /log/corn_test</code></p>
+</blockquote>
+</li>
+</ol>
+<h1 id="查看现有的cron配置"><a href="#查看现有的cron配置" class="headerlink" title="查看现有的cron配置"></a>查看现有的 cron 配置</h1><ol>
+<li>在命令行中输入 <code>crontab -l</code></li>
+<li>直接查看文件 <code>vim /var/spool/cron/root</code>, 其中最后的 <code>root</code> 为当前的用户名</li>
+</ol>
+]]></content>
+      <categories>
+        <category>IT</category>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>定时器</tag>
+        <tag>cron</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PKI 体系（一）--PKI 介绍</title>
+    <url>/2018/07/10/PKI%E4%BD%93%E7%B3%BB(%E4%B8%80)-PKI%E4%BB%8B%E7%BB%8D/</url>
+    <content><![CDATA[<p>公开密钥基础建设（英语：Public Key Infrastructure，缩写：PKI），又称公开密钥基础架构、公钥基础建设、公钥基础设施、公开密码匙基础建设或公钥基础架构，是一组由硬件、软件、参与者、管理政策与流程组成的基础架构，其目的在于创造、管理、分配、使用、存储以及撤销数字证书。</p>
+<p>密码学上，公开密钥基础建设借着数字证书认证机构 (Certificate Authority，CA) 将用户的个人身份跟公开密钥链接在一起。对每个证书中心用户的身份必须是唯一的。链接关系通过注册和发布过程创建，取决于担保级别，链接关系可能由 CA 的各种软件或在人为监督下完成。PKI 的确定链接关系的这一角色称为注册管理中心（Registration Authority，RA）。RA 确保公开密钥和个人身份链接，可以防抵赖。</p>
+<p>可信赖的第三者（Trusted third party，TTP）也常被用来指证书中心。PKI 有时被错误地拿来代表公开密钥密码学或公开密钥算法。</p>
+<span id="more"></span>
+
+<h1 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h1><p>1976 年 Whitfield Diffie、Martin Hellman|Hellman、Ron Rivest、Adi Shamir 和 Leonard Adleman 等人相继公布了安全密钥交换与非对称密钥算法后，整个通信方式为之改变。随着高速电子数字通信的发展，用户对安全通信的需求越来越强。</p>
+<p>密码协议在这种诉求下逐渐发展，造就新的密码原型。全球互联网发明与扩散后，认证与安全通信的需求也更加严苛。光商务理由便足以解释一切。时在网景工作的 Taher ElGamal 等人发展出传输安全层协议，包含了密钥创建、服务器认证等。公开密钥基础建设的架构因此浮现。</p>
+<p>厂商和企业家察觉了其后的广大市场，开始设立新公司并启动法律认知与保护。美国律师协会项目发行了一份对公开密钥基础建设操作的可预见法律观点的详尽分析，随后，多个美国州政府与其他国家的司法单位开始制定相关法规。消费者团体等则提出对隐私、访问、可靠性的质疑，也被列入司法的考虑中。</p>
+<p>被制定的法规实有不同，将公开密钥基础建设的机制转换成商务操作有实际上的问题，远比许多先驱者所想的缓慢。</p>
+<p>21 世纪的前几年才慢慢发觉，密码工程没那么容易被设计与实践，某些存在的标准某方面甚至是不合宜的。</p>
+<p>公开密钥基础建设的厂商发现了一个市场，但并非九零年代中期所预想的那个市场，这个市场发展得缓慢而且以不同的方式前进。公开密钥基础建设并未解决所期待的问题，某些厂商甚至退出市场。公开密钥基础建设最成功的地方是在政府部门，目前最大的公开密钥基础建设是美国防卫信息系统局 （Defense Information Systems Agency，DISA）的共同访问卡（Common access Cards）方案。</p>
+<h1 id="PKI组成"><a href="#PKI组成" class="headerlink" title="PKI组成"></a>PKI 组成</h1><p><img data-src="/2018/07/10/PKI%E4%BD%93%E7%B3%BB(%E4%B8%80)-PKI%E4%BB%8B%E7%BB%8D/450px-Public-Key-Infrastructure.svg.png" alt="pki组成"></p>
+<ol>
+<li><em>Certificate Authority(CA)</em> 证书颁发机构 (or 系统)，CA 是 PKI 的基础，它管理着证书的整个生命周期，其作用包括：发放证书，规定证书有效期，废弃不良信用证书。</li>
+<li><em>Registration Authority(RA)</em> 证书注册，登记机构 (or 系统)，RA 提供一个用户和 CA 之前的桥梁，用户通过 RA 进行证书的申请，RA 获取用户的身份信息并确认用户的信息，向 CA 提出证书申请。它接受用户的注册申请，审查用户的申请资格，并决定是否同意 CA 给其签发数字证书。注册机构并不给用户签发证书，而只是对用户进行资格审查。因此，RA 可以设置在直接面对客户的业务部门，如银行的营业部、机构认识部门等。当然，对于一个规模较小的 PKI 应用系统来说，可把注册管理的职能由认证中心 CA 来完成，而不设立独立运行的 RA。但这并不是取消了 PKI 的注册功能，而只是将其作为 CA 的一项功能而已。PKI 国际标准推荐由一个独立的 RA 来完成注册管理的任务，可以增强应用系统的安全。<blockquote>
+<p>这里的用户是指将要申请证书的客户，可以是个人，集团或团体，政府机构等。</p>
+</blockquote>
+</li>
+<li><em>Validation Authority(VA)</em> 证书验证机构 (or 系统)。在 PKI 中，VA 是一个实体，它根据 X.509 标准和 RFC 5280（第 69 页）中描述的机制提供用于验证数字证书有效性的服务。<blockquote>
+<p>VA 一般由第三方来提供，PKI 对 VA 没有强制要求，可以是 Nginx， Tomcat 等。</p>
+</blockquote>
+</li>
+<li><em>证书存储</em> - 证书和私钥存储位置</li>
+<li><em>证书管理中心</em> - 管理证书的申请，下发，存储</li>
+<li><em>机构可信度</em> -PKI 系统就本身的证书进行说明，其目的是允许外部分析 PKI 的可信度。</li>
+</ol>
+<h1 id="PKI认证方法"><a href="#PKI认证方法" class="headerlink" title="PKI认证方法"></a>PKI 认证方法</h1><ol>
+<li>认证机构</li>
+</ol>
+]]></content>
+      <categories>
+        <category>IT</category>
+        <category>安全</category>
+      </categories>
+      <tags>
+        <tag>PKI</tag>
+        <tag>EJBCA</tag>
+        <tag>安全</tag>
       </tags>
   </entry>
   <entry>
@@ -416,49 +459,6 @@
       </categories>
       <tags>
         <tag>Java Document</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>PKI 体系（一）--PKI 介绍</title>
-    <url>/2018/07/10/PKI%E4%BD%93%E7%B3%BB(%E4%B8%80)-PKI%E4%BB%8B%E7%BB%8D/</url>
-    <content><![CDATA[<p>公开密钥基础建设（英语：Public Key Infrastructure，缩写：PKI），又称公开密钥基础架构、公钥基础建设、公钥基础设施、公开密码匙基础建设或公钥基础架构，是一组由硬件、软件、参与者、管理政策与流程组成的基础架构，其目的在于创造、管理、分配、使用、存储以及撤销数字证书。</p>
-<p>密码学上，公开密钥基础建设借着数字证书认证机构 (Certificate Authority，CA) 将用户的个人身份跟公开密钥链接在一起。对每个证书中心用户的身份必须是唯一的。链接关系通过注册和发布过程创建，取决于担保级别，链接关系可能由 CA 的各种软件或在人为监督下完成。PKI 的确定链接关系的这一角色称为注册管理中心（Registration Authority，RA）。RA 确保公开密钥和个人身份链接，可以防抵赖。</p>
-<p>可信赖的第三者（Trusted third party，TTP）也常被用来指证书中心。PKI 有时被错误地拿来代表公开密钥密码学或公开密钥算法。</p>
-<span id="more"></span>
-
-<h1 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h1><p>1976 年 Whitfield Diffie、Martin Hellman|Hellman、Ron Rivest、Adi Shamir 和 Leonard Adleman 等人相继公布了安全密钥交换与非对称密钥算法后，整个通信方式为之改变。随着高速电子数字通信的发展，用户对安全通信的需求越来越强。</p>
-<p>密码协议在这种诉求下逐渐发展，造就新的密码原型。全球互联网发明与扩散后，认证与安全通信的需求也更加严苛。光商务理由便足以解释一切。时在网景工作的 Taher ElGamal 等人发展出传输安全层协议，包含了密钥创建、服务器认证等。公开密钥基础建设的架构因此浮现。</p>
-<p>厂商和企业家察觉了其后的广大市场，开始设立新公司并启动法律认知与保护。美国律师协会项目发行了一份对公开密钥基础建设操作的可预见法律观点的详尽分析，随后，多个美国州政府与其他国家的司法单位开始制定相关法规。消费者团体等则提出对隐私、访问、可靠性的质疑，也被列入司法的考虑中。</p>
-<p>被制定的法规实有不同，将公开密钥基础建设的机制转换成商务操作有实际上的问题，远比许多先驱者所想的缓慢。</p>
-<p>21 世纪的前几年才慢慢发觉，密码工程没那么容易被设计与实践，某些存在的标准某方面甚至是不合宜的。</p>
-<p>公开密钥基础建设的厂商发现了一个市场，但并非九零年代中期所预想的那个市场，这个市场发展得缓慢而且以不同的方式前进。公开密钥基础建设并未解决所期待的问题，某些厂商甚至退出市场。公开密钥基础建设最成功的地方是在政府部门，目前最大的公开密钥基础建设是美国防卫信息系统局 （Defense Information Systems Agency，DISA）的共同访问卡（Common access Cards）方案。</p>
-<h1 id="PKI组成"><a href="#PKI组成" class="headerlink" title="PKI组成"></a>PKI 组成</h1><p><img data-src="/2018/07/10/PKI%E4%BD%93%E7%B3%BB(%E4%B8%80)-PKI%E4%BB%8B%E7%BB%8D/450px-Public-Key-Infrastructure.svg.png" alt="pki组成"></p>
-<ol>
-<li><em>Certificate Authority(CA)</em> 证书颁发机构 (or 系统)，CA 是 PKI 的基础，它管理着证书的整个生命周期，其作用包括：发放证书，规定证书有效期，废弃不良信用证书。</li>
-<li><em>Registration Authority(RA)</em> 证书注册，登记机构 (or 系统)，RA 提供一个用户和 CA 之前的桥梁，用户通过 RA 进行证书的申请，RA 获取用户的身份信息并确认用户的信息，向 CA 提出证书申请。它接受用户的注册申请，审查用户的申请资格，并决定是否同意 CA 给其签发数字证书。注册机构并不给用户签发证书，而只是对用户进行资格审查。因此，RA 可以设置在直接面对客户的业务部门，如银行的营业部、机构认识部门等。当然，对于一个规模较小的 PKI 应用系统来说，可把注册管理的职能由认证中心 CA 来完成，而不设立独立运行的 RA。但这并不是取消了 PKI 的注册功能，而只是将其作为 CA 的一项功能而已。PKI 国际标准推荐由一个独立的 RA 来完成注册管理的任务，可以增强应用系统的安全。<blockquote>
-<p>这里的用户是指将要申请证书的客户，可以是个人，集团或团体，政府机构等。</p>
-</blockquote>
-</li>
-<li><em>Validation Authority(VA)</em> 证书验证机构 (or 系统)。在 PKI 中，VA 是一个实体，它根据 X.509 标准和 RFC 5280（第 69 页）中描述的机制提供用于验证数字证书有效性的服务。<blockquote>
-<p>VA 一般由第三方来提供，PKI 对 VA 没有强制要求，可以是 Nginx， Tomcat 等。</p>
-</blockquote>
-</li>
-<li><em>证书存储</em> - 证书和私钥存储位置</li>
-<li><em>证书管理中心</em> - 管理证书的申请，下发，存储</li>
-<li><em>机构可信度</em> -PKI 系统就本身的证书进行说明，其目的是允许外部分析 PKI 的可信度。</li>
-</ol>
-<h1 id="PKI认证方法"><a href="#PKI认证方法" class="headerlink" title="PKI认证方法"></a>PKI 认证方法</h1><ol>
-<li>认证机构</li>
-</ol>
-]]></content>
-      <categories>
-        <category>IT</category>
-        <category>安全</category>
-      </categories>
-      <tags>
-        <tag>PKI</tag>
-        <tag>EJBCA</tag>
-        <tag>安全</tag>
       </tags>
   </entry>
   <entry>
@@ -1229,42 +1229,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Asciidoc 的 Idea 插件版本输出 pdf 乱码</title>
-    <url>/2024/02/01/Asciidoc%E7%9A%84Idea%E6%8F%92%E4%BB%B6%E7%89%88%E6%9C%AC%E8%BE%93%E5%87%BApdf%E4%B9%B1%E7%A0%81/</url>
-    <content><![CDATA[<p>最近正在研究 Asciidoc 这款生成文档的工具，其代码风格和 markdown 类似，最大的区别就是其有配套的默认工具来识别相应的结构目录，并根据目录结构来生成 html, doc, pdf。</p>
-<p>语法简单，工具操作简单，可以解决现在 markdown 碰到的部分问题，且还支持 Antora 这样的更加灵活的工具，使得文档或者技术书籍的写作变得更加的简单。</p>
-<p>今天这篇文章主要来解决使用过程中碰到的问题：非拉丁语系文字在生成 pdf 时，会变成乱码。</p>
-<span id="more"></span>
-
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>官方在文档中其实已经给出了问题的原因和解决方案，原因就是因为字体兼容性，在导出时使用的默认字体不兼容非拉丁语系文字。</p>
-<p>那么解决方案也很明确了，更换导出时的字体，使用兼容本地文字的字体，保证导出时显示正常。</p>
-<p>下面是官方文档和 Idea 插件文档中的解释</p>
-<ul>
-<li><a href="https://docs.asciidoctor.org/pdf-converter/latest/theme/font-support/#support-for-non-latin-languages">support-for-non-latin-languages</a></li>
-<li><a href="https://intellij-asciidoc-plugin.ahus1.de/docs/users-guide/features/advanced/pdf-non-latin-languages">Creating PDFs for non-latin languages and extra fonts</a></li>
-<li><a href="https://github.com/asciidoctor/asciidoctor-intellij-plugin/blob/4858f780f2c0630697643d0d53e5bcd6abd2db9b/doc/users-guide/modules/ROOT/pages/features/advanced/pdf-non-latin-languages.adoc#L52">pdf-non-latin-languages</a></li>
-</ul>
-<p>Idea 插件文档中提到了一个文件<code>.asciidoctorconfig</code>, 这个文件是给 <code>asciidoctor</code> 使用，也就是导出时使用的。</p>
-<p>并且也给出了下载地址 <a href="https://github.com/minjiex/kaigen-gothic/tree/master/dist/CN">KaiGenGothicCN 字体下载</a></p>
-<p>下载完成后形成如下目录</p>
-<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">├──document</span><br><span class="line">│&nbsp;&nbsp;├──config</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;├──fonts</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──KaiGenGothicCN-Bold.ttf</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──KaiGenGothicCN-ExtraLight.ttf</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──KaiGenGothicCN-Heavy.ttf</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──KaiGenGothicCN-Light.ttf</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──KaiGenGothicCN-Medium.ttf</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──KaiGenGothicCN-Normal.ttf</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──KaiGenGothicCN-Regular.ttf</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;├──themes</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──zh_CN-theme.yml</span><br><span class="line">--.asciidoctorconfig</span><br></pre></td></tr></tbody></table></figure>
-
-<p><code>.asciidoctorconfig</code> 类容如下</p>
-<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">:pdf-fontsdir: {asciidoctorconfigdir}/config/fonts</span><br><span class="line">:pdf-themesdir: {asciidoctorconfigdir}/config/themes</span><br><span class="line">:pdf-theme: zh_CN</span><br></pre></td></tr></tbody></table></figure>
-
-<p><code>zh_CN-theme.yml</code> 类容如下</p>
-<figure class="highlight yml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># default theme at https://github.com/asciidoctor/asciidoctor-pdf/blob/master/data/themes/default-theme.yml</span></span><br><span class="line"><span class="comment">#https://intellij-asciidoc-plugin.ahus1.de/docs/users-guide/features/advanced/pdf-non-latin-languages</span></span><br><span class="line"><span class="attr">extends:</span> <span class="string">default</span></span><br><span class="line"><span class="attr">font:</span></span><br><span class="line">  <span class="attr">fallbacks:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">kaigen-gothic-cn</span></span><br><span class="line">  <span class="attr">catalog:</span></span><br><span class="line">    <span class="comment"># These are the KaiGen Gothic CN fonts, download them from</span></span><br><span class="line">    <span class="comment"># https://github.com/minjiex/kaigen-gothic/tree/master/dist/CN</span></span><br><span class="line">    <span class="attr">kaigen-gothic-cn:</span></span><br><span class="line">      <span class="attr">normal:</span> <span class="string">KaiGenGothicCN-Regular.ttf</span></span><br><span class="line">      <span class="attr">bold:</span> <span class="string">KaiGenGothicCN-Bold.ttf</span></span><br><span class="line">      <span class="attr">italic:</span> <span class="string">KaiGenGothicCN-Regular.ttf</span></span><br><span class="line">      <span class="attr">bold_italic:</span> <span class="string">KaiGenGothicCN-Bold.ttf</span></span><br><span class="line"><span class="attr">base:</span></span><br><span class="line">  <span class="attr">font_family:</span> <span class="string">kaigen-gothic-cn</span></span><br></pre></td></tr></tbody></table></figure>]]></content>
-      <categories>
-        <category>文档</category>
-        <category>Asciidoc</category>
-      </categories>
-      <tags>
-        <tag>文档</tag>
-        <tag>Asciidoc</tag>
-        <tag>Idea Intellij</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>SpringBoot 添加 url 版本控制注解 ApiVersion</title>
     <url>/2024/01/31/SpringBoot%E6%B7%BB%E5%8A%A0url%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E6%B3%A8%E8%A7%A3ApiVersion/</url>
     <content><![CDATA[<p>作为服务端研发，在设计一个接口的时候，为了保证后续业务的新增和修改，会有各种的扩展性设计，其中关于 URL 的通用扩展设计是在 path 中加入版本。<br>例如: <code>https://domain.com/api/{version}/path</code> 。这种设计方便后续对接口升级时，只需要简单的升级版本号就可以了。</p>
@@ -1314,6 +1278,42 @@
         <tag>Java</tag>
         <tag>Spring Boot</tag>
         <tag>ApiVersion</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Asciidoc 的 Idea 插件版本输出 pdf 乱码</title>
+    <url>/2024/02/01/Asciidoc%E7%9A%84Idea%E6%8F%92%E4%BB%B6%E7%89%88%E6%9C%AC%E8%BE%93%E5%87%BApdf%E4%B9%B1%E7%A0%81/</url>
+    <content><![CDATA[<p>最近正在研究 Asciidoc 这款生成文档的工具，其代码风格和 markdown 类似，最大的区别就是其有配套的默认工具来识别相应的结构目录，并根据目录结构来生成 html, doc, pdf。</p>
+<p>语法简单，工具操作简单，可以解决现在 markdown 碰到的部分问题，且还支持 Antora 这样的更加灵活的工具，使得文档或者技术书籍的写作变得更加的简单。</p>
+<p>今天这篇文章主要来解决使用过程中碰到的问题：非拉丁语系文字在生成 pdf 时，会变成乱码。</p>
+<span id="more"></span>
+
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>官方在文档中其实已经给出了问题的原因和解决方案，原因就是因为字体兼容性，在导出时使用的默认字体不兼容非拉丁语系文字。</p>
+<p>那么解决方案也很明确了，更换导出时的字体，使用兼容本地文字的字体，保证导出时显示正常。</p>
+<p>下面是官方文档和 Idea 插件文档中的解释</p>
+<ul>
+<li><a href="https://docs.asciidoctor.org/pdf-converter/latest/theme/font-support/#support-for-non-latin-languages">support-for-non-latin-languages</a></li>
+<li><a href="https://intellij-asciidoc-plugin.ahus1.de/docs/users-guide/features/advanced/pdf-non-latin-languages">Creating PDFs for non-latin languages and extra fonts</a></li>
+<li><a href="https://github.com/asciidoctor/asciidoctor-intellij-plugin/blob/4858f780f2c0630697643d0d53e5bcd6abd2db9b/doc/users-guide/modules/ROOT/pages/features/advanced/pdf-non-latin-languages.adoc#L52">pdf-non-latin-languages</a></li>
+</ul>
+<p>Idea 插件文档中提到了一个文件<code>.asciidoctorconfig</code>, 这个文件是给 <code>asciidoctor</code> 使用，也就是导出时使用的。</p>
+<p>并且也给出了下载地址 <a href="https://github.com/minjiex/kaigen-gothic/tree/master/dist/CN">KaiGenGothicCN 字体下载</a></p>
+<p>下载完成后形成如下目录</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">├──document</span><br><span class="line">│&nbsp;&nbsp;├──config</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;├──fonts</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──KaiGenGothicCN-Bold.ttf</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──KaiGenGothicCN-ExtraLight.ttf</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──KaiGenGothicCN-Heavy.ttf</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──KaiGenGothicCN-Light.ttf</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──KaiGenGothicCN-Medium.ttf</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──KaiGenGothicCN-Normal.ttf</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──KaiGenGothicCN-Regular.ttf</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;├──themes</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──zh_CN-theme.yml</span><br><span class="line">--.asciidoctorconfig</span><br></pre></td></tr></tbody></table></figure>
+
+<p><code>.asciidoctorconfig</code> 类容如下</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">:pdf-fontsdir: {asciidoctorconfigdir}/config/fonts</span><br><span class="line">:pdf-themesdir: {asciidoctorconfigdir}/config/themes</span><br><span class="line">:pdf-theme: zh_CN</span><br></pre></td></tr></tbody></table></figure>
+
+<p><code>zh_CN-theme.yml</code> 类容如下</p>
+<figure class="highlight yml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># default theme at https://github.com/asciidoctor/asciidoctor-pdf/blob/master/data/themes/default-theme.yml</span></span><br><span class="line"><span class="comment">#https://intellij-asciidoc-plugin.ahus1.de/docs/users-guide/features/advanced/pdf-non-latin-languages</span></span><br><span class="line"><span class="attr">extends:</span> <span class="string">default</span></span><br><span class="line"><span class="attr">font:</span></span><br><span class="line">  <span class="attr">fallbacks:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">kaigen-gothic-cn</span></span><br><span class="line">  <span class="attr">catalog:</span></span><br><span class="line">    <span class="comment"># These are the KaiGen Gothic CN fonts, download them from</span></span><br><span class="line">    <span class="comment"># https://github.com/minjiex/kaigen-gothic/tree/master/dist/CN</span></span><br><span class="line">    <span class="attr">kaigen-gothic-cn:</span></span><br><span class="line">      <span class="attr">normal:</span> <span class="string">KaiGenGothicCN-Regular.ttf</span></span><br><span class="line">      <span class="attr">bold:</span> <span class="string">KaiGenGothicCN-Bold.ttf</span></span><br><span class="line">      <span class="attr">italic:</span> <span class="string">KaiGenGothicCN-Regular.ttf</span></span><br><span class="line">      <span class="attr">bold_italic:</span> <span class="string">KaiGenGothicCN-Bold.ttf</span></span><br><span class="line"><span class="attr">base:</span></span><br><span class="line">  <span class="attr">font_family:</span> <span class="string">kaigen-gothic-cn</span></span><br></pre></td></tr></tbody></table></figure>]]></content>
+      <categories>
+        <category>文档</category>
+        <category>Asciidoc</category>
+      </categories>
+      <tags>
+        <tag>文档</tag>
+        <tag>Asciidoc</tag>
+        <tag>Idea Intellij</tag>
       </tags>
   </entry>
 </search>
