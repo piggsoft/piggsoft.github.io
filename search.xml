@@ -185,6 +185,37 @@
       </tags>
   </entry>
   <entry>
+    <title>学习 spring-boot (一)</title>
+    <url>/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/</url>
+    <content><![CDATA[<h2 id="相关背景"><a href="#相关背景" class="headerlink" title="相关背景"></a>相关背景</h2><p><a href="http://projects.spring.io/spring-boot/">Spring Boot</a> 是由 Pivotal 团队提供的全新框架，其设计目的是用来简化新 Spring 应用的初始搭建以及开发过程。该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。通过这种方式，Boot 致力于在蓬勃发展的快速应用开发领域（rapid application development）成为领导者。</p>
+<span id="more"></span>
+
+<p>多年以来，Spring IO 平台饱受非议的一点就是大量的 XML 配置以及复杂的依赖管理。在去年的 SpringOne 2GX 会议上，Pivotal 的 CTO Adrian Colyer 回应了这些批评，并且特别提到该平台将来的目标之一就是实现免 XML 配置的开发体验。Boot 所实现的功能超出了这个任务的描述，开发人员不仅不再需要编写 XML，而且在一些场景中甚至不需要编写繁琐的 import 语句。在对外公开的 beta 版本刚刚发布之时，Boot 描述了如何使用该框架在 140 个字符内实现可运行的 web 应用，从而获得了极大的关注度，该样例发表在 tweet 上。</p>
+<p>然而，Spring Boot 并不是要成为 Spring IO 平台里面众多 “Foundation” 层项目的替代者。Spring Boot 的目标不在于为已解决的问题域提供新的解决方案，而是为平台带来另一种开发体验，从而简化对这些已有技术的使用。对于已经熟悉 Spring 生态系统的开发人员来说，Boot 是一个很理想的选择，不过对于采用 Spring 技术的新人来说，Boot 提供一种更简洁的方式来使用这些技术。</p>
+<p>在追求开发体验的提升方面，Spring Boot，甚至可以说整个 Spring 生态系统都使用到了 Groovy 编程语言。Boot 所提供的众多便捷功能，都是借助于 Groovy 强大的 MetaObject 协议、可插拔的 AST 转换过程以及内置的依赖解决方案引擎所实现的。在其核心的编译模型之中，Boot 使用 Groovy 来构建工程文件，所以它可以使用通用的导入和样板方法（如类的 main 方法）对类所生成的字节码进行装饰（decorate）。这样使用 Boot 编写的应用就能保持非常简洁，却依然可以提供众多的功能</p>
+<h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><ul>
+<li>访问 <a href="http://start.spring.io/">Spring Initializr</a></li>
+<li> 选择构建方式 Maven，Spring Boot 版本<br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/1.png"></li>
+<li>填写 group，artifact<br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/2.png"></li>
+<li>选择所需依赖，如果不记得依赖的名称，可以点击 <code>Switch to the full version.</code><br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-1.png"><br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-2.png"></li>
+<li>点击 <code>Generate Project</code>， 进行下载。</li>
+</ul>
+<h2 id="配置运行"><a href="#配置运行" class="headerlink" title="配置运行"></a>配置运行</h2><ul>
+<li>接下压缩包，用你熟悉的 ide 打开项目</li>
+<li>删除 <code>mvnw</code>，<code>mvnw.cmd</code> 文件和 <code>.mvn</code> 目录</li>
+<li>编写一个 Controller<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HomeController</span> {</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping("/")</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">hello</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> IOException {</span><br><span class="line">        response.getWriter().write(<span class="string">"Hello World"</span>);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></li>
+<li>运行 <code>XXApplication</code> 的 <code>main</code> 方法，访问 <a href="http://localhost:8080/">http://localhost:8080</a>，观看到 Hello World，即代表成功。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Spring Boot</category>
+      </categories>
+      <tags>
+        <tag>Java Spring Spring-Boot</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux 上使用定时任务 Crontab</title>
     <url>/2017/06/10/Linux-%E4%BD%BF%E7%94%A8%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1Crontab/</url>
     <content><![CDATA[<p>使用 linux 的定时器，在服务器上面定时执行某些任务，比如时间同步，比如 Hexo 的定时更新和生成</p>
@@ -241,37 +272,6 @@
       <tags>
         <tag>定时器</tag>
         <tag>cron</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>学习 spring-boot (一)</title>
-    <url>/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/</url>
-    <content><![CDATA[<h2 id="相关背景"><a href="#相关背景" class="headerlink" title="相关背景"></a>相关背景</h2><p><a href="http://projects.spring.io/spring-boot/">Spring Boot</a> 是由 Pivotal 团队提供的全新框架，其设计目的是用来简化新 Spring 应用的初始搭建以及开发过程。该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。通过这种方式，Boot 致力于在蓬勃发展的快速应用开发领域（rapid application development）成为领导者。</p>
-<span id="more"></span>
-
-<p>多年以来，Spring IO 平台饱受非议的一点就是大量的 XML 配置以及复杂的依赖管理。在去年的 SpringOne 2GX 会议上，Pivotal 的 CTO Adrian Colyer 回应了这些批评，并且特别提到该平台将来的目标之一就是实现免 XML 配置的开发体验。Boot 所实现的功能超出了这个任务的描述，开发人员不仅不再需要编写 XML，而且在一些场景中甚至不需要编写繁琐的 import 语句。在对外公开的 beta 版本刚刚发布之时，Boot 描述了如何使用该框架在 140 个字符内实现可运行的 web 应用，从而获得了极大的关注度，该样例发表在 tweet 上。</p>
-<p>然而，Spring Boot 并不是要成为 Spring IO 平台里面众多 “Foundation” 层项目的替代者。Spring Boot 的目标不在于为已解决的问题域提供新的解决方案，而是为平台带来另一种开发体验，从而简化对这些已有技术的使用。对于已经熟悉 Spring 生态系统的开发人员来说，Boot 是一个很理想的选择，不过对于采用 Spring 技术的新人来说，Boot 提供一种更简洁的方式来使用这些技术。</p>
-<p>在追求开发体验的提升方面，Spring Boot，甚至可以说整个 Spring 生态系统都使用到了 Groovy 编程语言。Boot 所提供的众多便捷功能，都是借助于 Groovy 强大的 MetaObject 协议、可插拔的 AST 转换过程以及内置的依赖解决方案引擎所实现的。在其核心的编译模型之中，Boot 使用 Groovy 来构建工程文件，所以它可以使用通用的导入和样板方法（如类的 main 方法）对类所生成的字节码进行装饰（decorate）。这样使用 Boot 编写的应用就能保持非常简洁，却依然可以提供众多的功能</p>
-<h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><ul>
-<li>访问 <a href="http://start.spring.io/">Spring Initializr</a></li>
-<li> 选择构建方式 Maven，Spring Boot 版本<br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/1.png"></li>
-<li>填写 group，artifact<br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/2.png"></li>
-<li>选择所需依赖，如果不记得依赖的名称，可以点击 <code>Switch to the full version.</code><br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-1.png"><br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-2.png"></li>
-<li>点击 <code>Generate Project</code>， 进行下载。</li>
-</ul>
-<h2 id="配置运行"><a href="#配置运行" class="headerlink" title="配置运行"></a>配置运行</h2><ul>
-<li>接下压缩包，用你熟悉的 ide 打开项目</li>
-<li>删除 <code>mvnw</code>，<code>mvnw.cmd</code> 文件和 <code>.mvn</code> 目录</li>
-<li>编写一个 Controller<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HomeController</span> {</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping("/")</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">hello</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> IOException {</span><br><span class="line">        response.getWriter().write(<span class="string">"Hello World"</span>);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></li>
-<li>运行 <code>XXApplication</code> 的 <code>main</code> 方法，访问 <a href="http://localhost:8080/">http://localhost:8080</a>，观看到 Hello World，即代表成功。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>Spring Boot</category>
-      </categories>
-      <tags>
-        <tag>Java Spring Spring-Boot</tag>
       </tags>
   </entry>
   <entry>
@@ -1194,41 +1194,6 @@
       </tags>
   </entry>
   <entry>
-    <title>corepack 设置 npmmirror 出现无法 302 的提示</title>
-    <url>/2024/01/29/corepack%E8%AE%BE%E7%BD%AEnpmmirror%E5%87%BA%E7%8E%B0%E6%97%A0%E6%B3%95302%E7%9A%84%E6%8F%90%E7%A4%BA/</url>
-    <content><![CDATA[<p>在上篇对 <code>corepack</code> 的 <code>npmmirror</code> 修改后，corepack 的安装能够正常的进行了。</p>
-<p>在其他的 mirror 可以正常的情况下，尝试了 <code>https://registry.npmmirror.com</code>, 发现这个 mirror 内容会有 302 跳转，但 corepack 当前设置禁止 302，导致这个 mirror 无法使用。</p>
-<p>本文就是我对探究无法解决这个问题的分享。</p>
-<span id="more"></span>
-
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>接上篇对 <code>corepack</code> 配置 <code>npmmirror</code> 为 <code>https://registry.npmmirror.com</code> 后，对 pnpm 进行设备更新时 <code>corepack use pnpm@latest</code> 出现如下错误</p>
-<figure class="highlight powershell"><table><tbody><tr><td class="code"><pre><span class="line">Internal Error: Server answered with HTTP <span class="number">302</span> when performing the request to https://registry.npmmirror.com/pnpm/-/pnpm<span class="literal">-8</span>.<span class="number">15.0</span>.tgz; <span class="keyword">for</span> troubleshooting help, see https://github.com/nodejs/corepack<span class="comment">#troubleshooting</span></span><br><span class="line">    at ClientRequest.&lt;anonymous&gt; (C:\Users\xxxx\AppData\Roaming\nvm\v20.<span class="number">11.0</span>\node_modules\corepack\dist\lib\corepack.cjs:<span class="number">42192</span>:<span class="number">21</span>)</span><br><span class="line">    at Object.onceWrapper (node:events:<span class="number">633</span>:<span class="number">26</span>)</span><br><span class="line">    at ClientRequest.emit (node:events:<span class="number">518</span>:<span class="number">28</span>)</span><br><span class="line">    at HTTPParser.parserOnIncomingClient (node:_http_client:<span class="number">693</span>:<span class="number">27</span>)</span><br><span class="line">    at HTTPParser.parserOnHeadersComplete (node:_http_common:<span class="number">119</span>:<span class="number">17</span>)</span><br><span class="line">    at TLSSocket.socketOnData (node:_http_client:<span class="number">535</span>:<span class="number">22</span>)</span><br><span class="line">    at TLSSocket.emit (node:events:<span class="number">518</span>:<span class="number">28</span>)</span><br><span class="line">    at addChunk (node:internal/streams/readable:<span class="number">559</span>:<span class="number">12</span>)</span><br><span class="line">    at readableAddChunkPushByteMode (node:internal/streams/readable:<span class="number">510</span>:<span class="number">3</span>)</span><br><span class="line">    at Readable.push (node:internal/streams/readable:<span class="number">390</span>:<span class="number">5</span>)</span><br></pre></td></tr></tbody></table></figure>
-
-<p>直接在浏览器点开这个链接 <a href="https://registry.npmmirror.com/pnpm/-/pnpm-8.15.0.tgz">https://registry.npmmirror.com/pnpm/-/pnpm-8.15.0.tgz</a>, 会发现云端返回 302 后跳转到了 cdn 链接 [<a href="https://cdn.npmmirror.com/packages/pnpm/8.15.0/pnpm-8.15.0.tgz]">https://cdn.npmmirror.com/packages/pnpm/8.15.0/pnpm-8.15.0.tgz]</a></p>
-<p>但 <code>corepack</code> 内部将大于 300 的 code 全部定义为错误</p>
-<figure class="highlight javascript"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">fetchUrlStream</span>(<span class="params">url, options = {}</span>) {</span><br><span class="line">  <span class="keyword">if</span> (process.<span class="property">env</span>.<span class="property">COREPACK_ENABLE_NETWORK</span> === <span class="string">`0`</span>)</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">UsageError</span>(<span class="string">`Network access disabled by the environment; can't reach <span class="subst">${url}</span>`</span>);</span><br><span class="line">  <span class="keyword">const</span> { <span class="attr">default</span>: https } = <span class="keyword">await</span> <span class="keyword">import</span>(<span class="string">"https"</span>);</span><br><span class="line">  <span class="keyword">const</span> { <span class="title class_">ProxyAgent</span> } = <span class="keyword">await</span> <span class="title class_">Promise</span>.<span class="title function_">resolve</span>().<span class="title function_">then</span>(<span class="function">() =&gt;</span> <span class="title function_">__toESM</span>(require_dist12()));</span><br><span class="line">  <span class="keyword">const</span> proxyAgent = <span class="keyword">new</span> <span class="title class_">ProxyAgent</span>();</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> {</span><br><span class="line">    <span class="keyword">const</span> request = https.<span class="title function_">get</span>(url, { ...options, <span class="attr">agent</span>: proxyAgent }, <span class="function">(<span class="params">response</span>) =&gt;</span> {</span><br><span class="line">      <span class="keyword">const</span> statusCode = response.<span class="property">statusCode</span>;</span><br><span class="line">      <span class="keyword">if</span> (statusCode != <span class="literal">null</span> &amp;&amp; statusCode &gt;= <span class="number">200</span> &amp;&amp; statusCode &lt; <span class="number">300</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">resolve</span>(response);</span><br><span class="line">      <span class="keyword">return</span> <span class="title function_">reject</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">`Server answered with HTTP <span class="subst">${statusCode}</span> when performing the request to <span class="subst">${url}</span>; for troubleshooting help, see https://github.com/nodejs/corepack#troubleshooting`</span>));</span><br><span class="line">    });</span><br><span class="line">    request.<span class="title function_">on</span>(<span class="string">`error`</span>, <span class="function">(<span class="params">err</span>) =&gt;</span> {</span><br><span class="line">      <span class="title function_">reject</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">`Error when performing the request to <span class="subst">${url}</span>; for troubleshooting help, see https://github.com/nodejs/corepack#troubleshooting`</span>));</span><br><span class="line">    });</span><br><span class="line">  });</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
-<p>还是老样子去 github 上看看是否已有类似的 issue 和 PR，经过一番搜索，找到如下的讨论</p>
-<p><a href="https://github.com/nodejs/corepack/pull/306">add http redirect support #306</a></p>
-<p>发现在 #302 已经解决，找到 302<br><a href="https://github.com/nodejs/corepack/issues/302">install from npmmirror.com failed (302 redirect) #302</a></p>
-<p>在 23 年 12 月 29 日，有人已提交 PR 修复 <a href="https://github.com/nodejs/corepack/pull/341">feat: Support redirections #341</a></p>
-<p>我们来看看修复类容 (PR 文件变更)(<a href="https://github.com/nodejs/corepack/pull/341/files">https://github.com/nodejs/corepack/pull/341/files</a>)</p>
-<p>变更也很简单，当 <code>code</code> 符合定义时，讲取出 <code>header.location</code> 进行第二次访问</p>
-<figure class="highlight javascript"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> ([<span class="number">301</span>, <span class="number">302</span>, <span class="number">307</span>, <span class="number">308</span>].<span class="title function_">includes</span>(statusCode <span class="keyword">as</span> number) &amp;&amp; response.<span class="property">headers</span>.<span class="property">location</span>)</span><br><span class="line">  <span class="keyword">return</span> <span class="title function_">createRequest</span>(response.<span class="property">headers</span>.<span class="property">location</span> <span class="keyword">as</span> string);</span><br></pre></td></tr></tbody></table></figure>
-
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>那我们要做的就很简单，升级到 <code>v0.24.0</code> 及以上。简单的升级办法是下载 <code>release</code> 里面版本符合的包，替换整个 <code>C:\Users\xxxx\AppData\Roaming\nvm\v20.11.0\node_modules\corepack</code> 目录即可</p>
-]]></content>
-      <categories>
-        <category>Nodejs</category>
-        <category>Corepack</category>
-        <category>pnpm</category>
-        <category>yarn</category>
-      </categories>
-      <tags>
-        <tag>corpack无法正常使用</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>SpringBoot 添加 url 版本控制注解 ApiVersion</title>
     <url>/2024/01/31/SpringBoot%E6%B7%BB%E5%8A%A0url%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E6%B3%A8%E8%A7%A3ApiVersion/</url>
     <content><![CDATA[<p>作为服务端研发，在设计一个接口的时候，为了保证后续业务的新增和修改，会有各种的扩展性设计，其中关于 URL 的通用扩展设计是在 path 中加入版本。<br>例如: <code>https://domain.com/api/{version}/path</code> 。这种设计方便后续对接口升级时，只需要简单的升级版本号就可以了。</p>
@@ -1278,6 +1243,41 @@
         <tag>Java</tag>
         <tag>Spring Boot</tag>
         <tag>ApiVersion</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>corepack 设置 npmmirror 出现无法 302 的提示</title>
+    <url>/2024/01/29/corepack%E8%AE%BE%E7%BD%AEnpmmirror%E5%87%BA%E7%8E%B0%E6%97%A0%E6%B3%95302%E7%9A%84%E6%8F%90%E7%A4%BA/</url>
+    <content><![CDATA[<p>在上篇对 <code>corepack</code> 的 <code>npmmirror</code> 修改后，corepack 的安装能够正常的进行了。</p>
+<p>在其他的 mirror 可以正常的情况下，尝试了 <code>https://registry.npmmirror.com</code>, 发现这个 mirror 内容会有 302 跳转，但 corepack 当前设置禁止 302，导致这个 mirror 无法使用。</p>
+<p>本文就是我对探究无法解决这个问题的分享。</p>
+<span id="more"></span>
+
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>接上篇对 <code>corepack</code> 配置 <code>npmmirror</code> 为 <code>https://registry.npmmirror.com</code> 后，对 pnpm 进行设备更新时 <code>corepack use pnpm@latest</code> 出现如下错误</p>
+<figure class="highlight powershell"><table><tbody><tr><td class="code"><pre><span class="line">Internal Error: Server answered with HTTP <span class="number">302</span> when performing the request to https://registry.npmmirror.com/pnpm/-/pnpm<span class="literal">-8</span>.<span class="number">15.0</span>.tgz; <span class="keyword">for</span> troubleshooting help, see https://github.com/nodejs/corepack<span class="comment">#troubleshooting</span></span><br><span class="line">    at ClientRequest.&lt;anonymous&gt; (C:\Users\xxxx\AppData\Roaming\nvm\v20.<span class="number">11.0</span>\node_modules\corepack\dist\lib\corepack.cjs:<span class="number">42192</span>:<span class="number">21</span>)</span><br><span class="line">    at Object.onceWrapper (node:events:<span class="number">633</span>:<span class="number">26</span>)</span><br><span class="line">    at ClientRequest.emit (node:events:<span class="number">518</span>:<span class="number">28</span>)</span><br><span class="line">    at HTTPParser.parserOnIncomingClient (node:_http_client:<span class="number">693</span>:<span class="number">27</span>)</span><br><span class="line">    at HTTPParser.parserOnHeadersComplete (node:_http_common:<span class="number">119</span>:<span class="number">17</span>)</span><br><span class="line">    at TLSSocket.socketOnData (node:_http_client:<span class="number">535</span>:<span class="number">22</span>)</span><br><span class="line">    at TLSSocket.emit (node:events:<span class="number">518</span>:<span class="number">28</span>)</span><br><span class="line">    at addChunk (node:internal/streams/readable:<span class="number">559</span>:<span class="number">12</span>)</span><br><span class="line">    at readableAddChunkPushByteMode (node:internal/streams/readable:<span class="number">510</span>:<span class="number">3</span>)</span><br><span class="line">    at Readable.push (node:internal/streams/readable:<span class="number">390</span>:<span class="number">5</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>直接在浏览器点开这个链接 <a href="https://registry.npmmirror.com/pnpm/-/pnpm-8.15.0.tgz">https://registry.npmmirror.com/pnpm/-/pnpm-8.15.0.tgz</a>, 会发现云端返回 302 后跳转到了 cdn 链接 [<a href="https://cdn.npmmirror.com/packages/pnpm/8.15.0/pnpm-8.15.0.tgz]">https://cdn.npmmirror.com/packages/pnpm/8.15.0/pnpm-8.15.0.tgz]</a></p>
+<p>但 <code>corepack</code> 内部将大于 300 的 code 全部定义为错误</p>
+<figure class="highlight javascript"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">fetchUrlStream</span>(<span class="params">url, options = {}</span>) {</span><br><span class="line">  <span class="keyword">if</span> (process.<span class="property">env</span>.<span class="property">COREPACK_ENABLE_NETWORK</span> === <span class="string">`0`</span>)</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">UsageError</span>(<span class="string">`Network access disabled by the environment; can't reach <span class="subst">${url}</span>`</span>);</span><br><span class="line">  <span class="keyword">const</span> { <span class="attr">default</span>: https } = <span class="keyword">await</span> <span class="keyword">import</span>(<span class="string">"https"</span>);</span><br><span class="line">  <span class="keyword">const</span> { <span class="title class_">ProxyAgent</span> } = <span class="keyword">await</span> <span class="title class_">Promise</span>.<span class="title function_">resolve</span>().<span class="title function_">then</span>(<span class="function">() =&gt;</span> <span class="title function_">__toESM</span>(require_dist12()));</span><br><span class="line">  <span class="keyword">const</span> proxyAgent = <span class="keyword">new</span> <span class="title class_">ProxyAgent</span>();</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> {</span><br><span class="line">    <span class="keyword">const</span> request = https.<span class="title function_">get</span>(url, { ...options, <span class="attr">agent</span>: proxyAgent }, <span class="function">(<span class="params">response</span>) =&gt;</span> {</span><br><span class="line">      <span class="keyword">const</span> statusCode = response.<span class="property">statusCode</span>;</span><br><span class="line">      <span class="keyword">if</span> (statusCode != <span class="literal">null</span> &amp;&amp; statusCode &gt;= <span class="number">200</span> &amp;&amp; statusCode &lt; <span class="number">300</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">resolve</span>(response);</span><br><span class="line">      <span class="keyword">return</span> <span class="title function_">reject</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">`Server answered with HTTP <span class="subst">${statusCode}</span> when performing the request to <span class="subst">${url}</span>; for troubleshooting help, see https://github.com/nodejs/corepack#troubleshooting`</span>));</span><br><span class="line">    });</span><br><span class="line">    request.<span class="title function_">on</span>(<span class="string">`error`</span>, <span class="function">(<span class="params">err</span>) =&gt;</span> {</span><br><span class="line">      <span class="title function_">reject</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">`Error when performing the request to <span class="subst">${url}</span>; for troubleshooting help, see https://github.com/nodejs/corepack#troubleshooting`</span>));</span><br><span class="line">    });</span><br><span class="line">  });</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>还是老样子去 github 上看看是否已有类似的 issue 和 PR，经过一番搜索，找到如下的讨论</p>
+<p><a href="https://github.com/nodejs/corepack/pull/306">add http redirect support #306</a></p>
+<p>发现在 #302 已经解决，找到 302<br><a href="https://github.com/nodejs/corepack/issues/302">install from npmmirror.com failed (302 redirect) #302</a></p>
+<p>在 23 年 12 月 29 日，有人已提交 PR 修复 <a href="https://github.com/nodejs/corepack/pull/341">feat: Support redirections #341</a></p>
+<p>我们来看看修复类容 (PR 文件变更)(<a href="https://github.com/nodejs/corepack/pull/341/files">https://github.com/nodejs/corepack/pull/341/files</a>)</p>
+<p>变更也很简单，当 <code>code</code> 符合定义时，讲取出 <code>header.location</code> 进行第二次访问</p>
+<figure class="highlight javascript"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> ([<span class="number">301</span>, <span class="number">302</span>, <span class="number">307</span>, <span class="number">308</span>].<span class="title function_">includes</span>(statusCode <span class="keyword">as</span> number) &amp;&amp; response.<span class="property">headers</span>.<span class="property">location</span>)</span><br><span class="line">  <span class="keyword">return</span> <span class="title function_">createRequest</span>(response.<span class="property">headers</span>.<span class="property">location</span> <span class="keyword">as</span> string);</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>那我们要做的就很简单，升级到 <code>v0.24.0</code> 及以上。简单的升级办法是下载 <code>release</code> 里面版本符合的包，替换整个 <code>C:\Users\xxxx\AppData\Roaming\nvm\v20.11.0\node_modules\corepack</code> 目录即可</p>
+]]></content>
+      <categories>
+        <category>Nodejs</category>
+        <category>Corepack</category>
+        <category>pnpm</category>
+        <category>yarn</category>
+      </categories>
+      <tags>
+        <tag>corpack无法正常使用</tag>
       </tags>
   </entry>
   <entry>
