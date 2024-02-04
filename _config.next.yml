@@ -366,8 +366,9 @@ codeblock:
   # Code Highlight theme
   # All available themes: https://theme-next.js.org/highlight/
   theme:
-    light: stackoverflow-dark
-    dark: stackoverflow-dark
+    light: github
+    #dark: stackoverflow-dark
+    dark: github-dark
   prism:
     light: prism
     dark: prism-dark
