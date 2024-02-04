@@ -645,20 +645,6 @@
       </tags>
   </entry>
   <entry>
-    <title>开源文档 - 翻译分享</title>
-    <url>/2019/09/25/%E5%BC%80%E6%BA%90%E6%96%87%E6%A1%A3-%E7%BF%BB%E8%AF%91%E5%88%86%E4%BA%AB/</url>
-    <content><![CDATA[<p>官方文档都是英文的，看不懂怎么办？<br>优质的文档零碎的散落在网络的各个角落，好难找怎么办？<br>现在有这样一个 github 仓库，旨在维护一个目录，集合各个优秀的 IT 技术书籍和技术书籍翻译，方便大家进行检索。<br>不过这个项目还需要大家的共同努力，个人的接触面有限，不能接触到所有的优秀书籍和书籍翻译。现在我们需要并且期待你的加入，来完善这个目录。<br><a href="https://github.com/piggsoft/Awesome-IT-Books">Github 地址</a></p>
-]]></content>
-      <categories>
-        <category>文档</category>
-      </categories>
-      <tags>
-        <tag>翻译</tag>
-        <tag>Spring</tag>
-        <tag>Spring boot 教程</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>PKI 体系（二）-Https &amp; 双端认证</title>
     <url>/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/</url>
     <content><![CDATA[<p>超文本传输安全协议（英语：Hypertext Transfer Protocol Secure，缩写：HTTPS，常称为 HTTP over TLS，HTTP over SSL 或 HTTP Secure）是一种透过计算机网络进行安全通信的传输协议。HTTPS 经由 HTTP 进行通信，但利用 SSL/TLS 来加密数据包。HTTPS 开发的主要目的，是提供对网站服务器的身份认证，保护交换数据的隐私与完整性。这个协议由网景公司（Netscape）在 1994 年首次提出，随后扩展到互联网上。</p>
@@ -747,6 +733,20 @@
         <tag>PKI</tag>
         <tag>EJBCA</tag>
         <tag>安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>开源文档 - 翻译分享</title>
+    <url>/2019/09/25/%E5%BC%80%E6%BA%90%E6%96%87%E6%A1%A3-%E7%BF%BB%E8%AF%91%E5%88%86%E4%BA%AB/</url>
+    <content><![CDATA[<p>官方文档都是英文的，看不懂怎么办？<br>优质的文档零碎的散落在网络的各个角落，好难找怎么办？<br>现在有这样一个 github 仓库，旨在维护一个目录，集合各个优秀的 IT 技术书籍和技术书籍翻译，方便大家进行检索。<br>不过这个项目还需要大家的共同努力，个人的接触面有限，不能接触到所有的优秀书籍和书籍翻译。现在我们需要并且期待你的加入，来完善这个目录。<br><a href="https://github.com/piggsoft/Awesome-IT-Books">Github 地址</a></p>
+]]></content>
+      <categories>
+        <category>文档</category>
+      </categories>
+      <tags>
+        <tag>翻译</tag>
+        <tag>Spring</tag>
+        <tag>Spring boot 教程</tag>
       </tags>
   </entry>
   <entry>
@@ -1102,48 +1102,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Corepack 使用问题之无法访问 registry.npmjs.org</title>
-    <url>/2024/01/29/Corepack%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E4%B9%8B%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AEregistry-npmjs-org/</url>
-    <content><![CDATA[<p>本文主要分享我再使用 <code>corepack</code> 安装 <code>pnpm</code> 或者 <code>yarn</code> 的时候出现无法连接到 <code>registry.npmjs.org</code> 的问题。</p>
-<p>其过程中有翻阅 <code>yarn</code> 和 <code>pnpm</code> 的官方文档，也有翻阅 <code>corepack</code> 本地的源代码，以及在各自的 github issue，stackoverflow 中查找类似问题。</p>
-<p>最后终于找到了答案，现将答案分享出现给后续碰到相同问题的同学一起使用。</p>
-<span id="more"></span>
-<h2 id="起始"><a href="#起始" class="headerlink" title="起始"></a>起始</h2><p><code>Corepack</code> 作为一款默认集成了 <code>pnpm</code> <code>npx</code> <code>pnpx</code> <code>yarn</code> <code>npm</code> <code>yarnpkg</code> 的管理工具，可在有效对 <code>nodejs</code> 相关的包管理工具进行管理，也已加入到 <code>nodejs</code> 的默认安装内容中进行分发。</p>
-<p>作为一名折腾爱好者，对于这种集成管理工具特别亲切，能方便进行各种切换更新。</p>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>于是抽空对 <code>corepack</code> 进行了体验，体验过程中遇到的第一个问题就是使用命令 <code>corepack enable</code> 后，不论是 <code>pnpm</code> 还是 <code>yarn</code> 都无法正常使用。都会出现报错，<code>Internal Error: Error when performing the request https://registry.npmjs.org/pnpm</code>。</p>
-<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">at ClientRequest.&lt;anonymous&gt; (/usr/lib/node_modules/corepack/dist/corepack.cjs:42195:20)</span><br><span class="line">at ClientRequest.emit (node:events:390:28)</span><br><span class="line">at TLSSocket.socketErrorListener (node:_http_client:447:9)</span><br><span class="line">at TLSSocket.emit (node:events:390:28)</span><br><span class="line">at emitErrorNT (node:internal/streams/destroy:157:8)</span><br><span class="line">at emitErrorCloseNT (node:internal/streams/destroy:122:3)</span><br><span class="line">at processTicksAndRejections (node:internal/process/task_queues:83:21)</span><br></pre></td></tr></tbody></table></figure>
-
-<p>看到出现 <code>registry</code> 的问题，第一反应是由于国内墙了，然后访问不了。赶忙确认 <code>~/.npmrc</code> 和 <code>~/.yarnrc</code> 是否已经配置好了。</p>
-<p>检查后确认已经配置好，并无问题。尝试用命令 <code>pnpm config get</code> 和 <code>yarn config get</code> 来进行确认，但这两命令也会提示无法连接到 <code>https://registry.npmjs.org/pnpm</code>。</p>
-<h2 id="发现"><a href="#发现" class="headerlink" title="发现"></a>发现</h2><p>仔细观察报错日志，发现问题来自于 <code>corepack.cjs</code>。这就又带来一个问题，为什么输入 <code>pnpm</code> 和 <code>yarn</code> 后，会是 <code>corepack</code> 报错呢？</p>
-<p>研究后发现 <code>pnpm</code> 是调用的 <code>~/AppData/Roaming/npm/pnpm.ps1</code> 或者是 <code>~/AppData/Roaming/npm/pnpm.CMD</code></p>
-<figure class="highlight powershell"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env pwsh</span></span><br><span class="line"><span class="variable">$basedir</span>=<span class="built_in">Split-Path</span> <span class="variable">$MyInvocation</span>.MyCommand.Definition <span class="literal">-Parent</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$exe</span>=<span class="string">""</span></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$PSVersionTable</span>.PSVersion <span class="operator">-lt</span> <span class="string">"6.0"</span> <span class="operator">-or</span> <span class="variable">$IsWindows</span>) {</span><br><span class="line">  <span class="comment"># Fix case when both the Windows and Linux builds of Node</span></span><br><span class="line">  <span class="comment"># are installed in the same directory</span></span><br><span class="line">  <span class="variable">$exe</span>=<span class="string">".exe"</span></span><br><span class="line">}</span><br><span class="line"><span class="variable">$ret</span>=<span class="number">0</span></span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">Test-Path</span> <span class="string">"<span class="variable">$basedir</span>/node<span class="variable">$exe</span>"</span>) {</span><br><span class="line">  <span class="comment"># Support pipeline input</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="variable">$MyInvocation</span>.ExpectingInput) {</span><br><span class="line">    <span class="variable">$input</span> | &amp; <span class="string">"<span class="variable">$basedir</span>/node<span class="variable">$exe</span>"</span>  <span class="string">"<span class="variable">$basedir</span>/node_modules/corepack/dist/pnpm.js"</span> <span class="variable">$args</span></span><br><span class="line">  } <span class="keyword">else</span> {</span><br><span class="line">    &amp; <span class="string">"<span class="variable">$basedir</span>/node<span class="variable">$exe</span>"</span>  <span class="string">"<span class="variable">$basedir</span>/node_modules/corepack/dist/pnpm.js"</span> <span class="variable">$args</span></span><br><span class="line">  }</span><br><span class="line">  <span class="variable">$ret</span>=<span class="variable">$LASTEXITCODE</span></span><br><span class="line">} <span class="keyword">else</span> {</span><br><span class="line">  <span class="comment"># Support pipeline input</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="variable">$MyInvocation</span>.ExpectingInput) {</span><br><span class="line">    <span class="variable">$input</span> | &amp; <span class="string">"node<span class="variable">$exe</span>"</span>  <span class="string">"<span class="variable">$basedir</span>/node_modules/corepack/dist/pnpm.js"</span> <span class="variable">$args</span></span><br><span class="line">  } <span class="keyword">else</span> {</span><br><span class="line">    &amp; <span class="string">"node<span class="variable">$exe</span>"</span>  <span class="string">"<span class="variable">$basedir</span>/node_modules/corepack/dist/pnpm.js"</span> <span class="variable">$args</span></span><br><span class="line">  }</span><br><span class="line">  <span class="variable">$ret</span>=<span class="variable">$LASTEXITCODE</span></span><br><span class="line">}</span><br><span class="line"><span class="keyword">exit</span> <span class="variable">$ret</span></span><br></pre></td></tr></tbody></table></figure>
-
-<p>然后 <code>pnpm.js</code> 中更简单</p>
-<figure class="highlight javascript"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env node</span></span><br><span class="line"><span class="built_in">require</span>(<span class="string">'./lib/corepack.cjs'</span>).<span class="title function_">runMain</span>([<span class="string">'pnpm'</span>, ...process.<span class="property">argv</span>.<span class="title function_">slice</span>(<span class="number">2</span>)]);</span><br></pre></td></tr></tbody></table></figure>
-
-<p>这个疑问就算解决了。那么回归正题，corepack 如何设置 npmmirror 呢？关于这个问题我到 <a href="https://github.com/nodejs/corepack/issues">corepack 的 issue 列表中去查是否已有类似的问题</a></p>
-<p>还真发现有人在讨论该问题，并已有人提交了 <code>PR</code> 并被合并了。</p>
-<p><a href="https://github.com/nodejs/corepack/issues/92">问题讨论</a> , <a href="https://github.com/nodejs/corepack/issues/66">问题讨论</a></p>
-<p><a href="https://github.com/nodejs/corepack/pull/186">PR</a></p>
-<p><a href="https://github.com/nodejs/corepack/pull/186/files">对比</a></p>
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>通过对比不难发现，<strong>新加入了一个系统环境变量 <code>COREPACK_NPM_REGISTRY</code></strong>, 通过这个环境变量就可以为 <code>corepack</code> 制定 <code>mirror</code>，后续的就回到了 <code>yarn</code> 和 <code>pnpm</code> 自己的配置文件上了。</p>
-<p><img data-src="/2024/01/29/Corepack%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E4%B9%8B%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AEregistry-npmjs-org/1.png" alt="readme"></p>
-<p><img data-src="/2024/01/29/Corepack%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E4%B9%8B%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AEregistry-npmjs-org/2.png" alt="impl"></p>
-<p><img data-src="/2024/01/29/Corepack%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E4%B9%8B%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AEregistry-npmjs-org/3.png" alt="env"></p>
-<p>设置之后就可以正常使用 <code>pnpm</code> 和 <code>yarn</code> 了。</p>
-]]></content>
-      <categories>
-        <category>Nodejs</category>
-        <category>Corepack</category>
-        <category>pnpm</category>
-        <category>yarn</category>
-      </categories>
-      <tags>
-        <tag>corpack无法正常使用</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>每周知识点介绍 - 权限验证流程 - 身份认证、授权、鉴权、权限验证</title>
     <url>/2022/03/26/%E6%AF%8F%E5%91%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E4%BB%8B%E7%BB%8D-%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81%E6%B5%81%E7%A8%8B-%E8%AE%A4%E8%AF%81%E3%80%81%E6%8E%88%E6%9D%83%E3%80%81%E9%89%B4%E6%9D%83%E3%80%81%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81/</url>
     <content><![CDATA[<p>Hello, 大家好，我是小毛驴。欢迎大家来到每周知识点介绍栏目。本次我将带领大家一起来了解下权限系统的核心流程（概念）有哪些（见下述列表），我们在设计权限系统或者和权限系统连接时需要注意哪些。  </p>
@@ -1191,6 +1149,48 @@
         <tag>授权</tag>
         <tag>鉴权</tag>
         <tag>权限验证</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Corepack 使用问题之无法访问 registry.npmjs.org</title>
+    <url>/2024/01/29/Corepack%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E4%B9%8B%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AEregistry-npmjs-org/</url>
+    <content><![CDATA[<p>本文主要分享我再使用 <code>corepack</code> 安装 <code>pnpm</code> 或者 <code>yarn</code> 的时候出现无法连接到 <code>registry.npmjs.org</code> 的问题。</p>
+<p>其过程中有翻阅 <code>yarn</code> 和 <code>pnpm</code> 的官方文档，也有翻阅 <code>corepack</code> 本地的源代码，以及在各自的 github issue，stackoverflow 中查找类似问题。</p>
+<p>最后终于找到了答案，现将答案分享出现给后续碰到相同问题的同学一起使用。</p>
+<span id="more"></span>
+<h2 id="起始"><a href="#起始" class="headerlink" title="起始"></a>起始</h2><p><code>Corepack</code> 作为一款默认集成了 <code>pnpm</code> <code>npx</code> <code>pnpx</code> <code>yarn</code> <code>npm</code> <code>yarnpkg</code> 的管理工具，可在有效对 <code>nodejs</code> 相关的包管理工具进行管理，也已加入到 <code>nodejs</code> 的默认安装内容中进行分发。</p>
+<p>作为一名折腾爱好者，对于这种集成管理工具特别亲切，能方便进行各种切换更新。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>于是抽空对 <code>corepack</code> 进行了体验，体验过程中遇到的第一个问题就是使用命令 <code>corepack enable</code> 后，不论是 <code>pnpm</code> 还是 <code>yarn</code> 都无法正常使用。都会出现报错，<code>Internal Error: Error when performing the request https://registry.npmjs.org/pnpm</code>。</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">at ClientRequest.&lt;anonymous&gt; (/usr/lib/node_modules/corepack/dist/corepack.cjs:42195:20)</span><br><span class="line">at ClientRequest.emit (node:events:390:28)</span><br><span class="line">at TLSSocket.socketErrorListener (node:_http_client:447:9)</span><br><span class="line">at TLSSocket.emit (node:events:390:28)</span><br><span class="line">at emitErrorNT (node:internal/streams/destroy:157:8)</span><br><span class="line">at emitErrorCloseNT (node:internal/streams/destroy:122:3)</span><br><span class="line">at processTicksAndRejections (node:internal/process/task_queues:83:21)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>看到出现 <code>registry</code> 的问题，第一反应是由于国内墙了，然后访问不了。赶忙确认 <code>~/.npmrc</code> 和 <code>~/.yarnrc</code> 是否已经配置好了。</p>
+<p>检查后确认已经配置好，并无问题。尝试用命令 <code>pnpm config get</code> 和 <code>yarn config get</code> 来进行确认，但这两命令也会提示无法连接到 <code>https://registry.npmjs.org/pnpm</code>。</p>
+<h2 id="发现"><a href="#发现" class="headerlink" title="发现"></a>发现</h2><p>仔细观察报错日志，发现问题来自于 <code>corepack.cjs</code>。这就又带来一个问题，为什么输入 <code>pnpm</code> 和 <code>yarn</code> 后，会是 <code>corepack</code> 报错呢？</p>
+<p>研究后发现 <code>pnpm</code> 是调用的 <code>~/AppData/Roaming/npm/pnpm.ps1</code> 或者是 <code>~/AppData/Roaming/npm/pnpm.CMD</code></p>
+<figure class="highlight powershell"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env pwsh</span></span><br><span class="line"><span class="variable">$basedir</span>=<span class="built_in">Split-Path</span> <span class="variable">$MyInvocation</span>.MyCommand.Definition <span class="literal">-Parent</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$exe</span>=<span class="string">""</span></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$PSVersionTable</span>.PSVersion <span class="operator">-lt</span> <span class="string">"6.0"</span> <span class="operator">-or</span> <span class="variable">$IsWindows</span>) {</span><br><span class="line">  <span class="comment"># Fix case when both the Windows and Linux builds of Node</span></span><br><span class="line">  <span class="comment"># are installed in the same directory</span></span><br><span class="line">  <span class="variable">$exe</span>=<span class="string">".exe"</span></span><br><span class="line">}</span><br><span class="line"><span class="variable">$ret</span>=<span class="number">0</span></span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">Test-Path</span> <span class="string">"<span class="variable">$basedir</span>/node<span class="variable">$exe</span>"</span>) {</span><br><span class="line">  <span class="comment"># Support pipeline input</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="variable">$MyInvocation</span>.ExpectingInput) {</span><br><span class="line">    <span class="variable">$input</span> | &amp; <span class="string">"<span class="variable">$basedir</span>/node<span class="variable">$exe</span>"</span>  <span class="string">"<span class="variable">$basedir</span>/node_modules/corepack/dist/pnpm.js"</span> <span class="variable">$args</span></span><br><span class="line">  } <span class="keyword">else</span> {</span><br><span class="line">    &amp; <span class="string">"<span class="variable">$basedir</span>/node<span class="variable">$exe</span>"</span>  <span class="string">"<span class="variable">$basedir</span>/node_modules/corepack/dist/pnpm.js"</span> <span class="variable">$args</span></span><br><span class="line">  }</span><br><span class="line">  <span class="variable">$ret</span>=<span class="variable">$LASTEXITCODE</span></span><br><span class="line">} <span class="keyword">else</span> {</span><br><span class="line">  <span class="comment"># Support pipeline input</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="variable">$MyInvocation</span>.ExpectingInput) {</span><br><span class="line">    <span class="variable">$input</span> | &amp; <span class="string">"node<span class="variable">$exe</span>"</span>  <span class="string">"<span class="variable">$basedir</span>/node_modules/corepack/dist/pnpm.js"</span> <span class="variable">$args</span></span><br><span class="line">  } <span class="keyword">else</span> {</span><br><span class="line">    &amp; <span class="string">"node<span class="variable">$exe</span>"</span>  <span class="string">"<span class="variable">$basedir</span>/node_modules/corepack/dist/pnpm.js"</span> <span class="variable">$args</span></span><br><span class="line">  }</span><br><span class="line">  <span class="variable">$ret</span>=<span class="variable">$LASTEXITCODE</span></span><br><span class="line">}</span><br><span class="line"><span class="keyword">exit</span> <span class="variable">$ret</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后 <code>pnpm.js</code> 中更简单</p>
+<figure class="highlight javascript"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env node</span></span><br><span class="line"><span class="built_in">require</span>(<span class="string">'./lib/corepack.cjs'</span>).<span class="title function_">runMain</span>([<span class="string">'pnpm'</span>, ...process.<span class="property">argv</span>.<span class="title function_">slice</span>(<span class="number">2</span>)]);</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这个疑问就算解决了。那么回归正题，corepack 如何设置 npmmirror 呢？关于这个问题我到 <a href="https://github.com/nodejs/corepack/issues">corepack 的 issue 列表中去查是否已有类似的问题</a></p>
+<p>还真发现有人在讨论该问题，并已有人提交了 <code>PR</code> 并被合并了。</p>
+<p><a href="https://github.com/nodejs/corepack/issues/92">问题讨论</a> , <a href="https://github.com/nodejs/corepack/issues/66">问题讨论</a></p>
+<p><a href="https://github.com/nodejs/corepack/pull/186">PR</a></p>
+<p><a href="https://github.com/nodejs/corepack/pull/186/files">对比</a></p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>通过对比不难发现，<strong>新加入了一个系统环境变量 <code>COREPACK_NPM_REGISTRY</code></strong>, 通过这个环境变量就可以为 <code>corepack</code> 制定 <code>mirror</code>，后续的就回到了 <code>yarn</code> 和 <code>pnpm</code> 自己的配置文件上了。</p>
+<p><img data-src="/2024/01/29/Corepack%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E4%B9%8B%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AEregistry-npmjs-org/1.png" alt="readme"></p>
+<p><img data-src="/2024/01/29/Corepack%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E4%B9%8B%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AEregistry-npmjs-org/2.png" alt="impl"></p>
+<p><img data-src="/2024/01/29/Corepack%E4%BD%BF%E7%94%A8%E9%97%AE%E9%A2%98%E4%B9%8B%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AEregistry-npmjs-org/3.png" alt="env"></p>
+<p>设置之后就可以正常使用 <code>pnpm</code> 和 <code>yarn</code> 了。</p>
+]]></content>
+      <categories>
+        <category>Nodejs</category>
+        <category>Corepack</category>
+        <category>pnpm</category>
+        <category>yarn</category>
+      </categories>
+      <tags>
+        <tag>corpack无法正常使用</tag>
       </tags>
   </entry>
   <entry>
@@ -1312,7 +1312,7 @@
 <p>Idea 插件文档中提到了一个文件<code>.asciidoctorconfig</code>, 这个文件是给 <code>asciidoctor</code> 使用，也就是导出时使用的。</p>
 <p>并且也给出了下载地址 <a href="https://github.com/minjiex/kaigen-gothic/tree/master/dist/CN">KaiGenGothicCN 字体下载</a></p>
 <p>下载完成后形成如下目录</p>
-<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">├──document</span><br><span class="line">│&nbsp;&nbsp;├──config</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;├──fonts</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──KaiGenGothicCN-Bold.ttf</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──KaiGenGothicCN-ExtraLight.ttf</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──KaiGenGothicCN-Heavy.ttf</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──KaiGenGothicCN-Light.ttf</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──KaiGenGothicCN-Medium.ttf</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──KaiGenGothicCN-Normal.ttf</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──KaiGenGothicCN-Regular.ttf</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;├──themes</span><br><span class="line">│&nbsp;&nbsp;│&nbsp;&nbsp;│  ├──zh_CN-theme.yml</span><br><span class="line">--.asciidoctorconfig</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">├──document</span><br><span class="line">│  ├──config</span><br><span class="line">│  │  ├──fonts</span><br><span class="line">│  │  │  ├──KaiGenGothicCN-Bold.ttf</span><br><span class="line">│  │  │  ├──KaiGenGothicCN-ExtraLight.ttf</span><br><span class="line">│  │  │  ├──KaiGenGothicCN-Heavy.ttf</span><br><span class="line">│  │  │  ├──KaiGenGothicCN-Light.ttf</span><br><span class="line">│  │  │  ├──KaiGenGothicCN-Medium.ttf</span><br><span class="line">│  │  │  ├──KaiGenGothicCN-Normal.ttf</span><br><span class="line">│  │  │  ├──KaiGenGothicCN-Regular.ttf</span><br><span class="line">│  │  ├──themes</span><br><span class="line">│  │  │  ├──zh_CN-theme.yml</span><br><span class="line">--.asciidoctorconfig</span><br></pre></td></tr></tbody></table></figure>
 
 <p><code>.asciidoctorconfig</code> 类容如下</p>
 <figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">:pdf-fontsdir: {asciidoctorconfigdir}/config/fonts</span><br><span class="line">:pdf-themesdir: {asciidoctorconfigdir}/config/themes</span><br><span class="line">:pdf-theme: zh_CN</span><br></pre></td></tr></tbody></table></figure>
@@ -1327,6 +1327,49 @@
         <tag>文档</tag>
         <tag>Asciidoc</tag>
         <tag>Idea Intellij</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Gradle 多模块项目配置</title>
+    <url>/2024/02/04/Gradle%E5%A4%9A%E6%A8%A1%E5%9D%97%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<p>使用 Gradle 快速创建一个多模块工程，并引入 <code>io.spring.dependency-management</code> 进行 <code>dependencyManagement</code> 管理。</p>
+<p>为子模块定义公共依赖的版本，类似于 Maven 中的 <code>DependencyManagement</code> 一样。子模块只需引入 <code>groupId</code> 和 <code>artifactId</code> 即可。</p>
+<span id="more"></span>
+<h2 id="工程目录"><a href="#工程目录" class="headerlink" title="工程目录"></a>工程目录</h2><figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">├──gradle-study</span><br><span class="line">│  ├──settings.gradle.kts</span><br><span class="line">│  ├──build.gradle.kts</span><br><span class="line">│  ├──gradle-study-common</span><br><span class="line">│  │  ├──build.gradle.kts</span><br><span class="line">│  │  ├──src</span><br><span class="line">│  │  │  ├──main</span><br><span class="line">│  │  │  │  ├──com/piggsoft/gradle/study</span><br><span class="line">│  │  │  │  │  ├──StringUtils.java</span><br><span class="line">│  ├──gradle-study-spring-boot</span><br><span class="line">│  │  ├──build.gradle.kts</span><br><span class="line">│  │  ├──src</span><br><span class="line">│  │  │  ├──main</span><br><span class="line">│  │  │  │  ├──com/piggsoft/gradle/study/spring/boot</span><br><span class="line">│  │  │  │  │  ├──StudyApplication.java</span><br><span class="line">│  │  │  │  ├──com/piggsoft/gradle/study/spring/boot/vo</span><br><span class="line">│  │  │  │  │  ├──User.java</span><br><span class="line">│  │  │  │  ├──com/piggsoft/gradle/study/spring/boot/controller</span><br><span class="line">│  │  │  │  │  ├──HomeController.java</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="各文件内容"><a href="#各文件内容" class="headerlink" title="各文件内容"></a>各文件内容</h2><h3 id="gradle-study"><a href="#gradle-study" class="headerlink" title="gradle-study"></a>gradle-study</h3><h4 id="settings-gradle-kts"><a href="#settings-gradle-kts" class="headerlink" title="settings.gradle.kts"></a><code>settings.gradle.kts</code></h4><figure class="highlight kotlin"><table><tbody><tr><td class="code"><pre><span class="line"></span><br><span class="line">rootProject.name = <span class="string">"gradle-study"</span></span><br><span class="line"></span><br><span class="line">include(<span class="string">"gradle-study-spring-boot"</span>)</span><br><span class="line">include(<span class="string">"gradle-study-common"</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="build-gradle-kts"><a href="#build-gradle-kts" class="headerlink" title="build.gradle.kts"></a><code>build.gradle.kts</code></h4><figure class="highlight kotlin"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.boot.gradle.plugin.SpringBootPlugin</span><br><span class="line"></span><br><span class="line">plugins {</span><br><span class="line">    java</span><br><span class="line">    idea</span><br><span class="line">    id(<span class="string">"io.spring.dependency-management"</span>) version <span class="string">"1.1.4"</span></span><br><span class="line">    id(<span class="string">"org.springframework.boot"</span>) version <span class="string">"2.7.6"</span> apply <span class="literal">false</span></span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">subprojects {</span><br><span class="line"></span><br><span class="line">    group = <span class="string">"com.piggsoft"</span></span><br><span class="line">    version = <span class="string">"1.0-SNAPSHOT"</span></span><br><span class="line"></span><br><span class="line">    apply {</span><br><span class="line">        plugin(<span class="string">"java"</span>)</span><br><span class="line">        plugin(<span class="string">"idea"</span>)</span><br><span class="line">        plugin(<span class="string">"io.spring.dependency-management"</span>)</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    dependencyManagement {</span><br><span class="line">        imports {</span><br><span class="line">            mavenBom(SpringBootPlugin.BOM_COORDINATES)</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    repositories {</span><br><span class="line">        mavenCentral()</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    java {</span><br><span class="line">        sourceCompatibility = JavaVersion.VERSION_1_8</span><br><span class="line">        targetCompatibility = JavaVersion.VERSION_1_8</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    dependencies {</span><br><span class="line">        compileOnly(<span class="string">"org.projectlombok:lombok"</span>)</span><br><span class="line">        annotationProcessor(<span class="string">"org.projectlombok:lombok"</span>)</span><br><span class="line">        testImplementation(<span class="string">"org.junit.jupiter:junit-jupiter"</span>)</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    tasks.test {</span><br><span class="line">        useJUnitPlatform()</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">}</span><br><span class="line">tasks.withType&lt;Test&gt; {</span><br><span class="line">    useJUnitPlatform()</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="gradle-study-common"><a href="#gradle-study-common" class="headerlink" title="gradle-study-common"></a>gradle-study-common</h3><h4 id="build-gradle-kts-1"><a href="#build-gradle-kts-1" class="headerlink" title="build.gradle.kts"></a>build.gradle.kts</h4><figure class="highlight kotlin"><table><tbody><tr><td class="code"><pre><span class="line">dependencies {</span><br><span class="line">    implementation(<span class="string">"org.apache.commons:commons-lang3"</span>)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="StringUtils-java"><a href="#StringUtils-java" class="headerlink" title="StringUtils.java"></a>StringUtils.java</h4><figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.piggsoft.gradle.study;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StringUtils</span> {</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">hasText</span><span class="params">(String s)</span> {</span><br><span class="line">        <span class="keyword">return</span> org.apache.commons.lang3.StringUtils.isNotEmpty(s);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="gradle-study-spring-boot"><a href="#gradle-study-spring-boot" class="headerlink" title="gradle-study-spring-boot"></a>gradle-study-spring-boot</h3><h4 id="build-gradle-kts-2"><a href="#build-gradle-kts-2" class="headerlink" title="build.gradle.kts"></a>build.gradle.kts</h4><figure class="highlight kotlin"><table><tbody><tr><td class="code"><pre><span class="line">plugins {</span><br><span class="line">    id(<span class="string">"org.springframework.boot"</span>)</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">configurations {</span><br><span class="line">    compileOnly {</span><br><span class="line">        extendsFrom(configurations.annotationProcessor.<span class="keyword">get</span>())</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">dependencies {</span><br><span class="line">    implementation(project(<span class="string">":gradle-study-common"</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    implementation(<span class="string">"org.springframework.boot:spring-boot-starter-web"</span>)</span><br><span class="line">    annotationProcessor(<span class="string">"org.springframework.boot:spring-boot-configuration-processor"</span>)</span><br><span class="line">    testImplementation(<span class="string">"org.springframework.boot:spring-boot-starter-test"</span>)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="User-java"><a href="#User-java" class="headerlink" title="User.java"></a>User.java</h4><figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.piggsoft.gradle.study.spring.boot.vo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> lombok.Data;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span> {</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">String</span> <span class="variable">id</span> <span class="operator">=</span> <span class="string">"1"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> <span class="string">"user"</span>;</span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+
+<h4 id="HomeController-java"><a href="#HomeController-java" class="headerlink" title="HomeController.java"></a>HomeController.java</h4><figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.piggsoft.gradle.study.spring.boot.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.piggsoft.gradle.study.StringUtils;</span><br><span class="line"><span class="keyword">import</span> com.piggsoft.gradle.study.spring.boot.vo.User;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RequestMapping("/home")</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HomeController</span> {</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span></span><br><span class="line">    <span class="keyword">public</span> User <span class="title function_">home</span><span class="params">()</span> {</span><br><span class="line">        StringUtils.hasText(<span class="string">"123"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">User</span>();</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="StudyApplication-java"><a href="#StudyApplication-java" class="headerlink" title="StudyApplication.java"></a>StudyApplication.java</h4><figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.piggsoft.gradle.study.spring.boot;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StudyApplication</span> {</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> {</span><br><span class="line">        SpringApplication.run(StudyApplication.class, args);</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="重点配置文件解释"><a href="#重点配置文件解释" class="headerlink" title="重点配置文件解释"></a>重点配置文件解释</h2><h3 id="gradle-study-build-gradle-kts"><a href="#gradle-study-build-gradle-kts" class="headerlink" title="gradle-study/build.gradle.kts"></a>gradle-study/build.gradle.kts</h3><p>作为父工程的配置文件，主要和 maven 的父 pom 左右类似，进行基础配置定义。例如</p>
+<p>引入插件，在引入插件时会默认 apply，如果父工程不需要这些插件，加上 <code>apply false</code>。这个样子 module 可以直接引用这个 plugin 而不需要再次定义版本。</p>
+<p><code>mavenBom(SpringBootPlugin.BOM_COORDINATES)</code> 中的版本是和 <code>io.spring.dependency-management</code> 定义的同源的版本，如果需要升级版本，可以修改。</p>
+<p><code>subprojects</code> 是 gradle 的一个配置，从字面上理解是为了所有子项目定义的配置。还有一个是 <code>allprojects</code>，是为整个目录树中所有的项目配置，这个 demo 不需要，有需要的可自己尝试定义。</p>
+<h3 id="gradle-study-common-build-gradle-kts"><a href="#gradle-study-common-build-gradle-kts" class="headerlink" title="gradle-study-common/build.gradle.kts"></a>gradle-study-common/build.gradle.kts</h3><p><code>org.apache.commons:commons-lang3</code> 的版本在 <code>org.springframework.boot:spring-boot-dependencies</code> 已经有定义了，且我们使用插件 <code>io.spring.dependency-management</code> 进行了 <code>import bom</code> 之后我们可以直接使用。</p>
+<h3 id="gradle-study-spring-boot-build-gradle-kts"><a href="#gradle-study-spring-boot-build-gradle-kts" class="headerlink" title="gradle-study-spring-boot/build.gradle.kts"></a>gradle-study-spring-boot/build.gradle.kts</h3><p><code>org.springframework.boot</code> 插件版本已在父 module 中定义，本文件可不写版本直接使用。</p>
+<p><code>org.projectlombok:lombok</code> 已在父 module 中的 <code>subprojects</code> 定义，可直接使用。</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Gradle</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>Spring</tag>
+        <tag>SpringBoot</tag>
+        <tag>Gradle</tag>
       </tags>
   </entry>
 </search>
