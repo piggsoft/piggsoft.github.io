@@ -39,17 +39,17 @@ Idea插件文档中提到了一个文件`.asciidoctorconfig`,这个文件是给`
 下载完成后形成如下目录
 ```
 ├──document
-│  ├──config
-│  │  ├──fonts
-│  │  │  ├──KaiGenGothicCN-Bold.ttf
-│  │  │  ├──KaiGenGothicCN-ExtraLight.ttf
-│  │  │  ├──KaiGenGothicCN-Heavy.ttf
-│  │  │  ├──KaiGenGothicCN-Light.ttf
-│  │  │  ├──KaiGenGothicCN-Medium.ttf
-│  │  │  ├──KaiGenGothicCN-Normal.ttf
-│  │  │  ├──KaiGenGothicCN-Regular.ttf
-│  │  ├──themes
-│  │  │  ├──zh_CN-theme.yml
+│  ├──config
+│  │  ├──fonts
+│  │  │  ├──KaiGenGothicCN-Bold.ttf
+│  │  │  ├──KaiGenGothicCN-ExtraLight.ttf
+│  │  │  ├──KaiGenGothicCN-Heavy.ttf
+│  │  │  ├──KaiGenGothicCN-Light.ttf
+│  │  │  ├──KaiGenGothicCN-Medium.ttf
+│  │  │  ├──KaiGenGothicCN-Normal.ttf
+│  │  │  ├──KaiGenGothicCN-Regular.ttf
+│  │  ├──themes
+│  │  │  ├──zh_CN-theme.yml
 --.asciidoctorconfig
 ```
 
