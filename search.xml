@@ -185,6 +185,37 @@
       </tags>
   </entry>
   <entry>
+    <title>学习 spring-boot (一)</title>
+    <url>/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/</url>
+    <content><![CDATA[<h2 id="相关背景"><a href="#相关背景" class="headerlink" title="相关背景"></a>相关背景</h2><p><a href="http://projects.spring.io/spring-boot/">Spring Boot</a> 是由 Pivotal 团队提供的全新框架，其设计目的是用来简化新 Spring 应用的初始搭建以及开发过程。该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。通过这种方式，Boot 致力于在蓬勃发展的快速应用开发领域（rapid application development）成为领导者。</p>
+<span id="more"></span>
+
+<p>多年以来，Spring IO 平台饱受非议的一点就是大量的 XML 配置以及复杂的依赖管理。在去年的 SpringOne 2GX 会议上，Pivotal 的 CTO Adrian Colyer 回应了这些批评，并且特别提到该平台将来的目标之一就是实现免 XML 配置的开发体验。Boot 所实现的功能超出了这个任务的描述，开发人员不仅不再需要编写 XML，而且在一些场景中甚至不需要编写繁琐的 import 语句。在对外公开的 beta 版本刚刚发布之时，Boot 描述了如何使用该框架在 140 个字符内实现可运行的 web 应用，从而获得了极大的关注度，该样例发表在 tweet 上。</p>
+<p>然而，Spring Boot 并不是要成为 Spring IO 平台里面众多 “Foundation” 层项目的替代者。Spring Boot 的目标不在于为已解决的问题域提供新的解决方案，而是为平台带来另一种开发体验，从而简化对这些已有技术的使用。对于已经熟悉 Spring 生态系统的开发人员来说，Boot 是一个很理想的选择，不过对于采用 Spring 技术的新人来说，Boot 提供一种更简洁的方式来使用这些技术。</p>
+<p>在追求开发体验的提升方面，Spring Boot，甚至可以说整个 Spring 生态系统都使用到了 Groovy 编程语言。Boot 所提供的众多便捷功能，都是借助于 Groovy 强大的 MetaObject 协议、可插拔的 AST 转换过程以及内置的依赖解决方案引擎所实现的。在其核心的编译模型之中，Boot 使用 Groovy 来构建工程文件，所以它可以使用通用的导入和样板方法（如类的 main 方法）对类所生成的字节码进行装饰（decorate）。这样使用 Boot 编写的应用就能保持非常简洁，却依然可以提供众多的功能</p>
+<h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><ul>
+<li>访问 <a href="http://start.spring.io/">Spring Initializr</a></li>
+<li> 选择构建方式 Maven，Spring Boot 版本<br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/1.png"></li>
+<li>填写 group，artifact<br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/2.png"></li>
+<li>选择所需依赖，如果不记得依赖的名称，可以点击 <code>Switch to the full version.</code><br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-1.png"><br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-2.png"></li>
+<li>点击 <code>Generate Project</code>， 进行下载。</li>
+</ul>
+<h2 id="配置运行"><a href="#配置运行" class="headerlink" title="配置运行"></a>配置运行</h2><ul>
+<li>接下压缩包，用你熟悉的 ide 打开项目</li>
+<li>删除 <code>mvnw</code>，<code>mvnw.cmd</code> 文件和 <code>.mvn</code> 目录</li>
+<li>编写一个 Controller<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HomeController</span> {</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping("/")</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">hello</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> IOException {</span><br><span class="line">        response.getWriter().write(<span class="string">"Hello World"</span>);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></li>
+<li>运行 <code>XXApplication</code> 的 <code>main</code> 方法，访问 <a href="http://localhost:8080/">http://localhost:8080</a>，观看到 Hello World，即代表成功。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Spring Boot</category>
+      </categories>
+      <tags>
+        <tag>Java Spring Spring-Boot</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux 上使用定时任务 Crontab</title>
     <url>/2017/06/10/Linux-%E4%BD%BF%E7%94%A8%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1Crontab/</url>
     <content><![CDATA[<p>使用 linux 的定时器，在服务器上面定时执行某些任务，比如时间同步，比如 Hexo 的定时更新和生成</p>
@@ -241,37 +272,6 @@
       <tags>
         <tag>定时器</tag>
         <tag>cron</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>学习 spring-boot (一)</title>
-    <url>/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/</url>
-    <content><![CDATA[<h2 id="相关背景"><a href="#相关背景" class="headerlink" title="相关背景"></a>相关背景</h2><p><a href="http://projects.spring.io/spring-boot/">Spring Boot</a> 是由 Pivotal 团队提供的全新框架，其设计目的是用来简化新 Spring 应用的初始搭建以及开发过程。该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。通过这种方式，Boot 致力于在蓬勃发展的快速应用开发领域（rapid application development）成为领导者。</p>
-<span id="more"></span>
-
-<p>多年以来，Spring IO 平台饱受非议的一点就是大量的 XML 配置以及复杂的依赖管理。在去年的 SpringOne 2GX 会议上，Pivotal 的 CTO Adrian Colyer 回应了这些批评，并且特别提到该平台将来的目标之一就是实现免 XML 配置的开发体验。Boot 所实现的功能超出了这个任务的描述，开发人员不仅不再需要编写 XML，而且在一些场景中甚至不需要编写繁琐的 import 语句。在对外公开的 beta 版本刚刚发布之时，Boot 描述了如何使用该框架在 140 个字符内实现可运行的 web 应用，从而获得了极大的关注度，该样例发表在 tweet 上。</p>
-<p>然而，Spring Boot 并不是要成为 Spring IO 平台里面众多 “Foundation” 层项目的替代者。Spring Boot 的目标不在于为已解决的问题域提供新的解决方案，而是为平台带来另一种开发体验，从而简化对这些已有技术的使用。对于已经熟悉 Spring 生态系统的开发人员来说，Boot 是一个很理想的选择，不过对于采用 Spring 技术的新人来说，Boot 提供一种更简洁的方式来使用这些技术。</p>
-<p>在追求开发体验的提升方面，Spring Boot，甚至可以说整个 Spring 生态系统都使用到了 Groovy 编程语言。Boot 所提供的众多便捷功能，都是借助于 Groovy 强大的 MetaObject 协议、可插拔的 AST 转换过程以及内置的依赖解决方案引擎所实现的。在其核心的编译模型之中，Boot 使用 Groovy 来构建工程文件，所以它可以使用通用的导入和样板方法（如类的 main 方法）对类所生成的字节码进行装饰（decorate）。这样使用 Boot 编写的应用就能保持非常简洁，却依然可以提供众多的功能</p>
-<h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><ul>
-<li>访问 <a href="http://start.spring.io/">Spring Initializr</a></li>
-<li> 选择构建方式 Maven，Spring Boot 版本<br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/1.png"></li>
-<li>填写 group，artifact<br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/2.png"></li>
-<li>选择所需依赖，如果不记得依赖的名称，可以点击 <code>Switch to the full version.</code><br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-1.png"><br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-2.png"></li>
-<li>点击 <code>Generate Project</code>， 进行下载。</li>
-</ul>
-<h2 id="配置运行"><a href="#配置运行" class="headerlink" title="配置运行"></a>配置运行</h2><ul>
-<li>接下压缩包，用你熟悉的 ide 打开项目</li>
-<li>删除 <code>mvnw</code>，<code>mvnw.cmd</code> 文件和 <code>.mvn</code> 目录</li>
-<li>编写一个 Controller<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HomeController</span> {</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping("/")</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">hello</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> IOException {</span><br><span class="line">        response.getWriter().write(<span class="string">"Hello World"</span>);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></li>
-<li>运行 <code>XXApplication</code> 的 <code>main</code> 方法，访问 <a href="http://localhost:8080/">http://localhost:8080</a>，观看到 Hello World，即代表成功。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>Spring Boot</category>
-      </categories>
-      <tags>
-        <tag>Java Spring Spring-Boot</tag>
       </tags>
   </entry>
   <entry>
@@ -462,6 +462,97 @@
       </tags>
   </entry>
   <entry>
+    <title>PKI 体系（二）-Https &amp; 双端认证</title>
+    <url>/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/</url>
+    <content><![CDATA[<p>超文本传输安全协议（英语：Hypertext Transfer Protocol Secure，缩写：HTTPS，常称为 HTTP over TLS，HTTP over SSL 或 HTTP Secure）是一种透过计算机网络进行安全通信的传输协议。HTTPS 经由 HTTP 进行通信，但利用 SSL/TLS 来加密数据包。HTTPS 开发的主要目的，是提供对网站服务器的身份认证，保护交换数据的隐私与完整性。这个协议由网景公司（Netscape）在 1994 年首次提出，随后扩展到互联网上。</p>
+<p>Https 协议默认支持双向认证，只是一般浏览器 - 服务器架构下不会进行开启。</p>
+<span id="more"></span>
+
+<h1 id="SSL-TLS协议"><a href="#SSL-TLS协议" class="headerlink" title="SSL/TLS协议"></a>SSL/TLS 协议</h1><p>传输层安全性协议（英语：Transport Layer Security，缩写作 TLS），及其前身安全套接层（Secure Sockets Layer，缩写作 SSL）是一种安全协议，目的是为互联网通信，提供安全及数据完整性保障。网景公司（Netscape）在 1994 年推出首版网页浏览器，网景导航者时，推出 HTTPS 协议，以 SSL 进行加密，这是 SSL 的起源。IETF 将 SSL 进行标准化，1999 年公布第一版 TLS 标准文件。随后又公布 RFC 5246 （2008 年 8 月）与 RFC 6176 （2011 年 3 月）。在浏览器、电子邮件、即时通信、VoIP、网络传真等应用程序中，广泛支持这个协议。主要的网站，如 Google、Facebook 等也以这个协议来创建安全连接，发送数据。目前已成为互联网上保密通信的工业标准。</p>
+<p>SSL 包含记录层（Record Layer）和传输层，记录层协议确定传输层数据的封装格式。传输层安全协议使用 X.509 认证，之后利用非对称加密演算来对通信方做身份认证，之后交换对称密钥作为会话密钥（Session key）。这个会谈密钥是用来将通信两方交换的数据做加密，保证两个应用间通信的保密性和可靠性，使客户与服务器应用之间的通信不被攻击者窃听。</p>
+<p>TLS 协议采用 C/S 架构模型，用于在两个应用程序间透过网络创建起安全的连接，防止在交换数据时受到窃听及篡改。</p>
+<p>TLS 协议的优势是与高层的应用层协议（如 HTTP、FTP、Telnet 等）无耦合。应用层协议能透明地运行在 TLS 协议之上，由 TLS 协议进行创建加密通道需要的协商和认证。应用层协议传送的数据在通过 TLS 协议时都会被加密，从而保证通信的私密性。</p>
+<p>TLS 协议是可选的，必须配置客户端和服务器才能使用。主要有两种方式实现这一目标：一个是使用统一的 TLS 协议通信端口（例如：用于 HTTPS 的端口 443）；另一个是客户端请求服务器连接到 TLS 时使用特定的协议机制（例如：邮件、新闻协议和 STARTTLS）。一旦客户端和服务器都同意使用 TLS 协议，他们通过使用一个握手过程协商出一个有状态的连接以传输数据 [1]。通过握手，客户端和服务器协商各种参数用于创建安全连接：</p>
+<pre><code>* 当客户端连接到支持TLS协议的服务器要求创建安全连接并列出了受支持的密码组合（加密密码算法和加密哈希函数），握手开始。
+* 服务器从该列表中决定加密和散列函数，并通知客户端。
+* 服务器发回其数字证书，此证书通常包含服务器的名称、受信任的证书颁发机构（CA）和服务器的公钥。
+* 客户端确认其颁发的证书的有效性。
+* 为了生成会话密钥用于安全连接，客户端使用服务器的公钥加密随机生成的密钥，并将其发送到服务器，只有服务器才能使用自己的私钥解密。
+* 利用随机数，双方生成用于加密和解密的对称密钥。这就是TLS协议的握手，握手完毕后的连接是安全的，直到连接（被）关闭。如果上述任何一个步骤失败，TLS握手过程就会失败，并且断开所有的连接。
+</code></pre>
+<h1 id="SSL-TLS原理"><a href="#SSL-TLS原理" class="headerlink" title="SSL&amp;TLS原理"></a>SSL&amp;TLS 原理</h1><h2 id="协议组成"><a href="#协议组成" class="headerlink" title="协议组成"></a>协议组成</h2><p>协议分为三个部分</p>
+<ul>
+<li>握手协议（Handshake protocol）</li>
+<li>记录协议（Record protocol）</li>
+<li>警报协议（Alert protocol）</li>
+</ul>
+<h3 id="握手协议"><a href="#握手协议" class="headerlink" title="握手协议"></a>握手协议</h3><p>握手协议是客户机和服务器用 SSL 连接通信时使用的第一个子协议，握手协议包括客户机与服务器之间的一系列消息。SSL 中最复杂的协议就是握手协议。该协议允许服务器和客户机相互验证，协商加密和 MAC 算法以及保密密钥，用来保护在 SSL 记录中发送的数据。握手协议是在应用程序的数据传输之前使用的。</p>
+<h4 id="握手协议数据格式"><a href="#握手协议数据格式" class="headerlink" title="握手协议数据格式"></a>握手协议数据格式</h4><p>每个握手协议包含以下 3 个字段</p>
+<ol>
+<li>Type：表示 10 种消息类型之一</li>
+<li> Length：表示消息长度字节数</li>
+<li> Content：与消息相关的参数</li>
+</ol>
+<p><img data-src="/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%871.png" alt="握手协议数据格式"></p>
+<h4 id="握手协议流程"><a href="#握手协议流程" class="headerlink" title="握手协议流程"></a>握手协议流程</h4><p>握手协议分为 4 个阶段</p>
+<ol>
+<li>建立安全能力</li>
+<li>服务器鉴别与密钥交换</li>
+<li>客户机鉴别与密钥交换</li>
+<li>完成</li>
+</ol>
+<p><img data-src="/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%872.png" alt="握手协议流程"></p>
+<h5 id="阶段1：建立安全能力"><a href="#阶段1：建立安全能力" class="headerlink" title="阶段1：建立安全能力"></a>阶段 1：建立安全能力</h5><p>SSL 握手的第一阶段启动逻辑连接，建立这个连接的安全能力。首先客户机向服务器发出 client hello 消息并等待服务器响应，随后服务器向客户机返回 server hello 消息，对 client hello 消息中的信息进行确认。<br>ClientHello 客户发送 CilentHello 信息，包含如下内容：</p>
+<ol>
+<li>客户端可以支持的 SSL 最高版本号</li>
+<li>一个用于生成主秘密的 32 字节的随机数。（等会介绍主秘密是什么）</li>
+<li>一个确定会话的会话 ID。</li>
+<li>一个客户端支持的加密算法列表。</li>
+<li>一个客户端可以可以支持的压缩算法列表</li>
+</ol>
+<p>ServerHello 服务器用 ServerHello 信息应答客户，包括下列内容：</p>
+<ol>
+<li>一个 SSL 版本号。取客户端支持的最高版本号和服务端支持的最高版本号中的较低者。</li>
+<li>一个用于生成主秘密的 32 字节的随机数。（客户端一个、服务端一个）</li>
+<li>会话 ID</li>
+<li> 从客户端的密码套件列表中选择的一个加密算法</li>
+<li>从客户端的压缩方法的列表中选择的压缩方法</li>
+</ol>
+<p><img data-src="/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%873.png" alt="建立安全能力"></p>
+<h5 id="阶段2：服务器鉴别和密钥交换"><a href="#阶段2：服务器鉴别和密钥交换" class="headerlink" title="阶段2：服务器鉴别和密钥交换"></a>阶段 2：服务器鉴别和密钥交换</h5><p>服务器启动 SSL 握手第 2 阶段，是本阶段所有消息的唯一发送方，客户机是所有消息的唯一接收方。该阶段分为 4 步：</p>
+<ol>
+<li>证书：服务器将数字证书和到根 CA 整个链发给客户端，使客户端能用服务器证书中的服务器公钥认证服务器。</li>
+<li>服务器密钥交换（可选）：这里视密钥交换算法而定</li>
+<li>证书请求（可选）：服务端可能会要求客户自身进行验证。</li>
+<li>服务器握手完成：第二阶段的结束，第三阶段开始的信号</li>
+</ol>
+<p><img data-src="/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%873.png" alt="服务器鉴别和密钥交换"></p>
+<blockquote>
+<p>服务器密钥交换：1 和 2 是基于密钥交换方法的。SSL 中密钥交换算法有 6 种：无效（没有密钥交换）、RSA、匿名 Diffie-Hellman、暂时 Diffie-Hellman、固定 Diffie-Hellman、Fortezza。<br>在阶段 1 过程客户端与服务端协商的过程中已经确定使哪种密钥交换算法。<br>如果协商过程中确定使用 RSA 交换密钥，那么过程如下图：<br><img data-src="/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%875.jpg" alt="服务器密钥交换"></p>
+</blockquote>
+<h5 id="阶段3：客户机鉴别和密钥交换"><a href="#阶段3：客户机鉴别和密钥交换" class="headerlink" title="阶段3：客户机鉴别和密钥交换"></a>阶段 3：客户机鉴别和密钥交换</h5><p>客户机启动 SSL 握手第 3 阶段，是本阶段所有消息的唯一发送方，服务器是所有消息的唯一接收方。该阶段分为 3 步：</p>
+<ol>
+<li>证书（可选）：为了对服务器证明自身，客户要发送一个证书信息，这是可选的，在 Tomcat 中可以配置强制客户端证书认证。（服务器端请求了客户端证书才会有此步骤）</li>
+<li>客户机密钥交换（Pre-master-secret）：这里客户端将预备主密钥发送给服务端，注意这里会使用服务端的公钥进行加密。</li>
+<li>证书验证（可选），对预备秘密和随机数进行签名，证明拥有（1）证书的公钥。（服务器端请求了客户端证书才会有此步骤）</li>
+</ol>
+<p><img data-src="/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%876.png" alt="客户机鉴别和密钥交换"></p>
+<h4 id="阶段4：完成"><a href="#阶段4：完成" class="headerlink" title="阶段4：完成"></a>阶段 4：完成</h4><p>握手完成后，客户端和服务器端后面的信息使用主密钥进行对称加 / 解密</p>
+<p><img data-src="/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%877.png" alt="完成"></p>
+<h1 id="Https"><a href="#Https" class="headerlink" title="Https"></a>Https</h1><p>HTTP 协议和安全协议同属于应用层（OSI 模型的最高层），具体来讲，安全协议工作在 HTTP 之下，运输层之上：安全协议向运行 HTTP 的进程提供一个类似于 TCP 的 Socket，供进程向其中注入报文，安全协议将报文加密并注入运输层 Socket；或是从运输层获取加密报文，解密后交给对应的进程。严格地讲，HTTPS 并不是一个单独的协议，而是对工作在一加密连接（TLS 或 SSL）上的常规 HTTP 协议的称呼。</p>
+<p>HTTPS 报文中的任何东西都被加密，包括所有报头和荷载。除了可能的选择密文攻击（参见限制小节）之外，一个攻击者所能知道的只有在两者之间有一连接这一事实。</p>
+]]></content>
+      <categories>
+        <category>IT</category>
+        <category>安全</category>
+      </categories>
+      <tags>
+        <tag>PKI</tag>
+        <tag>EJBCA</tag>
+        <tag>安全</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>PKI 体系（三）-EJBCA 安装</title>
     <url>/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%B8%89)-EJBCA%E5%AE%89%E8%A3%85/</url>
     <content><![CDATA[<p>EJBCA 是一个全功能的 CA 系统软件，它基于 J2EE 技术，并提供了一个强大的、高性能并基于组件的 CA。EJBCA 兼具灵活性和平台独立性，能够独立使用，也能和任何 J2EE 应用程序集成。</p>
@@ -633,97 +724,6 @@
 </blockquote>
 </li>
 </ol>
-]]></content>
-      <categories>
-        <category>IT</category>
-        <category>安全</category>
-      </categories>
-      <tags>
-        <tag>PKI</tag>
-        <tag>EJBCA</tag>
-        <tag>安全</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>PKI 体系（二）-Https &amp; 双端认证</title>
-    <url>/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/</url>
-    <content><![CDATA[<p>超文本传输安全协议（英语：Hypertext Transfer Protocol Secure，缩写：HTTPS，常称为 HTTP over TLS，HTTP over SSL 或 HTTP Secure）是一种透过计算机网络进行安全通信的传输协议。HTTPS 经由 HTTP 进行通信，但利用 SSL/TLS 来加密数据包。HTTPS 开发的主要目的，是提供对网站服务器的身份认证，保护交换数据的隐私与完整性。这个协议由网景公司（Netscape）在 1994 年首次提出，随后扩展到互联网上。</p>
-<p>Https 协议默认支持双向认证，只是一般浏览器 - 服务器架构下不会进行开启。</p>
-<span id="more"></span>
-
-<h1 id="SSL-TLS协议"><a href="#SSL-TLS协议" class="headerlink" title="SSL/TLS协议"></a>SSL/TLS 协议</h1><p>传输层安全性协议（英语：Transport Layer Security，缩写作 TLS），及其前身安全套接层（Secure Sockets Layer，缩写作 SSL）是一种安全协议，目的是为互联网通信，提供安全及数据完整性保障。网景公司（Netscape）在 1994 年推出首版网页浏览器，网景导航者时，推出 HTTPS 协议，以 SSL 进行加密，这是 SSL 的起源。IETF 将 SSL 进行标准化，1999 年公布第一版 TLS 标准文件。随后又公布 RFC 5246 （2008 年 8 月）与 RFC 6176 （2011 年 3 月）。在浏览器、电子邮件、即时通信、VoIP、网络传真等应用程序中，广泛支持这个协议。主要的网站，如 Google、Facebook 等也以这个协议来创建安全连接，发送数据。目前已成为互联网上保密通信的工业标准。</p>
-<p>SSL 包含记录层（Record Layer）和传输层，记录层协议确定传输层数据的封装格式。传输层安全协议使用 X.509 认证，之后利用非对称加密演算来对通信方做身份认证，之后交换对称密钥作为会话密钥（Session key）。这个会谈密钥是用来将通信两方交换的数据做加密，保证两个应用间通信的保密性和可靠性，使客户与服务器应用之间的通信不被攻击者窃听。</p>
-<p>TLS 协议采用 C/S 架构模型，用于在两个应用程序间透过网络创建起安全的连接，防止在交换数据时受到窃听及篡改。</p>
-<p>TLS 协议的优势是与高层的应用层协议（如 HTTP、FTP、Telnet 等）无耦合。应用层协议能透明地运行在 TLS 协议之上，由 TLS 协议进行创建加密通道需要的协商和认证。应用层协议传送的数据在通过 TLS 协议时都会被加密，从而保证通信的私密性。</p>
-<p>TLS 协议是可选的，必须配置客户端和服务器才能使用。主要有两种方式实现这一目标：一个是使用统一的 TLS 协议通信端口（例如：用于 HTTPS 的端口 443）；另一个是客户端请求服务器连接到 TLS 时使用特定的协议机制（例如：邮件、新闻协议和 STARTTLS）。一旦客户端和服务器都同意使用 TLS 协议，他们通过使用一个握手过程协商出一个有状态的连接以传输数据 [1]。通过握手，客户端和服务器协商各种参数用于创建安全连接：</p>
-<pre><code>* 当客户端连接到支持TLS协议的服务器要求创建安全连接并列出了受支持的密码组合（加密密码算法和加密哈希函数），握手开始。
-* 服务器从该列表中决定加密和散列函数，并通知客户端。
-* 服务器发回其数字证书，此证书通常包含服务器的名称、受信任的证书颁发机构（CA）和服务器的公钥。
-* 客户端确认其颁发的证书的有效性。
-* 为了生成会话密钥用于安全连接，客户端使用服务器的公钥加密随机生成的密钥，并将其发送到服务器，只有服务器才能使用自己的私钥解密。
-* 利用随机数，双方生成用于加密和解密的对称密钥。这就是TLS协议的握手，握手完毕后的连接是安全的，直到连接（被）关闭。如果上述任何一个步骤失败，TLS握手过程就会失败，并且断开所有的连接。
-</code></pre>
-<h1 id="SSL-TLS原理"><a href="#SSL-TLS原理" class="headerlink" title="SSL&amp;TLS原理"></a>SSL&amp;TLS 原理</h1><h2 id="协议组成"><a href="#协议组成" class="headerlink" title="协议组成"></a>协议组成</h2><p>协议分为三个部分</p>
-<ul>
-<li>握手协议（Handshake protocol）</li>
-<li>记录协议（Record protocol）</li>
-<li>警报协议（Alert protocol）</li>
-</ul>
-<h3 id="握手协议"><a href="#握手协议" class="headerlink" title="握手协议"></a>握手协议</h3><p>握手协议是客户机和服务器用 SSL 连接通信时使用的第一个子协议，握手协议包括客户机与服务器之间的一系列消息。SSL 中最复杂的协议就是握手协议。该协议允许服务器和客户机相互验证，协商加密和 MAC 算法以及保密密钥，用来保护在 SSL 记录中发送的数据。握手协议是在应用程序的数据传输之前使用的。</p>
-<h4 id="握手协议数据格式"><a href="#握手协议数据格式" class="headerlink" title="握手协议数据格式"></a>握手协议数据格式</h4><p>每个握手协议包含以下 3 个字段</p>
-<ol>
-<li>Type：表示 10 种消息类型之一</li>
-<li> Length：表示消息长度字节数</li>
-<li> Content：与消息相关的参数</li>
-</ol>
-<p><img data-src="/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%871.png" alt="握手协议数据格式"></p>
-<h4 id="握手协议流程"><a href="#握手协议流程" class="headerlink" title="握手协议流程"></a>握手协议流程</h4><p>握手协议分为 4 个阶段</p>
-<ol>
-<li>建立安全能力</li>
-<li>服务器鉴别与密钥交换</li>
-<li>客户机鉴别与密钥交换</li>
-<li>完成</li>
-</ol>
-<p><img data-src="/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%872.png" alt="握手协议流程"></p>
-<h5 id="阶段1：建立安全能力"><a href="#阶段1：建立安全能力" class="headerlink" title="阶段1：建立安全能力"></a>阶段 1：建立安全能力</h5><p>SSL 握手的第一阶段启动逻辑连接，建立这个连接的安全能力。首先客户机向服务器发出 client hello 消息并等待服务器响应，随后服务器向客户机返回 server hello 消息，对 client hello 消息中的信息进行确认。<br>ClientHello 客户发送 CilentHello 信息，包含如下内容：</p>
-<ol>
-<li>客户端可以支持的 SSL 最高版本号</li>
-<li>一个用于生成主秘密的 32 字节的随机数。（等会介绍主秘密是什么）</li>
-<li>一个确定会话的会话 ID。</li>
-<li>一个客户端支持的加密算法列表。</li>
-<li>一个客户端可以可以支持的压缩算法列表</li>
-</ol>
-<p>ServerHello 服务器用 ServerHello 信息应答客户，包括下列内容：</p>
-<ol>
-<li>一个 SSL 版本号。取客户端支持的最高版本号和服务端支持的最高版本号中的较低者。</li>
-<li>一个用于生成主秘密的 32 字节的随机数。（客户端一个、服务端一个）</li>
-<li>会话 ID</li>
-<li> 从客户端的密码套件列表中选择的一个加密算法</li>
-<li>从客户端的压缩方法的列表中选择的压缩方法</li>
-</ol>
-<p><img data-src="/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%873.png" alt="建立安全能力"></p>
-<h5 id="阶段2：服务器鉴别和密钥交换"><a href="#阶段2：服务器鉴别和密钥交换" class="headerlink" title="阶段2：服务器鉴别和密钥交换"></a>阶段 2：服务器鉴别和密钥交换</h5><p>服务器启动 SSL 握手第 2 阶段，是本阶段所有消息的唯一发送方，客户机是所有消息的唯一接收方。该阶段分为 4 步：</p>
-<ol>
-<li>证书：服务器将数字证书和到根 CA 整个链发给客户端，使客户端能用服务器证书中的服务器公钥认证服务器。</li>
-<li>服务器密钥交换（可选）：这里视密钥交换算法而定</li>
-<li>证书请求（可选）：服务端可能会要求客户自身进行验证。</li>
-<li>服务器握手完成：第二阶段的结束，第三阶段开始的信号</li>
-</ol>
-<p><img data-src="/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%873.png" alt="服务器鉴别和密钥交换"></p>
-<blockquote>
-<p>服务器密钥交换：1 和 2 是基于密钥交换方法的。SSL 中密钥交换算法有 6 种：无效（没有密钥交换）、RSA、匿名 Diffie-Hellman、暂时 Diffie-Hellman、固定 Diffie-Hellman、Fortezza。<br>在阶段 1 过程客户端与服务端协商的过程中已经确定使哪种密钥交换算法。<br>如果协商过程中确定使用 RSA 交换密钥，那么过程如下图：<br><img data-src="/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%875.jpg" alt="服务器密钥交换"></p>
-</blockquote>
-<h5 id="阶段3：客户机鉴别和密钥交换"><a href="#阶段3：客户机鉴别和密钥交换" class="headerlink" title="阶段3：客户机鉴别和密钥交换"></a>阶段 3：客户机鉴别和密钥交换</h5><p>客户机启动 SSL 握手第 3 阶段，是本阶段所有消息的唯一发送方，服务器是所有消息的唯一接收方。该阶段分为 3 步：</p>
-<ol>
-<li>证书（可选）：为了对服务器证明自身，客户要发送一个证书信息，这是可选的，在 Tomcat 中可以配置强制客户端证书认证。（服务器端请求了客户端证书才会有此步骤）</li>
-<li>客户机密钥交换（Pre-master-secret）：这里客户端将预备主密钥发送给服务端，注意这里会使用服务端的公钥进行加密。</li>
-<li>证书验证（可选），对预备秘密和随机数进行签名，证明拥有（1）证书的公钥。（服务器端请求了客户端证书才会有此步骤）</li>
-</ol>
-<p><img data-src="/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%876.png" alt="客户机鉴别和密钥交换"></p>
-<h4 id="阶段4：完成"><a href="#阶段4：完成" class="headerlink" title="阶段4：完成"></a>阶段 4：完成</h4><p>握手完成后，客户端和服务器端后面的信息使用主密钥进行对称加 / 解密</p>
-<p><img data-src="/2018/07/11/PKI%E4%BD%93%E7%B3%BB(%E4%BA%8C)-Https%E5%92%8C%E5%8F%8C%E7%AB%AF%E8%AE%A4%E8%AF%81/%E5%9B%BE%E7%89%877.png" alt="完成"></p>
-<h1 id="Https"><a href="#Https" class="headerlink" title="Https"></a>Https</h1><p>HTTP 协议和安全协议同属于应用层（OSI 模型的最高层），具体来讲，安全协议工作在 HTTP 之下，运输层之上：安全协议向运行 HTTP 的进程提供一个类似于 TCP 的 Socket，供进程向其中注入报文，安全协议将报文加密并注入运输层 Socket；或是从运输层获取加密报文，解密后交给对应的进程。严格地讲，HTTPS 并不是一个单独的协议，而是对工作在一加密连接（TLS 或 SSL）上的常规 HTTP 协议的称呼。</p>
-<p>HTTPS 报文中的任何东西都被加密，包括所有报头和荷载。除了可能的选择密文攻击（参见限制小节）之外，一个攻击者所能知道的只有在两者之间有一连接这一事实。</p>
 ]]></content>
       <categories>
         <category>IT</category>
@@ -1371,5 +1371,320 @@
         <tag>SpringBoot</tag>
         <tag>Gradle</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>postman 的替代 bruno</title>
+    <url>/2024/02/05/postman%E7%9A%84%E6%9B%BF%E4%BB%A3bruno/</url>
+    <content><![CDATA[<p><code>Postman</code> 作为一款已有超过 600 万使用者的 <code>Restful</code>/<code>API</code><br>工具，其功能慢慢变得臃肿，内存占用越来越大，性能慢慢变差，并且还需要强制登录。使得我们需要寻找下一款 <code>API</code><br>工具，即使这款工具我们不是现在就更换，也需要为未来做下准备。</p>
+<p>那么有哪些 <code>API</code> 工具可以替代 <code>Postman</code> 呢？</p>
+<span id="more"></span>
+
+<h2 id="可替代选择"><a href="#可替代选择" class="headerlink" title="可替代选择"></a>可替代选择</h2><p>当前开源方案中替代方案还是不少的。其中比较热门的方案是：</p>
+<ul>
+<li><a href="#hoppscotch">postwoman</a> (now hoppscotch)</li>
+<li><a href="#insomnia">insomnia</a></li>
+<li><a href="#insomnium">insomnium</a></li>
+<li><a href="#bruno">bruno</a></li>
+</ul>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><h3 id="postman"><a href="#postman" class="headerlink" title="postman"></a>postman</h3><h4 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h4><p>Postman 是一款功能强大的 HTTP 协议接口调试与测试工具，它的主要特点在于使用简单且易用性良好。无论对于开发人员进行接口调试，还是测试人员做接口测试，Postman 都是被广泛采用的工具之一。<br>Postman 的功能众多，以下是其中一些主要的功能：</p>
+<ul>
+<li>支持多种请求方式，包括 <code>GET</code>、<code>POST</code>、<code>PUT</code>、<code>DELETE</code> 等；</li>
+<li>支持多种数据格式，如 <code>JSON</code>、<code>XML</code>、<code>HTML</code> 等；</li>
+<li>支持自动化测试，可以编写测试脚本并执行；</li>
+<li>支持接口集合，可以将多个接口保存到一个文件中；</li>
+<li>支持接口分享，可以将接口分享给其他团队成员。</li>
+<li>提供了直观的界面和丰富的功能，可以让开发者快速测试和调试 API；</li>
+<li>支持多种环境和变量，可以在不同的环境下进行测试和调试；</li>
+<li>支持用例管理，可以轻松地管理和执行测试用例；</li>
+<li>具有强大的抓包功能，可以方便地抓取和分析网络数据；</li>
+<li>支持多终端同步，可以在不同设备上使用 Postman；</li>
+<li>可以将多个接口保存到一个文件中，便于管理和分享；</li>
+<li>引入了工作流的概念，可以创建自动化的测试流程。</li>
+</ul>
+<h4 id="地址"><a href="#地址" class="headerlink" title="地址"></a>地址</h4><ul>
+<li><a href="https://www.postman.com/">主页</a></li>
+<li><a href="https://learning.postman.com/docs/introduction/overview/">文档</a></li>
+</ul>
+<h4 id="界面"><a href="#界面" class="headerlink" title="界面"></a>界面</h4><p><img data-src="/2024/02/05/postman%E7%9A%84%E6%9B%BF%E4%BB%A3bruno/postman-overview.png" alt="postman界面"></p>
+<h3 id="hoppscotch"><a href="#hoppscotch" class="headerlink" title="hoppscotch"></a>hoppscotch</h3><h4 id="介绍-2"><a href="#介绍-2" class="headerlink" title="介绍"></a>介绍</h4><p>在 2018 年 Postman 的开始对高级功能进行收费后，一群人就开始一个新的项目 Postwoman，从名字来看就知道是冲着 Postman 去的，后面更名为 Hoppscotch</p>
+<p>作为一款 API 工具，Hoppscotch 具有如下特色</p>
+<ul>
+<li>轻量，简约的 UI 设计</li>
+<li>实时快速</li>
+<li>支持多种 Http Method，例如 <code>GET</code> <code>POST</code> <code>PUT</code> <code>PATCH</code> <code>DELETE</code> <code>HEAD</code> <code>CONNECT</code> <code>OPTIONS</code> <code>TRACE</code> <code>&lt;custom&gt;</code>(例如 <code>LIST</code>)</li>
+<li> 自定义主题。白天，黑夜</li>
+<li>支持协议：<code>WebSocket</code> <code>Server-Sent</code> <code>Events</code> <code>Socket.IO</code> <code>MQTT</code> <code>GraphQL</code></li>
+<li>支持鉴权：<code>None</code> <code>Basic</code> <code>Bearer Token</code> <code>OAuth 2.0</code> <code>OIDC Access Token/PKCE</code></li>
+<li>传参方式：<code>Headers</code> <code>Parameters</code> <code>Request Body</code></li>
+<li>支持 Response 预览，历史，请求集合（分类），Pre-Request Scripts，Workspaces，请求代理，i18n，数据同步，Post-Request<br>Tests，环境配置，批量编辑，插件。</li>
+</ul>
+<h4 id="地址-1"><a href="#地址-1" class="headerlink" title="地址"></a>地址</h4><ul>
+<li><a href="https://hoppscotch.io/">首页</a></li>
+<li><a href="https://github.com/hoppscotch/hoppscotch">Github</a></li>
+<li><a href="https://docs.hoppscotch.io/">文档</a></li>
+</ul>
+<h4 id="界面-1"><a href="#界面-1" class="headerlink" title="界面"></a>界面</h4><p><img data-src="/2024/02/05/postman%E7%9A%84%E6%9B%BF%E4%BB%A3bruno/hoppscotch-light.png" alt="使用界面"></p>
+<h3 id="insomnia"><a href="#insomnia" class="headerlink" title="insomnia"></a>insomnia</h3><h4 id="介绍-3"><a href="#介绍-3" class="headerlink" title="介绍"></a>介绍</h4><p>Insomnia 是一个基于 Node.js 的 API 测试框架，它可以帮助开发人员快速测试和调试 API。以下是 Insomnia 的功能列表和特点：<br>功能列表：</p>
+<ul>
+<li>创建和管理 API 请求；</li>
+<li>发送 HTTP 请求并接收响应；</li>
+<li>支持多种 HTTP 方法和协议，如 GET、POST、PUT 等；</li>
+<li>可以模拟各种 HTTP 状态码，如 404、500 等；</li>
+<li>具有强大的断言功能，可以验证响应内容是否符合预期；</li>
+<li>支持自定义请求头和查询参数；</li>
+<li>可以将多个接口保存到一个文件中，便于管理和分享。<br>特点：</li>
+<li>提供了一个简单易用的界面，可以让开发人员轻松地创建测试用例和执行测试；</li>
+<li>支持多种数据格式，如 JSON、XML 等；</li>
+<li>可以与多种后端服务集成，如 RESTful API、SOAP Web Service 等；</li>
+<li>具有强大的监控功能，可以实时跟踪和分析 API 流量；</li>
+<li>支持多终端同步，可以在不同设备上使用 Insomnia；</li>
+<li>引入了工作流的概念，可以创建自动化的测试流程。</li>
+</ul>
+<p>当然，Insomnia 的功能和特点还有很多。首先，Insomnia 的可视化界面非常直观、简洁，对新手用户来说非常友好，操作简单易于使用，可以快速开展接口测试工作。此外，Insomnia 不仅支持 Windows、Mac 等桌面平台，还支持多种其他平台。<br>特别值得一提的是，Insomnia 具有多级配置功能，可以设置三级的配置文件，用于多个不同环境的配置。最高级配置是 Base<br>Environment，第二优先级配置是 Sub Environments，在接口栏中创建文件夹，可以建立针对这个文件的环境，这是第三级配置。<br>另外，Insomnia 会自动保存接口的访问结果，请求和响应数据都会完整的保存下来，需要的时候就可以再点开看。这个功能对于网络不稳定的情况尤其有用。</p>
+<h4 id="地址-2"><a href="#地址-2" class="headerlink" title="地址"></a>地址</h4><ul>
+<li><a href="https://insomnia.rest/">主页</a></li>
+<li><a href="https://github.com/Kong/insomnia">Github</a></li>
+<li><a href="https://docs.insomnia.rest/">文档</a></li>
+</ul>
+<h4 id="界面-2"><a href="#界面-2" class="headerlink" title="界面"></a>界面</h4><p><img data-src="/2024/02/05/postman%E7%9A%84%E6%9B%BF%E4%BB%A3bruno/insomnia.png" alt="insomnia.png"></p>
+<h3 id="insomnium"><a href="#insomnium" class="headerlink" title="insomnium"></a>insomnium</h3><h4 id="介绍-4"><a href="#介绍-4" class="headerlink" title="介绍"></a>介绍</h4><p>Insomnia 是一个跨平台的 REST API 客户端，它基于 Electron 构建，为开发者提供了测试和开发 Web 应用所需的工具和环境。它支持组织、运行和调试 HTTP 请求和 API，包括 REST,<br>GraphQL, gRPC 等协议。Insomnia 的特点包括：</p>
+<ul>
+<li>本地运行：Insomnium 完全在本地运行，不需要连接到任何云服务，保证了应用的隐私性和独立性。</li>
+<li>跨平台兼容性：由于基于 Electron，Insomnia 可以在 Windows、macOS 和 Linux 等多种操作系统上运行。</li>
+<li>功能丰富：Insomnia 提供了各种功能，如请求链、环境变量、全局设置等，以帮助开发者更高效地进行 API 测试和开发。</li>
+<li>用户界面友好：Insomnia 的用户界面设计直观，便于开发者快速上手和使用。</li>
+<li>隐私保护：由于其 100% 本地运行的特性，Insomnium 没有后台与外部服务器的通信，确保了用户的数据隐私不会外泄。</li>
+<li>支持多种协议：Insomnium 支持包括 GraphQL、REST、WebSockets、Server-sent events 和 gRPC 等多种 API 测试，适用于各种开发场景。</li>
+<li>使用便捷：尽管网上关于 Insomnia 的使用教程不多，但基础功能与其他常见的接口工具相似，因此上手相对容易。官方文档也提供了详尽的指导和进阶教程，如模板标签、请求链等。</li>
+</ul>
+<p>综上所述，Insomnia 是一个功能全面、用户友好的 API 客户端，适用于需要进行 API 测试和开发的开发者。</p>
+<h4 id="地址-3"><a href="#地址-3" class="headerlink" title="地址"></a>地址</h4><ul>
+<li><a href="https://archgpt.dev/insomnium">首页</a></li>
+<li><a href="https://github.com/ArchGPT/insomnium">Github</a></li>
+</ul>
+<h4 id="界面-3"><a href="#界面-3" class="headerlink" title="界面"></a>界面</h4><p><img data-src="/2024/02/05/postman%E7%9A%84%E6%9B%BF%E4%BB%A3bruno/insomnium.png" alt="insomnium.png"></p>
+<h3 id="bruno"><a href="#bruno" class="headerlink" title="bruno"></a>bruno</h3><h4 id="介绍-5"><a href="#介绍-5" class="headerlink" title="介绍"></a>介绍</h4><p>Bruno 是一款全新且创新的 API 客户端，旨在颠覆 Postman 和其他类似工具。</p>
+<p>Bruno 直接在您的电脑文件夹中存储您的 API 信息。我们使用纯文本标记语言 Bru 来保存有关 API 的信息。</p>
+<p>您可以使用 Git 或您选择的任何版本控制系统来对您的 API 信息进行版本控制和协作。</p>
+<p>Bruno 仅限离线使用。我们计划永不向 Bruno 添加云同步功能。我们重视您的数据隐私，并认为它应该留在您的设备上。</p>
+<ul>
+<li>命令行友好：Bruno 允许用户在命令行中方便地进行数据传输，这为喜欢使用终端的开发者提供了便利。</li>
+<li>多协议支持：它支持多种协议，包括 HTTP、FTP 等，这使得 Bruno 能够适应不同的网络环境和使用场景。</li>
+<li>丰富的选项和参数：Bruno 提供了大量的选项和参数，用户可以通过这些选项和参数来定制请求，以满足各种不同的需求。</li>
+<li>API 集合管理：它允许用户直接在文件系统上存储 API 集合，这意味着用户可以像管理普通文件一样管理自己的 API 接口集合。</li>
+<li>使用 Bru 作为标记语言：Bruno 使用一种名为 Bru 的文本标记语言来保存有关 API 请求的信息，这种方式简洁且易于理解。</li>
+</ul>
+<h4 id="地址-4"><a href="#地址-4" class="headerlink" title="地址"></a>地址</h4><ul>
+<li><a href="https://www.usebruno.com/">首页</a></li>
+<li><a href="https://github.com/usebruno/bruno">Github</a></li>
+<li><a href="https://docs.usebruno.com/">文档</a></li>
+</ul>
+<h4 id="界面-4"><a href="#界面-4" class="headerlink" title="界面"></a>界面</h4><p><img data-src="/2024/02/05/postman%E7%9A%84%E6%9B%BF%E4%BB%A3bruno/bruno.png" alt="bruno.png"></p>
+<h2 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h2><table>
+<thead>
+<tr>
+<th>aaaaaaaaaaa</th>
+<th><a href="#postman">Postman</a></th>
+<th><a href="#hoppscotch">hoppscotch</a></th>
+<th><a href="#insomnia">insomnia</a></th>
+<th><a href="#insomnium">insomnium</a></th>
+<th><a href="#bruno">bruno</a></th>
+</tr>
+</thead>
+<tbody><tr>
+<td> 跨平台</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>基础 API 客户端</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>环境变量</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>API 目录组织</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>API 存储</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>不需要登录</td>
+<td>❌</td>
+<td>❌, 可以选择不登录，但功能受限</td>
+<td>❌, 可以选择不登录，但功能受限</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Http Request</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Event Stream Request</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌收费，  还未实现</td>
+</tr>
+<tr>
+<td> GraphQL Request</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌收费，  还未实现</td>
+</tr>
+<tr>
+<td> gRPC Request</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌收费，  还未实现</td>
+</tr>
+<tr>
+<td> Websocket Request</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌收费，  还未实现</td>
+</tr>
+<tr>
+<td> Socket.IO</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌收费，  还未实现</td>
+</tr>
+<tr>
+<td> MQTT</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌收费，  还未实现</td>
+</tr>
+<tr>
+<td> History</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>插件</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌, 有计划支持</td>
+</tr>
+<tr>
+<td> From Curl</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>收藏的资源如何存储</td>
+<td>全部在一个大 json 中</td>
+<td>全部在一个大 json 中</td>
+<td>全部在一个大 json 中</td>
+<td>全部在一个大 json 中</td>
+<td>一个 request 一个.bru 文件</td>
+</tr>
+<tr>
+<td>离线功能</td>
+<td>❌</td>
+<td>❌</td>
+<td></td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>团队协作</td>
+<td>收费</td>
+<td>收费</td>
+<td>收费</td>
+<td>收费</td>
+<td> Git 支持</td>
+</tr>
+<tr>
+<td>上一个请求的结果当参数</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>测试断言</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>js 脚本</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>加载 npm 模块</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+</tbody></table>
+<h2 id="推荐"><a href="#推荐" class="headerlink" title="推荐"></a>推荐</h2><p>我会推荐 <strong>Bruno</strong>。</p>
+<p><a href="#bruno">bruno</a> 作为一款野心极强的新型 Api 工具，他现有的功能已经满足了 Api 测试工具的需求，并且无需登录，无需将信息存储到云端引起安全性问题。</p>
+<p>通过观察其 <a href="https://github.com/usebruno/bruno/discussions/384">Roadmap</a> 来看，基础功能在未来都会有，进阶功能会做成收费版本。</p>
+<p>如果后续 <a href="#bruno">bruno</a> 收费后有作恶的嫌疑，我推荐 <a href="#insomnium">insomnium</a>。之所以不第一推荐 <a href="#insomnium">insomnium</a> 的原因在于其维护的前景还不太明朗，后续和 <a href="#insomnia">insomnia</a> 之间代码更新合并的问题也未看到明确规划。</p>
+]]></content>
+      <categories>
+        <category>IT</category>
+        <category>工具</category>
+        <category>Restful工具</category>
+      </categories>
   </entry>
 </search>
