@@ -42,37 +42,6 @@
       </tags>
   </entry>
   <entry>
-    <title>学习 spring-boot (一)</title>
-    <url>/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/</url>
-    <content><![CDATA[<h2 id="相关背景"><a href="#相关背景" class="headerlink" title="相关背景"></a>相关背景</h2><p><a href="http://projects.spring.io/spring-boot/">Spring Boot</a> 是由 Pivotal 团队提供的全新框架，其设计目的是用来简化新 Spring 应用的初始搭建以及开发过程。该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。通过这种方式，Boot 致力于在蓬勃发展的快速应用开发领域（rapid application development）成为领导者。</p>
-<span id="more"></span>
-
-<p>多年以来，Spring IO 平台饱受非议的一点就是大量的 XML 配置以及复杂的依赖管理。在去年的 SpringOne 2GX 会议上，Pivotal 的 CTO Adrian Colyer 回应了这些批评，并且特别提到该平台将来的目标之一就是实现免 XML 配置的开发体验。Boot 所实现的功能超出了这个任务的描述，开发人员不仅不再需要编写 XML，而且在一些场景中甚至不需要编写繁琐的 import 语句。在对外公开的 beta 版本刚刚发布之时，Boot 描述了如何使用该框架在 140 个字符内实现可运行的 web 应用，从而获得了极大的关注度，该样例发表在 tweet 上。</p>
-<p>然而，Spring Boot 并不是要成为 Spring IO 平台里面众多 “Foundation” 层项目的替代者。Spring Boot 的目标不在于为已解决的问题域提供新的解决方案，而是为平台带来另一种开发体验，从而简化对这些已有技术的使用。对于已经熟悉 Spring 生态系统的开发人员来说，Boot 是一个很理想的选择，不过对于采用 Spring 技术的新人来说，Boot 提供一种更简洁的方式来使用这些技术。</p>
-<p>在追求开发体验的提升方面，Spring Boot，甚至可以说整个 Spring 生态系统都使用到了 Groovy 编程语言。Boot 所提供的众多便捷功能，都是借助于 Groovy 强大的 MetaObject 协议、可插拔的 AST 转换过程以及内置的依赖解决方案引擎所实现的。在其核心的编译模型之中，Boot 使用 Groovy 来构建工程文件，所以它可以使用通用的导入和样板方法（如类的 main 方法）对类所生成的字节码进行装饰（decorate）。这样使用 Boot 编写的应用就能保持非常简洁，却依然可以提供众多的功能</p>
-<h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><ul>
-<li>访问 <a href="http://start.spring.io/">Spring Initializr</a></li>
-<li> 选择构建方式 Maven，Spring Boot 版本<br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/1.png"></li>
-<li>填写 group，artifact<br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/2.png"></li>
-<li>选择所需依赖，如果不记得依赖的名称，可以点击 <code>Switch to the full version.</code><br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-1.png"><br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-2.png"></li>
-<li>点击 <code>Generate Project</code>， 进行下载。</li>
-</ul>
-<h2 id="配置运行"><a href="#配置运行" class="headerlink" title="配置运行"></a>配置运行</h2><ul>
-<li>接下压缩包，用你熟悉的 ide 打开项目</li>
-<li>删除 <code>mvnw</code>，<code>mvnw.cmd</code> 文件和 <code>.mvn</code> 目录</li>
-<li>编写一个 Controller<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HomeController</span> {</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping("/")</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">hello</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> IOException {</span><br><span class="line">        response.getWriter().write(<span class="string">"Hello World"</span>);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></li>
-<li>运行 <code>XXApplication</code> 的 <code>main</code> 方法，访问 <a href="http://localhost:8080/">http://localhost:8080</a>，观看到 Hello World，即代表成功。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>Spring Boot</category>
-      </categories>
-      <tags>
-        <tag>Java Spring Spring-Boot</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>TCP 通讯详解及实战</title>
     <url>/2017/01/03/TCP%E9%80%9A%E8%AE%AF%E8%AF%A6%E8%A7%A3%E5%8F%8A%E5%AE%9E%E6%88%98/</url>
     <content><![CDATA[<p>日常开发，测试过程中，特别是在压力测试过程中，用 <code>netstat -nat</code> 查看，发现客户端出现大量 <code>SYN_SENT</code> 状态，服务端出现大量 <code>SYN_RCVD</code> 状态连接，下面我们一起看下</p>
@@ -213,6 +182,37 @@
       </categories>
       <tags>
         <tag>TCP IP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>学习 spring-boot (一)</title>
+    <url>/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/</url>
+    <content><![CDATA[<h2 id="相关背景"><a href="#相关背景" class="headerlink" title="相关背景"></a>相关背景</h2><p><a href="http://projects.spring.io/spring-boot/">Spring Boot</a> 是由 Pivotal 团队提供的全新框架，其设计目的是用来简化新 Spring 应用的初始搭建以及开发过程。该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。通过这种方式，Boot 致力于在蓬勃发展的快速应用开发领域（rapid application development）成为领导者。</p>
+<span id="more"></span>
+
+<p>多年以来，Spring IO 平台饱受非议的一点就是大量的 XML 配置以及复杂的依赖管理。在去年的 SpringOne 2GX 会议上，Pivotal 的 CTO Adrian Colyer 回应了这些批评，并且特别提到该平台将来的目标之一就是实现免 XML 配置的开发体验。Boot 所实现的功能超出了这个任务的描述，开发人员不仅不再需要编写 XML，而且在一些场景中甚至不需要编写繁琐的 import 语句。在对外公开的 beta 版本刚刚发布之时，Boot 描述了如何使用该框架在 140 个字符内实现可运行的 web 应用，从而获得了极大的关注度，该样例发表在 tweet 上。</p>
+<p>然而，Spring Boot 并不是要成为 Spring IO 平台里面众多 “Foundation” 层项目的替代者。Spring Boot 的目标不在于为已解决的问题域提供新的解决方案，而是为平台带来另一种开发体验，从而简化对这些已有技术的使用。对于已经熟悉 Spring 生态系统的开发人员来说，Boot 是一个很理想的选择，不过对于采用 Spring 技术的新人来说，Boot 提供一种更简洁的方式来使用这些技术。</p>
+<p>在追求开发体验的提升方面，Spring Boot，甚至可以说整个 Spring 生态系统都使用到了 Groovy 编程语言。Boot 所提供的众多便捷功能，都是借助于 Groovy 强大的 MetaObject 协议、可插拔的 AST 转换过程以及内置的依赖解决方案引擎所实现的。在其核心的编译模型之中，Boot 使用 Groovy 来构建工程文件，所以它可以使用通用的导入和样板方法（如类的 main 方法）对类所生成的字节码进行装饰（decorate）。这样使用 Boot 编写的应用就能保持非常简洁，却依然可以提供众多的功能</p>
+<h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><ul>
+<li>访问 <a href="http://start.spring.io/">Spring Initializr</a></li>
+<li> 选择构建方式 Maven，Spring Boot 版本<br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/1.png"></li>
+<li>填写 group，artifact<br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/2.png"></li>
+<li>选择所需依赖，如果不记得依赖的名称，可以点击 <code>Switch to the full version.</code><br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-1.png"><br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-2.png"></li>
+<li>点击 <code>Generate Project</code>， 进行下载。</li>
+</ul>
+<h2 id="配置运行"><a href="#配置运行" class="headerlink" title="配置运行"></a>配置运行</h2><ul>
+<li>接下压缩包，用你熟悉的 ide 打开项目</li>
+<li>删除 <code>mvnw</code>，<code>mvnw.cmd</code> 文件和 <code>.mvn</code> 目录</li>
+<li>编写一个 Controller<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HomeController</span> {</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping("/")</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">hello</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> IOException {</span><br><span class="line">        response.getWriter().write(<span class="string">"Hello World"</span>);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></li>
+<li>运行 <code>XXApplication</code> 的 <code>main</code> 方法，访问 <a href="http://localhost:8080/">http://localhost:8080</a>，观看到 Hello World，即代表成功。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Spring Boot</category>
+      </categories>
+      <tags>
+        <tag>Java Spring Spring-Boot</tag>
       </tags>
   </entry>
   <entry>
