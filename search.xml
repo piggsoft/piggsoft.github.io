@@ -185,6 +185,37 @@
       </tags>
   </entry>
   <entry>
+    <title>学习 spring-boot (一)</title>
+    <url>/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/</url>
+    <content><![CDATA[<h2 id="相关背景"><a href="#相关背景" class="headerlink" title="相关背景"></a>相关背景</h2><p><a href="http://projects.spring.io/spring-boot/">Spring Boot</a> 是由 Pivotal 团队提供的全新框架，其设计目的是用来简化新 Spring 应用的初始搭建以及开发过程。该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。通过这种方式，Boot 致力于在蓬勃发展的快速应用开发领域（rapid application development）成为领导者。</p>
+<span id="more"></span>
+
+<p>多年以来，Spring IO 平台饱受非议的一点就是大量的 XML 配置以及复杂的依赖管理。在去年的 SpringOne 2GX 会议上，Pivotal 的 CTO Adrian Colyer 回应了这些批评，并且特别提到该平台将来的目标之一就是实现免 XML 配置的开发体验。Boot 所实现的功能超出了这个任务的描述，开发人员不仅不再需要编写 XML，而且在一些场景中甚至不需要编写繁琐的 import 语句。在对外公开的 beta 版本刚刚发布之时，Boot 描述了如何使用该框架在 140 个字符内实现可运行的 web 应用，从而获得了极大的关注度，该样例发表在 tweet 上。</p>
+<p>然而，Spring Boot 并不是要成为 Spring IO 平台里面众多 “Foundation” 层项目的替代者。Spring Boot 的目标不在于为已解决的问题域提供新的解决方案，而是为平台带来另一种开发体验，从而简化对这些已有技术的使用。对于已经熟悉 Spring 生态系统的开发人员来说，Boot 是一个很理想的选择，不过对于采用 Spring 技术的新人来说，Boot 提供一种更简洁的方式来使用这些技术。</p>
+<p>在追求开发体验的提升方面，Spring Boot，甚至可以说整个 Spring 生态系统都使用到了 Groovy 编程语言。Boot 所提供的众多便捷功能，都是借助于 Groovy 强大的 MetaObject 协议、可插拔的 AST 转换过程以及内置的依赖解决方案引擎所实现的。在其核心的编译模型之中，Boot 使用 Groovy 来构建工程文件，所以它可以使用通用的导入和样板方法（如类的 main 方法）对类所生成的字节码进行装饰（decorate）。这样使用 Boot 编写的应用就能保持非常简洁，却依然可以提供众多的功能</p>
+<h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><ul>
+<li>访问 <a href="http://start.spring.io/">Spring Initializr</a></li>
+<li> 选择构建方式 Maven，Spring Boot 版本<br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/1.png"></li>
+<li>填写 group，artifact<br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/2.png"></li>
+<li>选择所需依赖，如果不记得依赖的名称，可以点击 <code>Switch to the full version.</code><br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-1.png"><br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-2.png"></li>
+<li>点击 <code>Generate Project</code>， 进行下载。</li>
+</ul>
+<h2 id="配置运行"><a href="#配置运行" class="headerlink" title="配置运行"></a>配置运行</h2><ul>
+<li>接下压缩包，用你熟悉的 ide 打开项目</li>
+<li>删除 <code>mvnw</code>，<code>mvnw.cmd</code> 文件和 <code>.mvn</code> 目录</li>
+<li>编写一个 Controller<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HomeController</span> {</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping("/")</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">hello</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> IOException {</span><br><span class="line">        response.getWriter().write(<span class="string">"Hello World"</span>);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></li>
+<li>运行 <code>XXApplication</code> 的 <code>main</code> 方法，访问 <a href="http://localhost:8080/">http://localhost:8080</a>，观看到 Hello World，即代表成功。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Spring Boot</category>
+      </categories>
+      <tags>
+        <tag>Java Spring Spring-Boot</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux 上使用定时任务 Crontab</title>
     <url>/2017/06/10/Linux-%E4%BD%BF%E7%94%A8%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1Crontab/</url>
     <content><![CDATA[<p>使用 linux 的定时器，在服务器上面定时执行某些任务，比如时间同步，比如 Hexo 的定时更新和生成</p>
@@ -241,37 +272,6 @@
       <tags>
         <tag>定时器</tag>
         <tag>cron</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>学习 spring-boot (一)</title>
-    <url>/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/</url>
-    <content><![CDATA[<h2 id="相关背景"><a href="#相关背景" class="headerlink" title="相关背景"></a>相关背景</h2><p><a href="http://projects.spring.io/spring-boot/">Spring Boot</a> 是由 Pivotal 团队提供的全新框架，其设计目的是用来简化新 Spring 应用的初始搭建以及开发过程。该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。通过这种方式，Boot 致力于在蓬勃发展的快速应用开发领域（rapid application development）成为领导者。</p>
-<span id="more"></span>
-
-<p>多年以来，Spring IO 平台饱受非议的一点就是大量的 XML 配置以及复杂的依赖管理。在去年的 SpringOne 2GX 会议上，Pivotal 的 CTO Adrian Colyer 回应了这些批评，并且特别提到该平台将来的目标之一就是实现免 XML 配置的开发体验。Boot 所实现的功能超出了这个任务的描述，开发人员不仅不再需要编写 XML，而且在一些场景中甚至不需要编写繁琐的 import 语句。在对外公开的 beta 版本刚刚发布之时，Boot 描述了如何使用该框架在 140 个字符内实现可运行的 web 应用，从而获得了极大的关注度，该样例发表在 tweet 上。</p>
-<p>然而，Spring Boot 并不是要成为 Spring IO 平台里面众多 “Foundation” 层项目的替代者。Spring Boot 的目标不在于为已解决的问题域提供新的解决方案，而是为平台带来另一种开发体验，从而简化对这些已有技术的使用。对于已经熟悉 Spring 生态系统的开发人员来说，Boot 是一个很理想的选择，不过对于采用 Spring 技术的新人来说，Boot 提供一种更简洁的方式来使用这些技术。</p>
-<p>在追求开发体验的提升方面，Spring Boot，甚至可以说整个 Spring 生态系统都使用到了 Groovy 编程语言。Boot 所提供的众多便捷功能，都是借助于 Groovy 强大的 MetaObject 协议、可插拔的 AST 转换过程以及内置的依赖解决方案引擎所实现的。在其核心的编译模型之中，Boot 使用 Groovy 来构建工程文件，所以它可以使用通用的导入和样板方法（如类的 main 方法）对类所生成的字节码进行装饰（decorate）。这样使用 Boot 编写的应用就能保持非常简洁，却依然可以提供众多的功能</p>
-<h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><ul>
-<li>访问 <a href="http://start.spring.io/">Spring Initializr</a></li>
-<li> 选择构建方式 Maven，Spring Boot 版本<br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/1.png"></li>
-<li>填写 group，artifact<br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/2.png"></li>
-<li>选择所需依赖，如果不记得依赖的名称，可以点击 <code>Switch to the full version.</code><br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-1.png"><br>  <img data-src="/2017/01/03/%E5%AD%A6%E4%B9%A0spring-boot(%E4%B8%80)/3-2.png"></li>
-<li>点击 <code>Generate Project</code>， 进行下载。</li>
-</ul>
-<h2 id="配置运行"><a href="#配置运行" class="headerlink" title="配置运行"></a>配置运行</h2><ul>
-<li>接下压缩包，用你熟悉的 ide 打开项目</li>
-<li>删除 <code>mvnw</code>，<code>mvnw.cmd</code> 文件和 <code>.mvn</code> 目录</li>
-<li>编写一个 Controller<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HomeController</span> {</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping("/")</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">hello</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> IOException {</span><br><span class="line">        response.getWriter().write(<span class="string">"Hello World"</span>);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></li>
-<li>运行 <code>XXApplication</code> 的 <code>main</code> 方法，访问 <a href="http://localhost:8080/">http://localhost:8080</a>，观看到 Hello World，即代表成功。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>Spring Boot</category>
-      </categories>
-      <tags>
-        <tag>Java Spring Spring-Boot</tag>
       </tags>
   </entry>
   <entry>
@@ -1229,42 +1229,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Asciidoc 的 Idea 插件版本输出 pdf 乱码</title>
-    <url>/2024/02/01/Asciidoc%E7%9A%84Idea%E6%8F%92%E4%BB%B6%E7%89%88%E6%9C%AC%E8%BE%93%E5%87%BApdf%E4%B9%B1%E7%A0%81/</url>
-    <content><![CDATA[<p>最近正在研究 Asciidoc 这款生成文档的工具，其代码风格和 markdown 类似，最大的区别就是其有配套的默认工具来识别相应的结构目录，并根据目录结构来生成 html, doc, pdf。</p>
-<p>语法简单，工具操作简单，可以解决现在 markdown 碰到的部分问题，且还支持 Antora 这样的更加灵活的工具，使得文档或者技术书籍的写作变得更加的简单。</p>
-<p>今天这篇文章主要来解决使用过程中碰到的问题：非拉丁语系文字在生成 pdf 时，会变成乱码。</p>
-<span id="more"></span>
-
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>官方在文档中其实已经给出了问题的原因和解决方案，原因就是因为字体兼容性，在导出时使用的默认字体不兼容非拉丁语系文字。</p>
-<p>那么解决方案也很明确了，更换导出时的字体，使用兼容本地文字的字体，保证导出时显示正常。</p>
-<p>下面是官方文档和 Idea 插件文档中的解释</p>
-<ul>
-<li><a href="https://docs.asciidoctor.org/pdf-converter/latest/theme/font-support/#support-for-non-latin-languages">support-for-non-latin-languages</a></li>
-<li><a href="https://intellij-asciidoc-plugin.ahus1.de/docs/users-guide/features/advanced/pdf-non-latin-languages">Creating PDFs for non-latin languages and extra fonts</a></li>
-<li><a href="https://github.com/asciidoctor/asciidoctor-intellij-plugin/blob/4858f780f2c0630697643d0d53e5bcd6abd2db9b/doc/users-guide/modules/ROOT/pages/features/advanced/pdf-non-latin-languages.adoc#L52">pdf-non-latin-languages</a></li>
-</ul>
-<p>Idea 插件文档中提到了一个文件<code>.asciidoctorconfig</code>, 这个文件是给 <code>asciidoctor</code> 使用，也就是导出时使用的。</p>
-<p>并且也给出了下载地址 <a href="https://github.com/minjiex/kaigen-gothic/tree/master/dist/CN">KaiGenGothicCN 字体下载</a></p>
-<p>下载完成后形成如下目录</p>
-<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">├──document</span><br><span class="line">│  ├──config</span><br><span class="line">│  │  ├──fonts</span><br><span class="line">│  │  │  ├──KaiGenGothicCN-Bold.ttf</span><br><span class="line">│  │  │  ├──KaiGenGothicCN-ExtraLight.ttf</span><br><span class="line">│  │  │  ├──KaiGenGothicCN-Heavy.ttf</span><br><span class="line">│  │  │  ├──KaiGenGothicCN-Light.ttf</span><br><span class="line">│  │  │  ├──KaiGenGothicCN-Medium.ttf</span><br><span class="line">│  │  │  ├──KaiGenGothicCN-Normal.ttf</span><br><span class="line">│  │  │  ├──KaiGenGothicCN-Regular.ttf</span><br><span class="line">│  │  ├──themes</span><br><span class="line">│  │  │  ├──zh_CN-theme.yml</span><br><span class="line">--.asciidoctorconfig</span><br></pre></td></tr></tbody></table></figure>
-
-<p><code>.asciidoctorconfig</code> 类容如下</p>
-<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">:pdf-fontsdir: {asciidoctorconfigdir}/config/fonts</span><br><span class="line">:pdf-themesdir: {asciidoctorconfigdir}/config/themes</span><br><span class="line">:pdf-theme: zh_CN</span><br></pre></td></tr></tbody></table></figure>
-
-<p><code>zh_CN-theme.yml</code> 类容如下</p>
-<figure class="highlight yml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># default theme at https://github.com/asciidoctor/asciidoctor-pdf/blob/master/data/themes/default-theme.yml</span></span><br><span class="line"><span class="comment">#https://intellij-asciidoc-plugin.ahus1.de/docs/users-guide/features/advanced/pdf-non-latin-languages</span></span><br><span class="line"><span class="attr">extends:</span> <span class="string">default</span></span><br><span class="line"><span class="attr">font:</span></span><br><span class="line">  <span class="attr">fallbacks:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">kaigen-gothic-cn</span></span><br><span class="line">  <span class="attr">catalog:</span></span><br><span class="line">    <span class="comment"># These are the KaiGen Gothic CN fonts, download them from</span></span><br><span class="line">    <span class="comment"># https://github.com/minjiex/kaigen-gothic/tree/master/dist/CN</span></span><br><span class="line">    <span class="attr">kaigen-gothic-cn:</span></span><br><span class="line">      <span class="attr">normal:</span> <span class="string">KaiGenGothicCN-Regular.ttf</span></span><br><span class="line">      <span class="attr">bold:</span> <span class="string">KaiGenGothicCN-Bold.ttf</span></span><br><span class="line">      <span class="attr">italic:</span> <span class="string">KaiGenGothicCN-Regular.ttf</span></span><br><span class="line">      <span class="attr">bold_italic:</span> <span class="string">KaiGenGothicCN-Bold.ttf</span></span><br><span class="line"><span class="attr">base:</span></span><br><span class="line">  <span class="attr">font_family:</span> <span class="string">kaigen-gothic-cn</span></span><br></pre></td></tr></tbody></table></figure>]]></content>
-      <categories>
-        <category>文档</category>
-        <category>Asciidoc</category>
-      </categories>
-      <tags>
-        <tag>文档</tag>
-        <tag>Asciidoc</tag>
-        <tag>Idea Intellij</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>SpringBoot 添加 url 版本控制注解 ApiVersion</title>
     <url>/2024/01/31/SpringBoot%E6%B7%BB%E5%8A%A0url%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E6%B3%A8%E8%A7%A3ApiVersion/</url>
     <content><![CDATA[<p>作为服务端研发，在设计一个接口的时候，为了保证后续业务的新增和修改，会有各种的扩展性设计，其中关于 URL 的通用扩展设计是在 path 中加入版本。<br>例如: <code>https://domain.com/api/{version}/path</code> 。这种设计方便后续对接口升级时，只需要简单的升级版本号就可以了。</p>
@@ -1327,6 +1291,42 @@
         <tag>Java</tag>
         <tag>Spring Boot</tag>
         <tag>ApiVersion</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Asciidoc 的 Idea 插件版本输出 pdf 乱码</title>
+    <url>/2024/02/01/Asciidoc%E7%9A%84Idea%E6%8F%92%E4%BB%B6%E7%89%88%E6%9C%AC%E8%BE%93%E5%87%BApdf%E4%B9%B1%E7%A0%81/</url>
+    <content><![CDATA[<p>最近正在研究 Asciidoc 这款生成文档的工具，其代码风格和 markdown 类似，最大的区别就是其有配套的默认工具来识别相应的结构目录，并根据目录结构来生成 html, doc, pdf。</p>
+<p>语法简单，工具操作简单，可以解决现在 markdown 碰到的部分问题，且还支持 Antora 这样的更加灵活的工具，使得文档或者技术书籍的写作变得更加的简单。</p>
+<p>今天这篇文章主要来解决使用过程中碰到的问题：非拉丁语系文字在生成 pdf 时，会变成乱码。</p>
+<span id="more"></span>
+
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>官方在文档中其实已经给出了问题的原因和解决方案，原因就是因为字体兼容性，在导出时使用的默认字体不兼容非拉丁语系文字。</p>
+<p>那么解决方案也很明确了，更换导出时的字体，使用兼容本地文字的字体，保证导出时显示正常。</p>
+<p>下面是官方文档和 Idea 插件文档中的解释</p>
+<ul>
+<li><a href="https://docs.asciidoctor.org/pdf-converter/latest/theme/font-support/#support-for-non-latin-languages">support-for-non-latin-languages</a></li>
+<li><a href="https://intellij-asciidoc-plugin.ahus1.de/docs/users-guide/features/advanced/pdf-non-latin-languages">Creating PDFs for non-latin languages and extra fonts</a></li>
+<li><a href="https://github.com/asciidoctor/asciidoctor-intellij-plugin/blob/4858f780f2c0630697643d0d53e5bcd6abd2db9b/doc/users-guide/modules/ROOT/pages/features/advanced/pdf-non-latin-languages.adoc#L52">pdf-non-latin-languages</a></li>
+</ul>
+<p>Idea 插件文档中提到了一个文件<code>.asciidoctorconfig</code>, 这个文件是给 <code>asciidoctor</code> 使用，也就是导出时使用的。</p>
+<p>并且也给出了下载地址 <a href="https://github.com/minjiex/kaigen-gothic/tree/master/dist/CN">KaiGenGothicCN 字体下载</a></p>
+<p>下载完成后形成如下目录</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">├──document</span><br><span class="line">│  ├──config</span><br><span class="line">│  │  ├──fonts</span><br><span class="line">│  │  │  ├──KaiGenGothicCN-Bold.ttf</span><br><span class="line">│  │  │  ├──KaiGenGothicCN-ExtraLight.ttf</span><br><span class="line">│  │  │  ├──KaiGenGothicCN-Heavy.ttf</span><br><span class="line">│  │  │  ├──KaiGenGothicCN-Light.ttf</span><br><span class="line">│  │  │  ├──KaiGenGothicCN-Medium.ttf</span><br><span class="line">│  │  │  ├──KaiGenGothicCN-Normal.ttf</span><br><span class="line">│  │  │  ├──KaiGenGothicCN-Regular.ttf</span><br><span class="line">│  │  ├──themes</span><br><span class="line">│  │  │  ├──zh_CN-theme.yml</span><br><span class="line">--.asciidoctorconfig</span><br></pre></td></tr></tbody></table></figure>
+
+<p><code>.asciidoctorconfig</code> 类容如下</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">:pdf-fontsdir: {asciidoctorconfigdir}/config/fonts</span><br><span class="line">:pdf-themesdir: {asciidoctorconfigdir}/config/themes</span><br><span class="line">:pdf-theme: zh_CN</span><br></pre></td></tr></tbody></table></figure>
+
+<p><code>zh_CN-theme.yml</code> 类容如下</p>
+<figure class="highlight yml"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># default theme at https://github.com/asciidoctor/asciidoctor-pdf/blob/master/data/themes/default-theme.yml</span></span><br><span class="line"><span class="comment">#https://intellij-asciidoc-plugin.ahus1.de/docs/users-guide/features/advanced/pdf-non-latin-languages</span></span><br><span class="line"><span class="attr">extends:</span> <span class="string">default</span></span><br><span class="line"><span class="attr">font:</span></span><br><span class="line">  <span class="attr">fallbacks:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">kaigen-gothic-cn</span></span><br><span class="line">  <span class="attr">catalog:</span></span><br><span class="line">    <span class="comment"># These are the KaiGen Gothic CN fonts, download them from</span></span><br><span class="line">    <span class="comment"># https://github.com/minjiex/kaigen-gothic/tree/master/dist/CN</span></span><br><span class="line">    <span class="attr">kaigen-gothic-cn:</span></span><br><span class="line">      <span class="attr">normal:</span> <span class="string">KaiGenGothicCN-Regular.ttf</span></span><br><span class="line">      <span class="attr">bold:</span> <span class="string">KaiGenGothicCN-Bold.ttf</span></span><br><span class="line">      <span class="attr">italic:</span> <span class="string">KaiGenGothicCN-Regular.ttf</span></span><br><span class="line">      <span class="attr">bold_italic:</span> <span class="string">KaiGenGothicCN-Bold.ttf</span></span><br><span class="line"><span class="attr">base:</span></span><br><span class="line">  <span class="attr">font_family:</span> <span class="string">kaigen-gothic-cn</span></span><br></pre></td></tr></tbody></table></figure>]]></content>
+      <categories>
+        <category>文档</category>
+        <category>Asciidoc</category>
+      </categories>
+      <tags>
+        <tag>文档</tag>
+        <tag>Asciidoc</tag>
+        <tag>Idea Intellij</tag>
       </tags>
   </entry>
   <entry>
