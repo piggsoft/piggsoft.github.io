@@ -1742,7 +1742,7 @@
   <entry>
     <title>Apple-pkl 介绍</title>
     <url>/2024/02/07/Apple-pkl%E4%BB%8B%E7%BB%8D/</url>
-    <content><![CDATA[<p>在当今快速发展的软件开发领域，配置管理一直是一个重要且挑战性的议题。随着应用程序变得越来越复杂，对配置文件的需求也随之增加，这促使开发者寻找更加高效、安全且易于维护的解决方案。苹果公司在这方面迈出了重要的一步，推出了 <a href="https://github.com/apple/pkl">Pkl</a><br>（Property List）语言，这是一种旨在提供丰富数据模板和验证支持的可嵌入配置语言。在这篇文章中，我们将深入探讨 Pkl 语言的核心特性、设计理念以及它在现代软件开发中的应用前景。</p>
+    <content><![CDATA[<p>在当今快速发展的软件开发领域，配置管理一直是一个重要且挑战性的议题。随着应用程序变得越来越复杂，对配置文件的需求也随之增加，这促使开发者寻找更加高效、安全且易于维护的解决方案。苹果公司在这方面迈出了重要的一步，推出了 <a href="https://github.com/apple/pkl">Pkl</a><br>（a configuration-as-code language with rich validation and tooling）语言，这是一种旨在提供丰富数据模板和验证支持的可嵌入配置语言。在这篇文章中，我们将深入探讨 Pkl 语言的核心特性、设计理念以及它在现代软件开发中的应用前景。</p>
 <span id="more"></span>
 
 <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p><a href="https://github.com/apple/pkl">Pkl</a><br>语言起源于苹果生态系统对配置文件处理需求的深刻理解，它脱胎于 macOS 和 iOS 系统中广泛使用的.plist 文件格式。自诞生之初，<a href="https://github.com/apple/pkl">Pkl</a><br>就以其简洁明了的键值结构设计和对多种文件格式的支持赢得了开发者的关注。不仅如此，Pkl 还致力于提供一种安全可靠的配置处理方式，通过引入验证机制来确保配置数据的准确性和完整性。</p>
