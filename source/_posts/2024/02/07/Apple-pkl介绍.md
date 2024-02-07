@@ -277,6 +277,8 @@ org.springframework.boot.env.PropertySourceLoader=org.pkl.spring.boot.PklPropert
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=org.pkl.spring.boot.PklAutoConfiguration
 ```
 
+`PklPropertySourceLoader`
+
 ```Java
 public class PklPropertySourceLoader implements PropertySourceLoader {
   @Override
@@ -328,6 +330,8 @@ public class PklPropertySourceLoader implements PropertySourceLoader {
   }
 }
 ```
+
+`PklAutoConfiguration`
 
 ```Java
 @Configuration
