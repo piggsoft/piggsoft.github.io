@@ -1850,4 +1850,106 @@
         <tag>application.okl</tag>
       </tags>
   </entry>
+  <entry>
+    <title>暗黑破坏神 2 重置版 mod 安装</title>
+    <url>/2024/02/12/%E6%9A%97%E9%BB%91%E7%A0%B4%E5%9D%8F%E7%A5%9E2%E9%87%8D%E7%BD%AE%E7%89%88mod%E5%AE%89%E8%A3%85/</url>
+    <content><![CDATA[<p>《暗黑破坏神 II》（Diablo<br>II）自 2002 年首次亮相以来，一直是动作角色扮演游戏（ARPG）中的一块里程碑。其迷人的世界观、紧张刺激的战斗体验以及丰富的装备系统，使得这款经典之作至今仍拥有庞大的玩家群体。随着技术的进步和玩家需求的演变，社区中的高手们开发了各种 Mod（游戏修改模块），以提升游戏体验，增加新的内容和功能。今天，我们将一起探索如何安装《暗黑破坏神 2 重置版》的 Mod，带你进入一个个性化且充满无限可能的庇护之地。</p>
+<p>在开始之前，请确保你已经拥有一份《暗黑破坏神 2 重置版》的合法副本，并且你的电脑满足安装 Mod 的基本要求。接下来，让我们一步步走进 Mod 的世界，开启一段新的冒险旅程。</p>
+<span id="more"></span>
+
+<h2 id="Mod列表"><a href="#Mod列表" class="headerlink" title="Mod列表"></a>Mod 列表</h2><p>本文主要举例如下几个插件，其他的插件大家可以在插件网站上搜索使用</p>
+<ol>
+<li><a href="#d2rmm">D2RMM (Diablo II: Resurrected Mod Manager，重点)</a></li>
+<li><a href="#expanded-inventory">Expanded Inventory (13x8) for D2RMM (背包扩大到 13x8)</a></li>
+<li><a href="#expanded-stash">Expanded Stash (16x13) for D2RMM (仓库扩大到 16x13)</a></li>
+<li><a href="#expanded-cube">Expanded Cube (6x4) for D2RMM (立方体扩大到 6x4)</a></li>
+<li><a href="#increase-monster-density">Increase Monster Density for D2RMM (提升怪物密度)</a></li>
+<li><a href="#increase-droprate">Increase Droprate for D2RMM (提升物品掉率)</a></li>
+<li><a href="#increase-stack-size">Increase Stack Size for D2RMM (提升物品堆叠梳理，例如钥匙可以堆叠到 500)</a></li>
+<li><a href="#mercequip">MercEquip for D2RMM (可以给雇佣兵装备护符等)</a></li>
+<li><a href="#expanded-storage-with-merc-equip">Expanded Storage (with Merc Equip)(整合包，包含 2,3,4,8，以及一些界面修改，这个不使用 D2RMM)</a></li>
+</ol>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ol>
+<li>下载暗黑破坏神 2，或者离线版本</li>
+<li>安装目录不能有中文 </li>
+<li><a href="https://www.nexusmods.com/">nexusmods</a> 账号注册，已有账号跳过</li>
+</ol>
+<h2 id="插件安装"><a href="#插件安装" class="headerlink" title="插件安装"></a>插件安装</h2><p>本文中所有插件的安装都基于 D2RMM (Diablo II: Resurrected Mod Manager)，其他方式的安装请按照插件官方文档进行</p>
+<h3 id="D2RMM"><a href="#D2RMM" class="headerlink" title="D2RMM"></a>D2RMM</h3><p>暗黑破坏神 2 重置版 Mod 管理器</p>
+<h4 id="地址"><a href="#地址" class="headerlink" title="地址"></a>地址</h4><ul>
+<li><a href="https://www.nexusmods.com/diablo2resurrected/mods/169">Mod</a></li>
+<li><a href="https://github.com/olegbl/d2rmm">Github</a></li>
+<li><a href="https://mod.3dmgame.com/mod/199474">中文版本，版本有些落后</a></li>
+</ul>
+<h4 id="安装配置"><a href="#安装配置" class="headerlink" title="安装配置"></a>安装配置</h4><p>下载完成后，安装到任意目录 (记录好安装目录，后面有用，暂时我记作 <code>D2RMM_PATH</code>)<br>后，打开程序，点击 <code>SETTINGS</code>-&gt;<code>General</code>-&gt;<code>Game Directory</code><br>，选择你的游戏安装目录，例如我的目录即为 <code>D:\Game\Diablo II Resurrected</code></p>
+<img alt="示例图片" data-src="https://staticdelivery.nexusmods.com/mods/4061/images/169/169-1690124773-453075861.png" width="50%" height="50%">
+
+<h3 id="其他插件安装"><a href="#其他插件安装" class="headerlink" title="其他插件安装"></a>其他插件安装</h3><ul>
+<li>插件页面进行下载</li>
+<li>解压压缩包到 <code>D2RMM_PATH\mods</code> 目录中</li>
+</ul>
+<p><img data-src="/2024/02/12/%E6%9A%97%E9%BB%91%E7%A0%B4%E5%9D%8F%E7%A5%9E2%E9%87%8D%E7%BD%AE%E7%89%88mod%E5%AE%89%E8%A3%85/mods%E7%9B%AE%E5%BD%95.png" alt="mods目录.png"></p>
+<ul>
+<li>打开 D2RMM 进行配置</li>
+</ul>
+<img alt="示例图片" data-src="https://staticdelivery.nexusmods.com/mods/4061/images/169/169-1690124753-958239533.png" width="50%" height="50%">
+
+<img alt="示例图片" data-src="https://staticdelivery.nexusmods.com/mods/4061/images/169/169-1690124762-161734358.png" width="50%" height="50%">
+
+<h3 id="Expanded-Inventory"><a href="#Expanded-Inventory" class="headerlink" title="Expanded Inventory"></a>Expanded Inventory</h3><p>背包扩大到 13x8</p>
+<h4 id="插件地址"><a href="#插件地址" class="headerlink" title="插件地址"></a>插件地址</h4><p><a href="https://www.nexusmods.com/diablo2resurrected/mods/172">Expanded Inventory</a></p>
+<h4 id="插件效果"><a href="#插件效果" class="headerlink" title="插件效果"></a>插件效果</h4><img alt="示例图片" data-src="https://staticdelivery.nexusmods.com/mods/4061/images/172/172-1645587343-745102610.png" width="50%" height="50%">
+
+<h3 id="Expanded-Stash"><a href="#Expanded-Stash" class="headerlink" title="Expanded Stash"></a>Expanded Stash</h3><p>仓库扩大到 16x13</p>
+<h4 id="插件地址-1"><a href="#插件地址-1" class="headerlink" title="插件地址"></a>插件地址</h4><p><a href="https://www.nexusmods.com/diablo2resurrected/mods/173">Expanded Stash</a></p>
+<h4 id="插件效果-1"><a href="#插件效果-1" class="headerlink" title="插件效果"></a>插件效果</h4><img alt="示例图片" data-src="https://staticdelivery.nexusmods.com/mods/4061/images/173/173-1645587371-1091330520.png" width="50%" height="50%">
+<img alt="示例图片" data-src="https://staticdelivery.nexusmods.com/mods/4061/images/173/173-1645587398-110179927.png" width="50%" height="50%">
+
+<h3 id="Expanded-Cube"><a href="#Expanded-Cube" class="headerlink" title="Expanded Cube"></a>Expanded Cube</h3><p>立方体扩大到 6x4</p>
+<h4 id="插件地址-2"><a href="#插件地址-2" class="headerlink" title="插件地址"></a>插件地址</h4><p><a href="https://www.nexusmods.com/diablo2resurrected/mods/189">Expanded Cube</a></p>
+<h4 id="插件效果-2"><a href="#插件效果-2" class="headerlink" title="插件效果"></a>插件效果</h4><img alt="示例图片" data-src="https://staticdelivery.nexusmods.com/mods/4061/images/189/189-1644731789-83649500.png" width="50%" height="50%">
+
+<h3 id="Increase-Monster-Density"><a href="#Increase-Monster-Density" class="headerlink" title="Increase Monster Density"></a>Increase Monster Density</h3><p>提升怪物密度</p>
+<h4 id="插件地址-3"><a href="#插件地址-3" class="headerlink" title="插件地址"></a>插件地址</h4><p><a href="https://www.nexusmods.com/diablo2resurrected/mods/184">Increase Monster Density</a></p>
+<h4 id="插件效果-3"><a href="#插件效果-3" class="headerlink" title="插件效果"></a>插件效果</h4><img alt="示例图片" data-src="https://staticdelivery.nexusmods.com/mods/4061/images/184/184-1644193268-1648766361.png" width="50%" height="50%">
+
+<h3 id="Increase-Droprate"><a href="#Increase-Droprate" class="headerlink" title="Increase Droprate"></a>Increase Droprate</h3><p>提升物品稀有度掉率</p>
+<h4 id="插件地址-4"><a href="#插件地址-4" class="headerlink" title="插件地址"></a>插件地址</h4><p><a href="https://www.nexusmods.com/diablo2resurrected/mods/180">Increase Droprate</a></p>
+<h4 id="插件效果-4"><a href="#插件效果-4" class="headerlink" title="插件效果"></a>插件效果</h4><img alt="示例图片" data-src="https://staticdelivery.nexusmods.com/mods/4061/images/180/180-1644103704-149932517.png" width="50%" height="50%">
+
+<h3 id="Increase-Stack-Size"><a href="#Increase-Stack-Size" class="headerlink" title="Increase Stack Size"></a>Increase Stack Size</h3><p>提升可堆叠物品堆叠数量</p>
+<h4 id="插件地址-5"><a href="#插件地址-5" class="headerlink" title="插件地址"></a>插件地址</h4><p><a href="https://www.nexusmods.com/diablo2resurrected/mods/175">Increase Stack Size</a></p>
+<h4 id="插件效果-5"><a href="#插件效果-5" class="headerlink" title="插件效果"></a>插件效果</h4><img alt="示例图片" data-src="https://staticdelivery.nexusmods.com/mods/4061/images/175/175-1644001777-1460311226.png" width="50%" height="50%">
+
+<h3 id="MercEquip"><a href="#MercEquip" class="headerlink" title="MercEquip"></a>MercEquip</h3><p>雇佣兵装备增强</p>
+<h4 id="插件地址-6"><a href="#插件地址-6" class="headerlink" title="插件地址"></a>插件地址</h4><p><a href="https://www.nexusmods.com/diablo2resurrected/mods/193">MercEquip</a></p>
+<h4 id="插件效果-6"><a href="#插件效果-6" class="headerlink" title="插件效果"></a>插件效果</h4><img alt="示例图片" data-src="https://staticdelivery.nexusmods.com/mods/4061/images/193/193-1645125332-1008157901.png" width="50%" height="50%">
+<img alt="示例图片" data-src="https://staticdelivery.nexusmods.com/mods/4061/images/193/193-1650485356-2129983525.png" width="50%" height="50%">
+
+<h3 id="Expanded-Storage-with-Merc-Equip"><a href="#Expanded-Storage-with-Merc-Equip" class="headerlink" title="Expanded Storage (with Merc Equip)"></a>Expanded Storage (with Merc Equip)</h3><p>提升存储和雇佣兵装备整合包</p>
+<h4 id="插件地址-7"><a href="#插件地址-7" class="headerlink" title="插件地址"></a>插件地址</h4><p><a href="https://www.nexusmods.com/diablo2resurrected/mods/13">Expanded Storage (with Merc Equip)</a></p>
+<h4 id="插件效果-7"><a href="#插件效果-7" class="headerlink" title="插件效果"></a>插件效果</h4><img alt="示例图片" data-src="https://staticdelivery.nexusmods.com/mods/4061/images/13/13-1635386226-900400519.png" width="50%" height="50%">
+<img alt="示例图片" data-src="https://staticdelivery.nexusmods.com/mods/4061/images/13/13-1635386257-270335233.png" width="50%" height="50%">
+
+<h2 id="其他插件推荐"><a href="#其他插件推荐" class="headerlink" title="其他插件推荐"></a>其他插件推荐</h2><ul>
+<li><a href="https://mod.3dmgame.com/mod/199466">汉化版 D2RMM</a></li>
+<li><a href="https://mod.3dmgame.com/mod/199515">将 非 D2RMM 的 Mod 整合到 D2RMM</a></li>
+<li><a href="https://mod.3dmgame.com/mod/199474">【D2RMM】超高兼容度不缩放的大箱子、大背包和大盒子</a></li>
+<li><a href="https://mod.3dmgame.com/mod/199866">实用无魔改的 mod，适合战网及想玩原版的玩家，让单机的各方面体验更舒服，适配 2.7 版本</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>杂项</category>
+        <category>游戏</category>
+      </categories>
+      <tags>
+        <tag>暗黑破坏神2</tag>
+        <tag>Diablo II Resurrected</tag>
+        <tag>Diablo II</tag>
+        <tag>暗黑破坏神2重置版</tag>
+        <tag>暗黑破坏神2Mod</tag>
+        <tag>暗黑破坏神2大箱子</tag>
+        <tag>暗黑破坏神2 Mod管理器</tag>
+      </tags>
+  </entry>
 </search>
