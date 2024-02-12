@@ -1884,6 +1884,7 @@
 <h4 id="安装配置"><a href="#安装配置" class="headerlink" title="安装配置"></a>安装配置</h4><p>下载完成后，安装到任意目录 (记录好安装目录，后面有用，暂时我记作 <code>D2RMM_PATH</code>)<br>后，打开程序，点击 <code>SETTINGS</code>-&gt;<code>General</code>-&gt;<code>Game Directory</code><br>，选择你的游戏安装目录，例如我的目录即为 <code>D:\Game\Diablo II Resurrected</code></p>
 <img alt="示例图片" data-src="https://staticdelivery.nexusmods.com/mods/4061/images/169/169-1690124773-453075861.png" width="50%" height="50%">
 
+<h4 id="配置顺序"><a href="#配置顺序" class="headerlink" title="配置顺序"></a>配置顺序</h4><p><img data-src="/2024/02/12/%E6%9A%97%E9%BB%91%E7%A0%B4%E5%9D%8F%E7%A5%9E2%E9%87%8D%E7%BD%AE%E7%89%88mod%E5%AE%89%E8%A3%85/D2RMM-MOD.png" alt="D2RMM-MOD.png"></p>
 <h3 id="其他插件安装"><a href="#其他插件安装" class="headerlink" title="其他插件安装"></a>其他插件安装</h3><ul>
 <li>插件页面进行下载</li>
 <li>解压压缩包到 <code>D2RMM_PATH\mods</code> 目录中</li>
