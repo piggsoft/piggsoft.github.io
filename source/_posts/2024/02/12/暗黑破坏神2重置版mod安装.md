@@ -62,6 +62,9 @@ II）自2002年首次亮相以来，一直是动作角色扮演游戏（ARPG）�
 
 <img alt="示例图片" src="https://staticdelivery.nexusmods.com/mods/4061/images/169/169-1690124773-453075861.png" width="50%" height="50%">
 
+#### 配置顺序
+![D2RMM-MOD.png](D2RMM-MOD.png)
+
 ### 其他插件安装
 
 - 插件页面进行下载
