@@ -5,6 +5,9 @@ on:
     branches:
       - source
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Deploy blog to GitHub Pages
@@ -33,6 +36,6 @@ jobs:
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
-          deploy_key: ${{ secrets.GENERATE }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
           publish_branch: master
